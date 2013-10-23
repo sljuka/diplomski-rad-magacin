@@ -1,4 +1,4 @@
 magacin-bachlore
 ================
 
-projekat magacin za bachlore rad iz predmeta Poslovna Informatika
+Magacinsko poslovanje, projekat za bachlore rad iz predmeta Poslovna informatika.
