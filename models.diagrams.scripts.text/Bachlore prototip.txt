@@ -1,0 +1,76 @@
+David Sljukic e12520
+Diplomski rad.
+
+1.0 Uvod
+- Tema odabranog rada opisuje implementirano resenje sistema za rukovodjenje magacinom i magacinskim poslovanjem, sa akcentom na 
+specifikaciju sistema i tehnicko resenje u odnosu na zahteve i poslovni podsistem.
+- Resenje predstavlja klijentsku java aplikaciju koja omogucava izvrsavanje CRUD (create read update delete) operacija nad resursima sistema.
+- Aplikacija koristi bazu podataka za trajno skladistenje podataka, i SWING biblioteku za implementaciju korisnickog interfejsa.
+- Baza sadrzi tabele Korisnici i Preduzeca, koju aplikacija koristi prilikom autentifikacije da utvrdi ko koristi aplikaciju i da li ima administratorska prava.
+- Pored osnovnih operacija (CRUD operacija) aplikacija omogucava izvrsavanje kompleksnih procedura koje podrazumevaju
+modifikaciju vise resursa tokom izvrsavanja, vracanje na prethodno stanje u slucaju greske i vracanje rezultata procedure. Ove procedure su impelementirane
+unutar baze podataka koriscenjem T-SQL jezika.
+- Za neke od resursa sistema postoji pregled izvestajem, gde postoji i mogucnost stampanja izvestaja.
+
+1.1 Poglavlja
+- Poglavlja... ovo cu nekad posle ispisati.
+
+2.0 Projektovanje i implementacija tehnickog resenja
+- Arhitekturu aplikacije sacinjava MVC (model, view, controler) arhitektonski sablon.
+- MODEL vrsi mapiranje podataka iz relacione baze u objektni oblik podataka i obrnuto. Pored ove funkcije
+on radi i validaciju, modifikaciju podataka i izvestavanje o greski u slucaju pokusaja narusavanja integracije podataka ili neke slicne greske.
+- VIEW ima ulogu prikaza podataka, u aplikaciji tu funkciju izvrsavaju forme, dijalozi i GUI komponente koje su sadrzane u njima.
+Za prikaz podataka je najcesce koriscena tabela koja direktno preslikava podatke iz baze. Prilikom svake promene nad bazom, korisniku koji je
+izvrsio promenu, osvezava se prikaz da bi prikazao nove promene.
+- Aplikacija je event driven, sto znaci da sadrzi odredjene komponente koje posle interakcije izazivaju dogadjaje. Dogadjaji mogu da menjaju stanje aplikacije.
+CONTROLLER "hvata" ove dogadjaje, obradjuje ih i salje dalje instrukcuje modelu ako treba da menja stanje u bazi, ili prikazu ukoliko samo treba da se promeni neki deo
+prikaza bez promena u bazi.
+
+2.1 Model
+- Model je u aplikaciji implementiran kao model tabele. Prilikom inicijalizacije prosledjuje mu se naziv tabele iz baze koju treba da mapira u objektni oblik.
+Za izvlacenje meta podataka baze koriscen je java.sql.DatabaseMetaData objekat. Na osnovu ovih metapodataka se gradi table model, koji obuhvata metode koje pristupaju
+bazi (CRUD) i pomocne metode i podaci koji se koriste za funkcionisanje i prikaz tabele.
+- Jedna od prednosti ovoga modela je da ne mora da se pise odvojeno kod za svaki model tabele koju imamo u bazi vec koriscenjem jednog table modela pokrivamo
+sve tabele iz baze i tako dobijamo genericko resenje.
+- Prilikom promena definicije baze, table model ne zahteva promene posto on direktno koristi izmenjene podatke i menja svoju strukturu dinamicki.
+- Mana ovoga resenja je sto se prilikom otvaranja forme table model kreira dinamicki sto traje duze nego kada imamo gotov table model koji odma mozemo da
+instanciramo. Tokom  dinamickog kreiranja pozivaju se upiti nad bazom sto takodje dodaje vreme cekanja i opterecuje bazu. Ako baza koristi neke od tehnika
+keshiranja memorije otvaranje formi se znatno ubrzava i baza manje opterecuje, posto se u vecini sluajeva isti upiti pozivaju i isti podaci koriste. 
+
+2.2 View
+- View odnosno pogled predstavlja deo aplikacije koji omogucava korisniku pregled resursa sistema. U aplikaciji view je implementiran pomocu dijaloga i drugih komponenti iz Javine Swing biblioteke.
+Svaki resurs sistema (tabela u bazi) ima dijalog gde se moze prikazivati i modifikovati (ukoliko posedujemo pravo). Za detaljni prikaz se koristi Swing tabela. Table model iz prethodne sekcije omogucava nam
+da lako inicijalizujemo tabelu. Pored tabela, dijalog sadrzi interfejs za kretanje kroz tabela, pretragu podataka u tabeli, akcije za dodavanje,
+brisanje, editovanje, next (prelazak u drugi dijalog gde je resurs iz prethodnog dijaloga povezan sa narednim preko spoljneg kluca),
+input polja za pregled dodavanje i modifikaciju resursa i akcije za pokretanje poslovnih procedura.
+[SLIKA DIJALOG...]
+
+2.3 Controller
+
+- Controller je deo sistema koji prisluskuje spoljne dogadjaje pomocu osluskivaca(listenera) i izvrsava odredjene naredbe na osnovu primljenih dogadjaja.
+Prilikom izvrsavanja on moze da poziva operacije modela ukoliko treba da se menja stanje baze ili operacije view-a ako treba da se menja pogled.
+
+2.3.1 DialogController
+
+Kontroler dijaloga je implementiran DialogController klasom. Svaka instanca ove klase povezana je sa jednom insancom dijaloga i modela, odnosno kontroler sadrzi referencu
+svog dijaloga i modela i moze da pristupa njihovim metodama.
+Kontroler implementira state pattern, sto mu omogucava da drugacije tumaci dogadjaje koje osluskuje u zavisnosti od stanja u kome se trenutno nalazi. Postoje odredjene akcije
+koje sluze samo da bi promenile stanje kontrolera. U aplikaciji kontroler poseduje tri stanja EDIT, ADD i SEARCH.
+[SLIKA KONTROLER STANJA UML...]
+Edit stanje omogucava korisniku da vrsi izmenu odabranog resursa, ovo je ujedno i default stanje dijaloga. Add state omogucava unos
+novih resursa pomocu input polja dijaloga, ovo stanje se aktivira pritiskom na akciju dodaj. Search omogucava pretragu resursa aktivira
+se pomocu akcije za pretragu.
+- Postoje akcije na dijalogu koje ne prolaze kroz kontroler, npr akcije za kretanje kroz tabelu u dijalogu. Ovo je prosta akcija, i implementirana
+je u dijalogu odmah po inicijalizaciji.
+- Pozivom biznis procedura iz dijaloga kontroler poziva metode modela koje pozivaju bazine procedure.
+
+2.3.2 AuthentificationController
+
+- Ovaj kontroler vrsi funkciju prepoznavanja korisnika koji koriste sistem. Svaki Zaposleni u bazi poseduje username, password, preduzece u kom je zaposlen i druge podatke.
+Pre pocetka koriscenja korisniku je onemoguceno da koristi aplikaciju dok ne prodje autentifikaciju. Autentifikacija se vrsi prosledjivanjem username,
+passworda. Tom prilikom sistem prijavljuje korisnika ili mu javlja poruku o gresci. Prilikom prijavljivanja, sistem pamti username, preduzece korisnika i 
+podatak da li je admin sto se dalje koristi radi filtriranja podataka iz baze i rukovanjem pravima.
+- AuthentificationController klasa koristi singleton sablon, sto omogucava da imamo samo jednu instancu na nivou aplikacije.
+Prilikom prijave korisnika podaci instance(username, preduzece, isAdmin) se popunjavaju a odjavom korisnika se podaci brisu, ovo nam omogucava da u svakom trenutku znamo ko koristi aplikaciju.
+Pomocu ovog kontrolera lako mozemo implementirati osnovni oblik kontrole pristupa resursima i logovanje svake akcije nad resursima, ovo nije implementirano u aplikaciji.
+
