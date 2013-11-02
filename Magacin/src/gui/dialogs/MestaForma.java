@@ -20,7 +20,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -42,7 +42,7 @@ import model.DataBaseTableModel;
 import model.Lookup;
 import model.DataBaseTableModel.tableNames;
 
-public class MestaDialog extends DatabaseDialog {
+public class MestaForma extends DatabaseForma {
 
 	private JTextField tfSifraDrzave;
 	private JTextField tfSifraMesta;
@@ -52,7 +52,7 @@ public class MestaDialog extends DatabaseDialog {
 
 	private JButton btnZoomDrzave;
 
-	public MestaDialog() {
+	public MestaForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.NASELJENO_MESTO;
@@ -81,7 +81,7 @@ public class MestaDialog extends DatabaseDialog {
 		tfNazivDrzave = new JTextField(20);
 
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 
 		add(toolbar, "dock north");
@@ -93,8 +93,8 @@ public class MestaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				DrzaveDialog d = new DrzaveDialog();
-				d.setParentDialog(MestaDialog.this);
+				DrzaveForma d = new DrzaveForma();
+				d.setParentDialog(MestaForma.this);
 				d.setVisible(true);
 			}
 		});

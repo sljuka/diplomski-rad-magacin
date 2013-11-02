@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import actions.ActionCancelAction;
 import actions.ActionCommit;
@@ -19,13 +19,13 @@ import net.miginfocom.swing.MigLayout;
 
 import model.DataBaseTableModel.tableNames;
 
-public class MernaJedinicaDialog extends DatabaseDialog {
+public class MernaJedinicaForma extends DatabaseForma {
 	
 	private JTextField tfSifraJedinice;
 	private JTextField tfNazivJedinice;
 	private JTextField tfOznakaJedinice;
 	
-	public MernaJedinicaDialog() {
+	public MernaJedinicaForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.MERNA_JEDINICA;
@@ -54,7 +54,7 @@ public class MernaJedinicaDialog extends DatabaseDialog {
 		
 		
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 		
 		add(toolbar, "dock north");

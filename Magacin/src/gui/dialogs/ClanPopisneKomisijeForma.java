@@ -14,14 +14,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import model.DataBaseTableModel.tableNames;
 import net.miginfocom.swing.MigLayout;
 import actions.ActionCancelAction;
 import actions.ActionCommit;
 
-public class ClanPopisneKomisijeDialog extends DatabaseDialog {
+public class ClanPopisneKomisijeForma extends DatabaseForma {
 
 	private JTextField tfGodina;
 	private JTextField tfPib;
@@ -33,7 +33,7 @@ public class ClanPopisneKomisijeDialog extends DatabaseDialog {
 	private JButton btnZoomPopisniDokument;
 	private JButton btnZoomZaposleni;
 
-	public ClanPopisneKomisijeDialog() {
+	public ClanPopisneKomisijeForma() {
 		super();
 		ID = tableNames.CLAN_POPISNE_KOMISIJE;
 		setTitle(ID.toString());
@@ -69,7 +69,7 @@ public class ClanPopisneKomisijeDialog extends DatabaseDialog {
 		cbFunkcijaClana.addItem("Clan");
 
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 
 		btnZoomPopisniDokument = new JButton("...");
@@ -78,8 +78,8 @@ public class ClanPopisneKomisijeDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PopisniDokumentDialog pdDlg = new PopisniDokumentDialog();
-				pdDlg.setParentDialog(ClanPopisneKomisijeDialog.this);
+				PopisniDokumentForma pdDlg = new PopisniDokumentForma();
+				pdDlg.setParentDialog(ClanPopisneKomisijeForma.this);
 				pdDlg.setVisible(true);
 			}
 		});
@@ -90,14 +90,14 @@ public class ClanPopisneKomisijeDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				ZaposleniDialog zapDlg = new ZaposleniDialog();
-				zapDlg.setParentDialog(ClanPopisneKomisijeDialog.this);
+				ZaposleniForma zapDlg = new ZaposleniForma();
+				zapDlg.setParentDialog(ClanPopisneKomisijeForma.this);
 				zapDlg.setVisible(true);
 			}
 		});
 
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 
 		add(toolbar, "dock north");

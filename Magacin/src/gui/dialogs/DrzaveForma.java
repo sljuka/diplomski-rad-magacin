@@ -1,9 +1,8 @@
 package gui.dialogs;
+import gui.DocumentLimit;
 
 import java.awt.Component;
 import java.sql.SQLException;
-
-import gui.DocumentLimit;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,13 +15,17 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import controllers.DialogController;
+import controllers.FormController;
 
+import model.DataBaseTableModel;
+import model.DataBaseTableModel.tableNames;
+import net.miginfocom.swing.MigLayout;
 import actions.ActionAdd;
 import actions.ActionCancelAction;
 import actions.ActionCommit;
 import actions.ActionHelp;
 import actions.ActionJumoToPreviousForm;
+import actions.ActionJumpToNextForm;
 import actions.ActionRefresh;
 import actions.ActionRemove;
 import actions.ActionSearch;
@@ -31,95 +34,99 @@ import actions.ActionSelectLast;
 import actions.ActionSelectNext;
 import actions.ActionSelectPrevious;
 
-import net.miginfocom.swing.MigLayout;
 
-import model.DataBaseTableModel;
-import model.DataBaseTableModel.tableNames;
-
-public class TipObjektaDialog extends DatabaseDialog {
-
-	private JTextField tfsifraTipa;
-	private JTextField tfnazivTipa;
-
-	public TipObjektaDialog() {
+public class DrzaveForma extends DatabaseForma {
+	
+	private JTextField tfSifraDrzave;
+	private JTextField tfNazivDrzave;
+	
+	public DrzaveForma() {
 		// TODO Auto-generated constructor stub
 		super();
-		ID = tableNames.TIP_OBJEKTA;
+		setupNextButton();
+		ID = tableNames.DRZAVA;
 		setTitle(ID.toString());
 		setSizeAndMove(500, 300);
 		initializeComponents();
 		initializeStatusBar();
-		populateFieldsArray();
 		setFieldsEditable(false);
+		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
 	}
-
+	
+	protected void setupNextButton() {
+		
+	}
 	
 	@Override
 	protected void initializeComponents() {
 		// TODO Auto-generated method stub
 		setLayout(new MigLayout("", "[align r][align l, grow, fill]", ""));
-		tfsifraTipa = new JTextField(2);
-		tfsifraTipa.setDocument(new DocumentLimit(2));
-		tfnazivTipa = new JTextField(30);
-		tfsifraTipa.setDocument(new DocumentLimit(40));
-
+		
+		tfSifraDrzave = new JTextField(3);
+		tfSifraDrzave.setDocument(new DocumentLimit(3));
+		
+		tfNazivDrzave = new JTextField(25);
+		
+		tfSifraDrzave.setEditable(false);
+		tfNazivDrzave.setEditable(false);
+		
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
-
+		
 		add(toolbar, "dock north");
 		add(new JScrollPane(table), "dock north");
-
+		
 		JPanel tfPanel = new JPanel();
 		tfPanel.setLayout(new MigLayout("center"));
-
-		tfPanel.add(new JLabel("Naziv tipa objekta"));
-		tfPanel.add(tfnazivTipa, "wrap");
-
-		tfPanel.add(new JLabel("Sifra tipa objekta"));
-		tfPanel.add(tfsifraTipa, "wrap");
-
+		tfPanel.add(new JLabel("Sifra drzave"));
+		tfPanel.add(tfSifraDrzave, "wrap");
+		tfPanel.add(new JLabel("Naziv drzave"));
+		tfPanel.add(tfNazivDrzave, "wrap");
 		add(tfPanel);
-
+		
 		btnPanel = new JPanel();
 		btnPanel.setLayout(new MigLayout("align right"));
 		btnPanel.add(new JButton(new ActionCommit(controller)), "wrap");
 		btnPanel.add(new JButton(new ActionCancelAction(controller)));
 		add(btnPanel, "cell 3 0");
+		
+		populateFieldsArray();
+		setFieldsEditable(false);
 	}
-
+	
 	public void sync() {
-		// TODO Auto-generated method stub
 		int index = table.getSelectedRow();
 		if (index < 0) {
-			tfnazivTipa.setText("");
-			tfsifraTipa.setText("");
+			for (Component c : editableFields) {
+				if (c instanceof JTextField)
+					((JTextField) c).setText("");
+			}
 			setFieldsEditable(false);
 			return;
 		}
-		String sifraTipa = (String)model.getValueAt(index, 0);
-		String nazivTipa = (String)model.getValueAt(index, 1);
-		tfsifraTipa.setText(sifraTipa);
-		tfnazivTipa.setText(nazivTipa);
-		setFieldsEditable(true);
 		
-		childRetVals = new String[2];
-		childRetVals[0] = sifraTipa;
-		childRetVals[1] = nazivTipa;
+		String sifra = (String)model.getValueAt(index, 0);
+		String naziv = (String)model.getValueAt(index, 1);
+		tfSifraDrzave.setText(sifra);
+		tfNazivDrzave.setText(naziv);
+		setFieldsEditable(true);
+		childRetVals[0] = sifra;
+		childRetVals[1] = naziv;
 	}
 
 	@Override
 	public void populateFieldsArray() {
 		// TODO Auto-generated method stub
 		editableFields = new Component[2];
-		editableFields[0] = tfsifraTipa;
-		editableFields[1] = tfnazivTipa;
+		editableFields[0] = tfSifraDrzave;
+		editableFields[1] = tfNazivDrzave;
 	}
 
 	@Override
 	public void childResponse(tableNames iD2, String[] childRetVals) {
 		// TODO Auto-generated method stub
-		// FOREVER ALONE
+		// NO CHILDREN
 	}
 
 	@Override
@@ -134,5 +141,10 @@ public class TipObjektaDialog extends DatabaseDialog {
 		primaryKeysColumnNumber = new int[1];
 		primaryKeysColumnNumber[0] = 0;
 	}
-
+	
+	@Override
+	public void setFieldsEditable(boolean b){
+		tfNazivDrzave.setEditable(b);
+		tfSifraDrzave.setEditable(b);
+	}
 }

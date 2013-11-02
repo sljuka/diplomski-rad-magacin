@@ -10,29 +10,29 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import db.DBConnection;
 
 import model.DataBaseTableModel;
 import model.DataBaseTableModel.tableNames;
 import model.Lookup;
-import gui.dialogs.DatabaseDialog;
+import gui.dialogs.DatabaseForma;
 
 public class EditState extends State {
 
 	@Override
-	public void handleState(DialogController controller) {
+	public void handleState(FormController controller) {
 		// TODO Auto-generated method stub		
 		if(JOptionPane.showConfirmDialog(controller.getDatabaseDialog(), "Da li ste sigurni da zelite da izvrsite izmenu", 
 				"Izmena podataka", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.CANCEL_OPTION)
 			return;
 
-		DialogController ctrl = controller;
+		FormController ctrl = controller;
 		String[] strings =ctrl.getComponentStrings();
 
 		DataBaseTableModel model = ctrl.getDatabaseDialog().getModel();
-		DatabaseDialog dbdialog = ctrl.getDatabaseDialog();
+		DatabaseForma dbdialog = ctrl.getDatabaseDialog();
 		
 		int[] keyColumnNumbers = dbdialog.getPrimaryKeysColumnNumbers();
 		int index = dbdialog.getTable().getSelectedRow();
@@ -122,7 +122,7 @@ public class EditState extends State {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e, DialogController controller) {
+	public void mousePressed(MouseEvent e, FormController controller) {
 		// TODO Auto-generated method stub
 		
 	}

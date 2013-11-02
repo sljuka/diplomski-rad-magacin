@@ -20,7 +20,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -40,7 +40,7 @@ import actions.ActionSelectPrevious;
 import model.DataBaseTableModel;
 import model.DataBaseTableModel.tableNames;
 
-public class ZaposleniDialog extends DatabaseDialog {
+public class ZaposleniForma extends DatabaseForma {
 
 	private JTextField tfImeRadnika;
 	private JTextField tfPrezimeRadnika;
@@ -52,7 +52,7 @@ public class ZaposleniDialog extends DatabaseDialog {
 	
 	private JButton btnZoomPreduzeca;
 	
-	public ZaposleniDialog() {
+	public ZaposleniForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.ZAPOSLENI;
@@ -85,7 +85,7 @@ public class ZaposleniDialog extends DatabaseDialog {
 		tfNazivPreduzeca.setEditable(false);
 		
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 		
 		add(toolbar, "dock north");
@@ -98,8 +98,8 @@ public class ZaposleniDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PreduzecaDialog d = new PreduzecaDialog();
-				d.setParentDialog(ZaposleniDialog.this);
+				PreduzecaForma d = new PreduzecaForma();
+				d.setParentDialog(ZaposleniForma.this);
 				d.setVisible(true);
 			}
 		});

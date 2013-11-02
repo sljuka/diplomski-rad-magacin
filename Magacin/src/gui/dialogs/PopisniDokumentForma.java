@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import actions.ActionCancelAction;
 import actions.ActionCommit;
@@ -24,7 +24,7 @@ import net.miginfocom.swing.MigLayout;
 
 import model.DataBaseTableModel.tableNames;
 
-public class PopisniDokumentDialog extends DatabaseDialog {
+public class PopisniDokumentForma extends DatabaseForma {
 
 	private JTextField txtGodina;
 	private JTextField txtPib;
@@ -39,7 +39,7 @@ public class PopisniDokumentDialog extends DatabaseDialog {
 	private JTextField txtNazivObjekta;
 	private JTextField txtNazivPreduzeca;
 
-	public PopisniDokumentDialog() {
+	public PopisniDokumentForma() {
 		super();
 		ID = tableNames.POPISNI_DOKUMENT;
 		setTitle(ID.toString());
@@ -49,7 +49,7 @@ public class PopisniDokumentDialog extends DatabaseDialog {
 		initializeStatusBar();
 		populateFieldsArray();
 		setFieldsEditable(false);
-
+		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class PopisniDokumentDialog extends DatabaseDialog {
 		cbStatus.addItem("Storniran");
 
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 
 		add(toolbar, "dock north");
@@ -97,8 +97,8 @@ public class PopisniDokumentDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PoslovnaGodinaDialog pgD = new PoslovnaGodinaDialog();
-				pgD.setParentDialog(PopisniDokumentDialog.this);
+				PoslovnaGodinaForma pgD = new PoslovnaGodinaForma();
+				pgD.setParentDialog(PopisniDokumentForma.this);
 				pgD.setKeyFilter(new String[] { "PIB", txtPib.getText() });
 				pgD.setVisible(true);
 			}
@@ -110,9 +110,9 @@ public class PopisniDokumentDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PoslovniObjektiDialog poD = new PoslovniObjektiDialog();
+				PoslovniObjektiForma poD = new PoslovniObjektiForma();
 				poD.setKeyFilter(new String[] { "PIB", txtPib.getText() });
-				poD.setParentDialog(PopisniDokumentDialog.this);
+				poD.setParentDialog(PopisniDokumentForma.this);
 				poD.setVisible(true);
 			}
 		});

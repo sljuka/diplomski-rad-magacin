@@ -21,14 +21,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import model.DataBaseTableModel;
 import model.DataBaseTableModel.tableNames;
 import net.miginfocom.swing.MigLayout;
 import numeric.textField.NumericTextField;
 
-public class MagacinskeKarticeDialog extends DatabaseDialog {
+public class MagacinskeKarticeForma extends DatabaseForma {
 
 	private JTextField tfPib; // editable false
 	private JTextField tfSifraObjekta; // isto
@@ -64,7 +64,7 @@ public class MagacinskeKarticeDialog extends DatabaseDialog {
 	private NumericTextField tfAVrednost;
 	private JComboBox<String> cbASmer;
 
-	public MagacinskeKarticeDialog() {
+	public MagacinskeKarticeForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.MAGACINSAK_KARTICA;
@@ -76,6 +76,7 @@ public class MagacinskeKarticeDialog extends DatabaseDialog {
 		populateFieldsArray();
 		setFieldsEditable(false);
 		populateStatusBasedComponents();
+		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
 	}
 
 	private void initializeAnalitikeTable() {
@@ -191,7 +192,7 @@ public class MagacinskeKarticeDialog extends DatabaseDialog {
 
 		initializeTable();
 		initializeAnalitikeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initMagacinKarticaToolBar();
 
 		JLabel labelMagacini = new JLabel("MAGACINSKE KARTICE");

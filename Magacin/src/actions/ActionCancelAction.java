@@ -6,14 +6,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 
 public class ActionCancelAction extends AbstractAction {
 
-	DialogController controller;
+	FormController controller;
 	
-	public ActionCancelAction(DialogController controller) {
+	public ActionCancelAction(FormController controller) {
 		// TODO Auto-generated constructor stub
 		putValue(SMALL_ICON, new ImageIcon("images/remove.gif"));
 		putValue(SHORT_DESCRIPTION, "Odustani");

@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import actions.ActionCancelAction;
 import actions.ActionCommit;
@@ -24,7 +24,7 @@ import numeric.textField.NumericTextField;
 
 import model.DataBaseTableModel.tableNames;
 
-public class StavkePopisaDialog extends DatabaseDialog {
+public class StavkePopisaForma extends DatabaseForma {
 
 	private JTextField txtGodina;
 	private JTextField txtSifraObjekta;
@@ -41,7 +41,7 @@ public class StavkePopisaDialog extends DatabaseDialog {
 	private JButton btnZoomArtikal;
 	private JButton btnZoomPopisniDokument;
 
-	public StavkePopisaDialog() {
+	public StavkePopisaForma() {
 		super();
 		ID = tableNames.STAVKE_POPISA;
 		setTitle(ID.toString());
@@ -50,6 +50,7 @@ public class StavkePopisaDialog extends DatabaseDialog {
 		initializeStatusBar();
 		populateFieldsArray();
 		setFieldsEditable(false);
+		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
 	}
 
 	@Override
@@ -81,7 +82,7 @@ public class StavkePopisaDialog extends DatabaseDialog {
 		}
 
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 
 		add(toolbar, "dock north");
@@ -93,8 +94,8 @@ public class StavkePopisaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				ArtikliDialog artDlg = new ArtikliDialog();
-				artDlg.setParentDialog(StavkePopisaDialog.this);
+				ArtikliForma artDlg = new ArtikliForma();
+				artDlg.setParentDialog(StavkePopisaForma.this);
 				artDlg.setVisible(true);
 			}
 		});
@@ -105,8 +106,8 @@ public class StavkePopisaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PopisniDokumentDialog pdDlg = new PopisniDokumentDialog();
-				pdDlg.setParentDialog(StavkePopisaDialog.this);
+				PopisniDokumentForma pdDlg = new PopisniDokumentForma();
+				pdDlg.setParentDialog(StavkePopisaForma.this);
 				pdDlg.setVisible(true);
 			}
 		});

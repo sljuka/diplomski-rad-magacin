@@ -34,6 +34,7 @@ public class AuthentificationController {
 		String sqlStatement = "SELECT * FROM " + tableNames.ZAPOSLENI.toString() +
 							" WHERE SIFRARDNK = " + sifra;
 		
+		
 		rset = statement.executeQuery(sqlStatement);
 		while (rset.next()) {
 			String dbSifra = rset.getString("SIFRARDNK");

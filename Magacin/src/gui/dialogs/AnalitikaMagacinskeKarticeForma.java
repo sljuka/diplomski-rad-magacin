@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import model.DataBaseTableModel.tableNames;
 import net.miginfocom.swing.MigLayout;
@@ -22,7 +22,7 @@ import numeric.textField.NumericTextField;
 import actions.ActionCancelAction;
 import actions.ActionCommit;
 
-public class AnalitikaMagacinskeKartice extends DatabaseDialog {
+public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 
 	private JTextField tfRbrAnalitike;
 	private JTextField tfSifraObjekta;
@@ -38,7 +38,7 @@ public class AnalitikaMagacinskeKartice extends DatabaseDialog {
 	private NumericTextField tfVrednost;
 	private JComboBox<String> cbSmer;
 
-	public AnalitikaMagacinskeKartice() {
+	public AnalitikaMagacinskeKarticeForma() {
 		super();
 		ID = tableNames.ANALITIKA_MAGACINSKE_KARTICE;
 		setTitle(ID.toString());
@@ -47,6 +47,7 @@ public class AnalitikaMagacinskeKartice extends DatabaseDialog {
 		populateFieldsArray();
 		initializeStatusBar();
 		setFieldsEditable(false);
+		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
 	}
 
 	@Override
@@ -96,7 +97,7 @@ public class AnalitikaMagacinskeKartice extends DatabaseDialog {
 		cbSmer.addItem("Ulaz");
 
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 
 		add(toolbar, "dock north");

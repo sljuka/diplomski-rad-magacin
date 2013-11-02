@@ -7,16 +7,17 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 
 public class ActionAdd extends AbstractAction {
 
-	DialogController controller;
+	FormController controller;
 
-	public ActionAdd(DialogController controller) {
+	public ActionAdd(FormController controller) {
 		putValue(SMALL_ICON, new ImageIcon("images/add.gif"));
 		putValue(SHORT_DESCRIPTION, "Prelazak u rezim dodavanja.");
+		
 		this.controller = controller;
 	}
 
