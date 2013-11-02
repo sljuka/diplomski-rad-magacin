@@ -16,14 +16,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.text.ZoneView;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import model.DataBaseTableModel.tableNames;
 import net.miginfocom.swing.MigLayout;
 import actions.ActionCancelAction;
 import actions.ActionCommit;
 
-public class PoslovnaGodinaDialog extends DatabaseDialog {
+public class PoslovnaGodinaForma extends DatabaseForma {
 
 	private JTextField tfPib;
 	private JTextField tfgodina;
@@ -35,7 +35,7 @@ public class PoslovnaGodinaDialog extends DatabaseDialog {
 
 	private JButton btnZakljuciGodinu;
 
-	public PoslovnaGodinaDialog() {
+	public PoslovnaGodinaForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.POSLOVNA_GODINA;
@@ -47,6 +47,7 @@ public class PoslovnaGodinaDialog extends DatabaseDialog {
 		populateFieldsArray();
 		initializeStatusBar();
 		setFieldsEditable(false);
+		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
 	}
 
 	@Override
@@ -65,7 +66,7 @@ public class PoslovnaGodinaDialog extends DatabaseDialog {
 		tfNazivPreduzeca = new JTextField(20);
 
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 
 		add(toolbar, "dock north");
@@ -77,8 +78,8 @@ public class PoslovnaGodinaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PreduzecaDialog p = new PreduzecaDialog();
-				p.setParentDialog(PoslovnaGodinaDialog.this);
+				PreduzecaForma p = new PreduzecaForma();
+				p.setParentDialog(PoslovnaGodinaForma.this);
 				p.setVisible(true);
 			}
 		});

@@ -6,14 +6,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 
 public class ActionCommit extends AbstractAction {
 
-	private DialogController controller;
+	private FormController controller;
 	
-	public ActionCommit(DialogController controller) {
+	public ActionCommit(FormController controller) {
 		// TODO Auto-generated constructor stub
 		this.controller = controller;
 		putValue(SMALL_ICON, new ImageIcon("images/commit.gif"));

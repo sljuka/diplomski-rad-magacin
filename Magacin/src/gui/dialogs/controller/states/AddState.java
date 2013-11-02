@@ -6,13 +6,13 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 
 public class AddState extends State {
 
 	@Override
-	public void handleState(DialogController controller) {
+	public void handleState(FormController controller) {
 		// TODO Auto-generated method stub
 		if(JOptionPane.showConfirmDialog(controller.getDatabaseDialog(), "Da li ste sigurni da zelite da dodate novi podatak", 
 				"Dodavanje podataka", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.CANCEL_OPTION)
@@ -39,7 +39,7 @@ public class AddState extends State {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e, DialogController controller) {
+	public void mousePressed(MouseEvent e, FormController controller) {
 		// TODO Auto-generated method stub
 		controller.setCurrentState(new EditState());
 	}

@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import model.DataBaseTableModel.tableNames;
 import net.miginfocom.swing.MigLayout;
@@ -26,7 +26,7 @@ import net.miginfocom.swing.MigLayout;
 import actions.ActionCancelAction;
 import actions.ActionCommit;
 
-public class ArtikliDialog extends DatabaseDialog {
+public class ArtikliForma extends DatabaseForma {
 
 	private JTextField tfPib;
 	private JTextField tfSifraArtikla;
@@ -40,7 +40,7 @@ public class ArtikliDialog extends DatabaseDialog {
 	private JButton btnZoomMerneJedinice;
 	private JButton btnZoomPreduzeca;
 
-	public ArtikliDialog() {
+	public ArtikliForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.ARTIKAL;
@@ -88,8 +88,8 @@ public class ArtikliDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				MernaJedinicaDialog m = new MernaJedinicaDialog();
-				m.setParentDialog(ArtikliDialog.this);
+				MernaJedinicaForma m = new MernaJedinicaForma();
+				m.setParentDialog(ArtikliForma.this);
 				m.setVisible(true);
 			}
 		});
@@ -100,14 +100,14 @@ public class ArtikliDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				PreduzecaDialog d = new PreduzecaDialog();
-				d.setParentDialog(ArtikliDialog.this);
+				PreduzecaForma d = new PreduzecaForma();
+				d.setParentDialog(ArtikliForma.this);
 				d.setVisible(true);
 			}
 		});
 
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 
 		add(toolbar, "dock north");

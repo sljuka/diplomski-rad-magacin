@@ -6,14 +6,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 
 public class ActionRemove extends AbstractAction {
 
-	private DialogController controller;
+	private FormController controller;
 
-	public ActionRemove(DialogController controller) {
+	public ActionRemove(FormController controller) {
 		putValue(SMALL_ICON, new ImageIcon("images/remove.gif"));
 		putValue(SHORT_DESCRIPTION, "Brisanje selektovanog reda");
 		this.controller = controller;

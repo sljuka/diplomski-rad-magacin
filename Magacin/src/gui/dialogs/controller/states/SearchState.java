@@ -5,7 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import controllers.DialogController;
+import controllers.AuthentificationController;
+import controllers.FormController;
 
 import db.DBConnection;
 import model.DataBaseTableModel;
@@ -13,10 +14,10 @@ import model.DataBaseTableModel;
 public class SearchState extends State {
 
 	@Override
-	public void handleState(DialogController controller) {
+	public void handleState(FormController controller) {
 		// TODO Auto-generated method stub
 
-		DialogController ctrl = controller;
+		FormController ctrl = controller;
 		DataBaseTableModel model = ctrl.getDatabaseDialog().getModel();
 		int columnCount = model.getColumnCount();
 		String[] columnNames=new String[columnCount];
@@ -26,16 +27,26 @@ public class SearchState extends State {
 		
 		for(int i=0; i<columnCount; i++)
 		{
-			if(strings[i]==null)
-			{
+			
+			if(strings[i]==null) {
 				strings[i]="";
 			}
 			columnNames[i]=model.getColumnName(i);
-			if(i!=(columnCount-1))
-				stmt+=columnNames[i]+" LIKE "+"'"+strings[i]+"%'"+" AND ";
-			else
-				stmt+=columnNames[i]+" LIKE "+"'"+strings[i]+"%'";
-
+			if(columnNames[i].equals("ISADMIN")) {
+				
+				continue;
+			}
+			
+			if(i!=0) {
+				stmt +=" AND ";
+			}
+			
+			if(columnNames[i].equals("PIB") && !AuthentificationController.getAuthenticationInstance().isAdmin()) {
+				stmt+=columnNames[i]+" LIKE "+"'"+AuthentificationController.getAuthenticationInstance().getPibPreduzecaUlogovanogKorisnika()+"%'";
+			}
+			else {
+				stmt+=columnNames[i]+" LIKE "+"'"+strings[i]+"%'";	
+			}
 		}	
 		System.out.println(stmt);
 		ResultSet rset;
@@ -66,7 +77,7 @@ public class SearchState extends State {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e, DialogController controller) {
+	public void mousePressed(MouseEvent e, FormController controller) {
 		// TODO Auto-generated method stub
 		
 	}

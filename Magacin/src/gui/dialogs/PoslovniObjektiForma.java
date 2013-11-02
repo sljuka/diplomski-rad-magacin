@@ -12,14 +12,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import model.DataBaseTableModel.tableNames;
 import net.miginfocom.swing.MigLayout;
 import actions.ActionCancelAction;
 import actions.ActionCommit;
 
-public class PoslovniObjektiDialog extends DatabaseDialog {
+public class PoslovniObjektiForma extends DatabaseForma {
 
 	private JTextField tfPib;
 	private JTextField tfSifraObjekta;
@@ -36,7 +36,7 @@ public class PoslovniObjektiDialog extends DatabaseDialog {
 	private JButton btnZoomPreduzeca;
 	private JButton btnZoomTipovi;
 
-	public PoslovniObjektiDialog() {
+	public PoslovniObjektiForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.POSLOVNI_OBJEKAT;
@@ -46,6 +46,7 @@ public class PoslovniObjektiDialog extends DatabaseDialog {
 		initializeStatusBar();
 		populateFieldsArray();
 		setFieldsEditable(false);
+		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class PoslovniObjektiDialog extends DatabaseDialog {
 		tfNazivMesta = new JTextField(30);
 
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 
 		add(toolbar, "dock north");
@@ -90,8 +91,8 @@ public class PoslovniObjektiDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				MestaDialog m = new MestaDialog();
-				m.setParentDialog(PoslovniObjektiDialog.this);
+				MestaForma m = new MestaForma();
+				m.setParentDialog(PoslovniObjektiForma.this);
 				m.setVisible(true);
 			}
 		});
@@ -102,8 +103,8 @@ public class PoslovniObjektiDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				PreduzecaDialog p = new PreduzecaDialog();
-				p.setParentDialog(PoslovniObjektiDialog.this);
+				PreduzecaForma p = new PreduzecaForma();
+				p.setParentDialog(PoslovniObjektiForma.this);
 				p.setVisible(true);
 			}
 		});
@@ -114,8 +115,8 @@ public class PoslovniObjektiDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				TipObjektaDialog t = new TipObjektaDialog();
-				t.setParentDialog(PoslovniObjektiDialog.this);
+				TipObjektaForma t = new TipObjektaForma();
+				t.setParentDialog(PoslovniObjektiForma.this);
 				t.setVisible(true);
 			}
 		});

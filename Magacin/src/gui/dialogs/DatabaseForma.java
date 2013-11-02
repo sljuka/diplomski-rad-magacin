@@ -20,7 +20,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -30,6 +30,7 @@ import actions.ActionAdd;
 import actions.ActionEdit;
 import actions.ActionHelp;
 import actions.ActionJumoToPreviousForm;
+import actions.ActionNext;
 import actions.ActionRefresh;
 import actions.ActionRemove;
 import actions.ActionSearch;
@@ -39,19 +40,19 @@ import actions.ActionSelectNext;
 import actions.ActionSelectPrevious;
 import app.MainFrame;
 
-public abstract class DatabaseDialog extends JDialog {
+public abstract class DatabaseForma extends JDialog {
 
 	protected tableNames ID;
 
 	protected JTable table;
 	protected JToolBar toolbar;
 	protected Component[] editableFields;
-	protected DialogController controller;
+	protected FormController controller;
 	protected DataBaseTableModel model;
 
 	protected JPanel btnPanel;
 	
-	protected DatabaseDialog parentDialog;
+	protected DatabaseForma parentDialog;
 
 	protected String[] childRetVals;
 
@@ -65,7 +66,7 @@ public abstract class DatabaseDialog extends JDialog {
 	
 	protected StatusBar statusBar;
 
-	public DatabaseDialog() {
+	public DatabaseForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		setLocationRelativeTo(MainFrame.getInstance());
@@ -94,11 +95,11 @@ public abstract class DatabaseDialog extends JDialog {
 		return model;
 	}
 
-	public DatabaseDialog getParentDialog() {
+	public DatabaseForma getParentDialog() {
 		return parentDialog;
 	}
 
-	public void setParentDialog(DatabaseDialog parentDialog) {
+	public void setParentDialog(DatabaseForma parentDialog) {
 		this.parentDialog = parentDialog;
 		initializeToolbarForChild();
 		if(btnPanel != null)
@@ -118,11 +119,9 @@ public abstract class DatabaseDialog extends JDialog {
 	}
 
 	protected void initializeToolbar() {
-		// TODO Auto-generated method stub
 		toolbar = new JToolBar();
 		toolbar.add(new ActionSearch(controller));
-		toolbar.add(new ActionRefresh());
-		//toolbar.add(new ActionJumoToPreviousForm(controller));
+		toolbar.add(new ActionRefresh(controller));
 		toolbar.add(new ActionHelp());
 		toolbar.addSeparator();
 		toolbar.add(new ActionSelectFirst(table));
@@ -133,13 +132,13 @@ public abstract class DatabaseDialog extends JDialog {
 		toolbar.add(new ActionAdd(controller));
 		toolbar.add(new ActionRemove(controller));
 		toolbar.addSeparator();
-		toolbar.add(new ActionJumoToPreviousForm(controller));
+		toolbar.add(new ActionNext(controller));
 	}
 	
 	protected void initializeToolbarForChild() {
 		toolbar.removeAll();
 		toolbar.add(new ActionSearch(controller));
-		toolbar.add(new ActionRefresh());
+		toolbar.add(new ActionRefresh(controller));
 		toolbar.add(new ActionHelp());
 		toolbar.addSeparator();
 		toolbar.add(new ActionSelectFirst(table));
@@ -153,7 +152,7 @@ public abstract class DatabaseDialog extends JDialog {
 	protected void initMagacinKarticaToolBar() {
 		toolbar = new JToolBar();
 		toolbar.add(new ActionSearch(controller));
-		toolbar.add(new ActionRefresh());
+		toolbar.add(new ActionRefresh(controller));
 		//toolbar.add(new ActionJumoToPreviousForm(controller));
 		toolbar.add(new ActionHelp());
 		toolbar.addSeparator();
@@ -264,6 +263,10 @@ public abstract class DatabaseDialog extends JDialog {
 			if (c instanceof DatePickerComponent)
 				((DatePickerComponent) c).setEditable(false);
 		}
+	}
+	
+	public tableNames getTableName() {
+		return ID;
 	}
 
 }

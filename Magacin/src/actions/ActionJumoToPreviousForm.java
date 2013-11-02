@@ -6,16 +6,16 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 
 public class ActionJumoToPreviousForm extends AbstractAction {
 
-	DialogController controller;
+	FormController controller;
 	
-	public ActionJumoToPreviousForm(DialogController cont) {
+	public ActionJumoToPreviousForm(FormController cont) {
 		// TODO Auto-generated constructor stub
-		putValue(SMALL_ICON, new ImageIcon("images/nextform.gif"));
+		putValue(SMALL_ICON, new ImageIcon("images/zoom-pickup.gif"));
 		controller = cont;
 		putValue(SHORT_DESCRIPTION, "Povratak na prethodni prozor.");
 	}

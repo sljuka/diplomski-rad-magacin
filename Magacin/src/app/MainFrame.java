@@ -1,20 +1,21 @@
 package app;
 
-import gui.dialogs.AnalitikaMagacinskeKartice;
-import gui.dialogs.ArtikliDialog;
-import gui.dialogs.ClanPopisneKomisijeDialog;
-import gui.dialogs.DrzaveDialog;
-import gui.dialogs.MagacinskeKarticeDialog;
-import gui.dialogs.MernaJedinicaDialog;
-import gui.dialogs.MestaDialog;
-import gui.dialogs.PopisniDokumentDialog;
-import gui.dialogs.PoslovnaGodinaDialog;
-import gui.dialogs.PoslovniObjektiDialog;
-import gui.dialogs.PoslovniPartnerDialog;
-import gui.dialogs.PreduzecaDialog;
-import gui.dialogs.PrometniDokumentDialog;
-import gui.dialogs.StavkePopisaDialog;
-import gui.dialogs.ZaposleniDialog;
+import gui.dialogs.AnalitikaMagacinskeKarticeForma;
+import gui.dialogs.ArtikliForma;
+import gui.dialogs.ClanPopisneKomisijeForma;
+import gui.dialogs.DrzaveForma;
+import gui.dialogs.MagacinskeKarticeForma;
+import gui.dialogs.MernaJedinicaForma;
+import gui.dialogs.MestaForma;
+import gui.dialogs.PopisniDokumentForma;
+import gui.dialogs.PoslovnaGodinaForma;
+import gui.dialogs.PoslovniObjektiForma;
+import gui.dialogs.PoslovniPartnerForma;
+import gui.dialogs.PreduzecaForma;
+import gui.dialogs.PrometniDokumentForma;
+import gui.dialogs.StavkePopisaForma;
+import gui.dialogs.TipObjektaForma;
+import gui.dialogs.ZaposleniForma;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -168,7 +169,7 @@ public class MainFrame extends JFrame {
 		});
 		loginPanel.setLayout(new MigLayout("", "[align l][align l, grow, fill]", ""));
 		loginPanel.add(lblLogin, "wrap, align c");
-		loginPanel.add(new JLabel("Sifra:"), "wrap");
+		loginPanel.add(new JLabel("Korisnicko ime:"), "wrap");
 		loginPanel.add(txtSifra, "wrap");
 		loginPanel.add(new JLabel("Password: "), "wrap");
 		loginPanel.add(txtPassword, "wrap");
@@ -188,6 +189,8 @@ public class MainFrame extends JFrame {
 		 * DRZAVA
 		 * NASELJENO MESTO
 		 * PREDUZECE
+		 * MERNA JEDINICA
+		 * TIP OBJEKTA
 		 */
 		
 		JMenu menuRacunovodsvo = new JMenu("Racunovodstvo");
@@ -201,7 +204,6 @@ public class MainFrame extends JFrame {
 		JMenu menuMagacin = new JMenu("Magacin");
 		/*
 		 * ARTIKLI
-		 * MERNE JEDINICE
 		 * MAGACINSKE KARTICE I ANALITIKA
 		 * PROMETNI DOKUMENTI I STAVKE
 		 * POPISNI DOKUMENT
@@ -224,12 +226,23 @@ public class MainFrame extends JFrame {
 		JMenuItem miPreduzece = new JMenuItem("Preduzeca");//
 		JMenuItem miPrometniDokumenti = new JMenuItem("Prometni dokumenti");//
 		JMenuItem miStavkaPopisa = new JMenuItem("Stavka popisa");//
+		JMenuItem miTipoviObjekta = new JMenuItem("Tipovi objekta");
+		
+		miTipoviObjekta.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				TipObjektaForma t = new TipObjektaForma();
+				t.setVisible(true);
+			}
+		});
 		
 		miClanoviPopisneKomisije.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ClanPopisneKomisijeDialog cpd = new ClanPopisneKomisijeDialog();
+				ClanPopisneKomisijeForma cpd = new ClanPopisneKomisijeForma();
 				cpd.setVisible(true);
 				
 			}
@@ -239,7 +252,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PreduzecaDialog p = new PreduzecaDialog();
+				PreduzecaForma p = new PreduzecaForma();
 				p.setVisible(true);
 			}
 		});
@@ -249,7 +262,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PoslovniObjektiDialog p = new PoslovniObjektiDialog();
+				PoslovniObjektiForma p = new PoslovniObjektiForma();
 				p.setVisible(true);
 			}
 		});
@@ -258,7 +271,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				ZaposleniDialog z = new ZaposleniDialog();
+				ZaposleniForma z = new ZaposleniForma();
 				z.setVisible(true);
 			}
 		});
@@ -267,7 +280,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PoslovnaGodinaDialog p = new PoslovnaGodinaDialog();
+				PoslovnaGodinaForma p = new PoslovnaGodinaForma();
 				p.setVisible(true);
 			}
 		});
@@ -276,7 +289,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PoslovniPartnerDialog p = new PoslovniPartnerDialog();
+				PoslovniPartnerForma p = new PoslovniPartnerForma();
 				p.setVisible(true);
 			}
 		});
@@ -285,7 +298,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				ArtikliDialog d = new ArtikliDialog();
+				ArtikliForma d = new ArtikliForma();
 				d.setVisible(true);
 			}
 		});
@@ -294,7 +307,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				MagacinskeKarticeDialog m = new MagacinskeKarticeDialog();
+				MagacinskeKarticeForma m = new MagacinskeKarticeForma();
 				m.setVisible(true);
 			}
 		});
@@ -303,7 +316,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				PrometniDokumentDialog d = new PrometniDokumentDialog();
+				PrometniDokumentForma d = new PrometniDokumentForma();
 				d.setVisible(true);
 			}
 		});
@@ -313,7 +326,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PopisniDokumentDialog pdD = new PopisniDokumentDialog();
+				PopisniDokumentForma pdD = new PopisniDokumentForma();
 				pdD.setVisible(true);
 			}
 		});
@@ -323,7 +336,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				StavkePopisaDialog stvDlg = new StavkePopisaDialog();
+				StavkePopisaForma stvDlg = new StavkePopisaForma();
 				stvDlg.setVisible(true);
 			}
 		});
@@ -333,7 +346,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				AnalitikaMagacinskeKartice anlDlg = new AnalitikaMagacinskeKartice();
+				AnalitikaMagacinskeKarticeForma anlDlg = new AnalitikaMagacinskeKarticeForma();
 				anlDlg.setVisible(true);
 			}
 		});
@@ -343,7 +356,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				DrzaveDialog drzD = new DrzaveDialog();
+				DrzaveForma drzD = new DrzaveForma();
 				drzD.setVisible(true);
 			}
 		});
@@ -353,7 +366,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				MestaDialog m = new MestaDialog();
+				MestaForma m = new MestaForma();
 				m.setVisible(true);
 			}
 		});
@@ -363,7 +376,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				MernaJedinicaDialog m = new MernaJedinicaDialog();
+				MernaJedinicaForma m = new MernaJedinicaForma();
 				m.setVisible(true);
 			}
 		});
@@ -371,6 +384,8 @@ public class MainFrame extends JFrame {
 		menuAdministrator.add(miDrzave);
 		menuAdministrator.add(miNaseljenaMesta);
 		menuAdministrator.add(miPreduzece);
+		menuAdministrator.add(miMernaJedinica);
+		menuAdministrator.add(miTipoviObjekta);
 		
 		menuRacunovodsvo.add(miPoslovniObjekat);
 		menuRacunovodsvo.add(miPoslovniPartner);
@@ -378,7 +393,6 @@ public class MainFrame extends JFrame {
 		menuRacunovodsvo.add(miZaposleni);
 		
 		menuMagacin.add(miArtikli);
-		menuMagacin.add(miMernaJedinica);
 		menuMagacin.add(miMagacinkseKartice);
 		menuMagacin.add(miAnalitikaMagKartice);
 		menuMagacin.add(miPrometniDokumenti);

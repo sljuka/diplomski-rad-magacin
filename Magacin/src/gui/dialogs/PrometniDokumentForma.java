@@ -17,7 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import net.miginfocom.swing.MigLayout;
 import actions.ActionAdd;
@@ -35,7 +35,7 @@ import actions.ActionSelectPrevious;
 
 import model.DataBaseTableModel.tableNames;
 
-public class PrometniDokumentDialog extends DatabaseDialog {
+public class PrometniDokumentForma extends DatabaseForma {
 
 	private JTextField tfBrojPrometnogDokumenta;
 	private JTextField tfPib;
@@ -61,7 +61,7 @@ public class PrometniDokumentDialog extends DatabaseDialog {
 
 	private JButton btnStavkePrometnogDokumenta;
 
-	public PrometniDokumentDialog() {
+	public PrometniDokumentForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.PROMETNI_DOKUMENT;
@@ -71,6 +71,7 @@ public class PrometniDokumentDialog extends DatabaseDialog {
 		populateFieldsArray();
 		initializeStatusBar();
 		setFieldsEditable(false);
+		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
 	}
 
 	@Override
@@ -114,33 +115,33 @@ public class PrometniDokumentDialog extends DatabaseDialog {
 		tfNazivPoslovnogPartnera = new JTextField(20);
 
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 
 		add(toolbar, "dock north");
 		add(new JScrollPane(table), "dock north");
 
-		JPanel tableBtnPanel = new JPanel();				//ZAPOSLENI, POSLOVNI OBJEKTI
-		tableBtnPanel.setLayout(new MigLayout());
-		btnStavkePrometnogDokumenta = new JButton("Stavke prometnog dokumenta");
-		btnStavkePrometnogDokumenta.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				StavkePrometnogDokumentaDialog d = new StavkePrometnogDokumentaDialog();
-				d.setParentDialog(PrometniDokumentDialog.this);
-				d.setKeyFilter(new String[] {"PIB", tfPib.getText(), "GODINA", tfGodina.getText(), "BROJ_PROMETNOG_DOKUMENTA",
-						tfBrojPrometnogDokumenta.getText()});
-//				d.getTfBrojPrometnogDokumenta().setText(tfBrojPrometnogDokumenta.getText());
-//				d.getTfPib().setText(tfPib.getText());
-				d.setVisible(true);
-			}
-		});
+//		JPanel tableBtnPanel = new JPanel();				//ZAPOSLENI, POSLOVNI OBJEKTI
+//		tableBtnPanel.setLayout(new MigLayout());
+//		btnStavkePrometnogDokumenta = new JButton("Stavke prometnog dokumenta");
+//		btnStavkePrometnogDokumenta.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				StavkePrometnogDokumentaDialog d = new StavkePrometnogDokumentaDialog();
+//				d.setParentDialog(PrometniDokumentDialog.this);
+//				d.setKeyFilter(new String[] {"PIB", tfPib.getText(), "GODINA", tfGodina.getText(), "BROJ_PROMETNOG_DOKUMENTA",
+//						tfBrojPrometnogDokumenta.getText()});
+////				d.getTfBrojPrometnogDokumenta().setText(tfBrojPrometnogDokumenta.getText());
+////				d.getTfPib().setText(tfPib.getText());
+//				d.setVisible(true);
+//			}
+//		});
 		populateStatusBasedComponents();
 		setEnabledStatusBasedComponents(false);
-		tableBtnPanel.add(btnStavkePrometnogDokumenta, "width :130:");
-		add(tableBtnPanel, "align left, wrap");
+//		tableBtnPanel.add(btnStavkePrometnogDokumenta, "width :130:");
+//		add(tableBtnPanel, "align left, wrap");
 
 		btnZoomPoslovniObjekat = new JButton("...");
 		btnZoomPoslovniObjekat.addActionListener(new ActionListener() {
@@ -148,8 +149,8 @@ public class PrometniDokumentDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				PoslovniObjektiDialog p = new PoslovniObjektiDialog();
-				p.setParentDialog(PrometniDokumentDialog.this);
+				PoslovniObjektiForma p = new PoslovniObjektiForma();
+				p.setParentDialog(PrometniDokumentForma.this);
 				p.setKeyFilter(new String[] {"PIB", tfPib.getText()});
 				p.setVisible(true);
 			}
@@ -161,8 +162,8 @@ public class PrometniDokumentDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				PoslovniPartnerDialog p = new PoslovniPartnerDialog();
-				p.setParentDialog(PrometniDokumentDialog.this);
+				PoslovniPartnerForma p = new PoslovniPartnerForma();
+				p.setParentDialog(PrometniDokumentForma.this);
 				p.setKeyFilter(new String[] {"PIB", tfPib.getText()});
 				p.setVisible(true);
 			}
@@ -174,8 +175,8 @@ public class PrometniDokumentDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PoslovnaGodinaDialog p = new PoslovnaGodinaDialog();
-				p.setParentDialog(PrometniDokumentDialog.this);
+				PoslovnaGodinaForma p = new PoslovnaGodinaForma();
+				p.setParentDialog(PrometniDokumentForma.this);
 				p.setKeyFilter(new String[] {"ZAKLJUCENA", "False", "PIB", tfPib.getText()});
 				p.setVisible(true);
 			}
@@ -187,8 +188,8 @@ public class PrometniDokumentDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PoslovniObjektiDialog p = new PoslovniObjektiDialog();
-				p.setParentDialog(PrometniDokumentDialog.this);
+				PoslovniObjektiForma p = new PoslovniObjektiForma();
+				p.setParentDialog(PrometniDokumentForma.this);
 				p.setKeyFilter(new String[] {"PIB", tfPib.getText()});
 				p.setVisible(true);
 				p.setTfToFill(tfSiftaMagacinaMMPromet);

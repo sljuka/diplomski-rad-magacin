@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import model.DataBaseTableModel.tableNames;
 import net.miginfocom.swing.MigLayout;
@@ -20,7 +20,7 @@ import actions.ActionCancelAction;
 import actions.ActionCommit;
 
 
-public class PreduzecaDialog extends DatabaseDialog {
+public class PreduzecaForma extends DatabaseForma {
 
 	private JTextField tfPib;
 	private JTextField tfSifraDrzave;
@@ -37,7 +37,7 @@ public class PreduzecaDialog extends DatabaseDialog {
 	private JButton btnPoslovniPartneri;
 	private JButton btnArtikli;
 	
-	public PreduzecaDialog() {
+	public PreduzecaForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.PREDUZECE;
@@ -74,7 +74,7 @@ public class PreduzecaDialog extends DatabaseDialog {
 		tfNazivPreduzeca.setDocument(new DocumentLimit(40));
 		
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 		
 		add(toolbar, "dock north");
@@ -98,8 +98,8 @@ public class PreduzecaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				MestaDialog m = new MestaDialog();
-				m.setParentDialog(PreduzecaDialog.this);
+				MestaForma m = new MestaForma();
+				m.setParentDialog(PreduzecaForma.this);
 				m.setVisible(true);
 			}
 		});
@@ -139,7 +139,7 @@ public class PreduzecaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				ZaposleniDialog z = new ZaposleniDialog();
+				ZaposleniForma z = new ZaposleniForma();
 				z.setKeyFilter(new String[] {"PIB", tfPib.getText()});
 				z.setVisible(true);
 			}
@@ -150,7 +150,7 @@ public class PreduzecaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PoslovniObjektiDialog p = new PoslovniObjektiDialog();
+				PoslovniObjektiForma p = new PoslovniObjektiForma();
 				p.setKeyFilter(new String[] {"PIB", tfPib.getText()});
 				p.setVisible(true);
 			}
@@ -161,7 +161,7 @@ public class PreduzecaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				ArtikliDialog a = new ArtikliDialog();
+				ArtikliForma a = new ArtikliForma();
 				a.setKeyFilter(new String[] {"PIB", tfPib.getText()}); //OVA DVA STRINGA CE CINITI WHERE CLAUSE.
 				a.setVisible(true);
 			}
@@ -172,7 +172,7 @@ public class PreduzecaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				PoslovniPartnerDialog p = new PoslovniPartnerDialog();
+				PoslovniPartnerForma p = new PoslovniPartnerForma();
 				p.setKeyFilter(new String[] {"PIB", tfPib.getText()});
 				p.setVisible(true);
 			}

@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import actions.ActionCancelAction;
 import actions.ActionCommit;
@@ -22,7 +22,7 @@ import net.miginfocom.swing.MigLayout;
 
 import model.DataBaseTableModel.tableNames;
 
-public class PoslovniPartnerDialog extends DatabaseDialog {
+public class PoslovniPartnerForma extends DatabaseForma {
 
 	private JTextField tfPibPreduzeca;
 	private JTextField tfPibPoslovnogPartnera;
@@ -33,7 +33,7 @@ public class PoslovniPartnerDialog extends DatabaseDialog {
 
 	private JButton btnZoomPreduzeca;
 
-	public PoslovniPartnerDialog() {
+	public PoslovniPartnerForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.POSLOVNI_PARTNER;
@@ -41,6 +41,7 @@ public class PoslovniPartnerDialog extends DatabaseDialog {
 		setSizeAndMove(500, 300);
 		initializeComponents();
 		initializeStatusBar();
+		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public class PoslovniPartnerDialog extends DatabaseDialog {
 		tfNazivPreduzeca.setEditable(false);
 
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 
 		add(toolbar, "dock north");
@@ -78,8 +79,8 @@ public class PoslovniPartnerDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				PreduzecaDialog p = new PreduzecaDialog();
-				p.setParentDialog(PoslovniPartnerDialog.this);
+				PreduzecaForma p = new PreduzecaForma();
+				p.setParentDialog(PoslovniPartnerForma.this);
 				p.setVisible(true);
 			}
 		});

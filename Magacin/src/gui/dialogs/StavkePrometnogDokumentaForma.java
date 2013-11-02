@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controllers.DialogController;
+import controllers.FormController;
 
 import net.miginfocom.swing.MigLayout;
 import numeric.textField.NumericTextField;
@@ -24,7 +24,7 @@ import actions.ActionCommit;
 
 import model.DataBaseTableModel.tableNames;
 
-public class StavkePrometnogDokumentaDialog extends DatabaseDialog {
+public class StavkePrometnogDokumentaForma extends DatabaseForma {
 
 	private JTextField tfPib;
 	private JTextField tfGodina;
@@ -41,7 +41,7 @@ public class StavkePrometnogDokumentaDialog extends DatabaseDialog {
 	private JButton btnZoomDokumenti;
 	private JButton btnZoomGodine;
 	
-	public StavkePrometnogDokumentaDialog() {
+	public StavkePrometnogDokumentaForma() {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.STAVKA_PROMETNOG_DOKUMENTA;
@@ -51,6 +51,7 @@ public class StavkePrometnogDokumentaDialog extends DatabaseDialog {
 		populateFieldsArray();
 		initializeStatusBar();
 		setFieldsEditable(false);
+		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
 	}
 	
 	@Override
@@ -94,7 +95,7 @@ public class StavkePrometnogDokumentaDialog extends DatabaseDialog {
 		tfNazivArtikla = new JTextField(20);
 		
 		initializeTable();
-		controller = new DialogController(this);
+		controller = new FormController(this);
 		initializeToolbar();
 		
 		add(toolbar, "dock north");
@@ -106,8 +107,8 @@ public class StavkePrometnogDokumentaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				ArtikliDialog a = new ArtikliDialog();
-				a.setParentDialog(StavkePrometnogDokumentaDialog.this);
+				ArtikliForma a = new ArtikliForma();
+				a.setParentDialog(StavkePrometnogDokumentaForma.this);
 				a.setKeyFilter(new String[] {"PIB", tfPib.getText()});
 				a.setVisible(true);
 			}
@@ -118,8 +119,8 @@ public class StavkePrometnogDokumentaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				PrometniDokumentDialog a = new PrometniDokumentDialog();
-				a.setParentDialog(StavkePrometnogDokumentaDialog.this);
+				PrometniDokumentForma a = new PrometniDokumentForma();
+				a.setParentDialog(StavkePrometnogDokumentaForma.this);
 				a.setKeyFilter(new String[] {"PIB", tfPib.getText()});
 				a.setVisible(true);
 			}
@@ -130,9 +131,9 @@ public class StavkePrometnogDokumentaDialog extends DatabaseDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				PoslovnaGodinaDialog p = new PoslovnaGodinaDialog();
+				PoslovnaGodinaForma p = new PoslovnaGodinaForma();
 				p.setKeyFilter(new String[] {"PIB", tfPib.getText()});
-				p.setParentDialog(StavkePrometnogDokumentaDialog.this);
+				p.setParentDialog(StavkePrometnogDokumentaForma.this);
 				p.setVisible(true);
 			}
 		});

@@ -45,15 +45,30 @@ public class DataBaseTableModel extends MyTableModel {
 	
 	private int[] primaryKeysColumnNumbers;
 
+	public String[] getSelectedKeyNameValuePair(int selectedIndex) {
+		if(primaryKeysColumnNumbers == null)
+			return null;
+		String[] returnVal = new String[primaryKeysColumnNumbers.length*2];
+		int n = 0;
+		int v = 0;
+		
+		for (int i = 0; i < primaryKeysColumnNumbers.length; i++) {
+			
+			n = i * 2;
+			v = n++;
+			returnVal[n] = (String)getValueAt(selectedIndex, i);
+			returnVal[v] = getColumnName(i);
+		}
+		return returnVal;
+	}
+	
 	public DataBaseTableModel(tableNames name) {
-		// TODO Auto-generated constructor stub
 		super();
 		this.tableName = name.toString();
 		try {
 	//		DBConnection.getConnection().setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			generateColumnNames();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -74,26 +89,33 @@ public class DataBaseTableModel extends MyTableModel {
 		ResultSet rset;
 		Statement statement = DBConnection.getConnection().createStatement();
 		sqlStatement = "SELECT * FROM " + tableName;
-//		if (keyFilter != null) {
-//			if (keyFilter[1] != null && !keyFilter[1].equals("")) {
-//				sqlStatement += " WHERE ";
-//				for (int i = 0; i < keyFilter.length; i++) {
-//					if (keyFilter[i + 1].equals(""))
-//						break;
-//					if (i != 0)
-//						sqlStatement += " AND ";
-//					sqlStatement += keyFilter[i] + "=" + "'" + keyFilter[i + 1]
-//							+ "'";
-//					i++;
-//				}
-//			}
-//		}
+		
 		if(!AuthentificationController.getAuthenticationInstance().isAdmin()) {
 			for (String string : columnNames) {
 				if(string.equals("PIB"))
 					sqlStatement += " WHERE PIB = '" + AuthentificationController.getAuthenticationInstance().getPibPreduzecaUlogovanogKorisnika() + "'";
 			}
 		}
+		
+		if(keyFilter != null) {
+			if (keyFilter[1] != null && !keyFilter[1].equals("")) {
+				if(sqlStatement.contains("WHERE"))
+					sqlStatement += " AND ";
+				else
+					sqlStatement += " WHERE ";
+				
+				for (int i = 0; i < keyFilter.length; i++) {
+					if (keyFilter[i + 1].equals(""))
+						break;
+					sqlStatement += keyFilter[i] + "=" + "'" + keyFilter[i + 1]
+							+ "'";
+					i++;
+					if (i != keyFilter.length-1)
+						sqlStatement += " AND ";
+				}
+			}
+		}
+		
 		System.out.println(sqlStatement);
 		
 		rset = statement.executeQuery(sqlStatement);

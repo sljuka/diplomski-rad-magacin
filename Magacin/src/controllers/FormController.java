@@ -1,39 +1,56 @@
 package controllers;
 
 import gui.DatePickerComponent;
-import gui.dialogs.DatabaseDialog;
+import gui.dialogs.ArtikliForma;
+import gui.dialogs.DatabaseForma;
+import gui.dialogs.MagacinskeKarticeForma;
+import gui.dialogs.MestaForma;
+import gui.dialogs.PopisniDokumentForma;
+import gui.dialogs.PoslovnaGodinaForma;
+import gui.dialogs.PoslovniObjektiForma;
+import gui.dialogs.PoslovniPartnerForma;
+import gui.dialogs.PreduzecaForma;
+import gui.dialogs.PrometniDokumentForma;
+import gui.dialogs.ZaposleniForma;
 import gui.dialogs.controller.states.AddState;
 import gui.dialogs.controller.states.EditState;
 import gui.dialogs.controller.states.SearchState;
 import gui.dialogs.controller.states.State;
 
 import java.awt.Component;
+import java.awt.MouseInfo;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
+import javax.swing.AbstractAction;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import model.DataBaseTableModel.tableNames;
 
-public class DialogController {
+
+public class FormController {
 
 	private State currentState;
 
-	private DatabaseDialog databaseDialog;
+	private DatabaseForma databaseDialog;
 
-	public DialogController(DatabaseDialog databaseDialog) {
+	public FormController(DatabaseForma databaseDialog) {
 		// TODO Auto-generated constructor stub
 		this.databaseDialog = databaseDialog;
 		setCurrentState(new EditState());
 		databaseDialog.getTable().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				currentState.mousePressed(e, DialogController.this);
+				currentState.mousePressed(e, FormController.this);
 		//		setCurrentState(new EditState());
 			}
 		});
@@ -69,6 +86,7 @@ public class DialogController {
 				tfcast.setText("");
 			}
 		}
+		databaseDialog.setKeyFilter(null);
 		databaseDialog.getTable().clearSelection();
 		databaseDialog.setFieldsEditable(false);
 		setCurrentState(new EditState());
@@ -161,8 +179,133 @@ public class DialogController {
 		return retVal;
 	}
 
-	public DatabaseDialog getDatabaseDialog() {
+	public DatabaseForma getDatabaseDialog() {
 		return databaseDialog;
+	}
+	
+	public void next() {
+		
+		if(databaseDialog.getTable().getSelectedRow() == -1) {
+			JOptionPane.showMessageDialog(	databaseDialog,
+											"Morate imati selektovani red",
+											"Obavestenje",
+											JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		tableNames name = databaseDialog.getTableName();
+		int mousePosX = MouseInfo.getPointerInfo().getLocation().x - databaseDialog.getLocation().x;
+		int mousePosY = MouseInfo.getPointerInfo().getLocation().y - databaseDialog.getLocation().y;
+		final JPopupMenu popup = new JPopupMenu();
+		
+		switch (name) {
+		case DRZAVA:
+			popup.add(new JMenuItem(new AbstractAction("Naseljena mesta") {
+				@Override
+				public void actionPerformed(ActionEvent arg1) {
+					// TODO Auto-generated method stub
+					DatabaseForma d = new MestaForma();
+					setupFilterAndVisibility(d);			
+				}
+			}));
+			break;
+			
+		case NASELJENO_MESTO:
+			popup.add(new JMenuItem(new AbstractAction("Preduzeca") {
+				@Override
+				public void actionPerformed(ActionEvent arg1) {
+					// TODO Auto-generated method stub
+					DatabaseForma d = new PreduzecaForma();
+					setupFilterAndVisibility(d);
+				}
+			}));
+			break;
+		
+		case PREDUZECE:
+			popup.add(new JMenuItem(new AbstractAction("Zaposleni") {
+				@Override
+				public void actionPerformed(ActionEvent arg1) {
+					// TODO Auto-generated method stub
+					DatabaseForma d = new ZaposleniForma();
+					setupFilterAndVisibility(d);
+				}
+			}));
+			
+			popup.add(new JMenuItem(new AbstractAction("Poslovni partneri") {
+				@Override
+				public void actionPerformed(ActionEvent arg1) {
+					// TODO Auto-generated method stub
+					DatabaseForma d = new PoslovniPartnerForma();
+					setupFilterAndVisibility(d);
+				}
+			}));
+			
+			popup.add(new JMenuItem(new AbstractAction("Poslovni objekat") {
+				@Override
+				public void actionPerformed(ActionEvent arg1) {
+					// TODO Auto-generated method stub
+					DatabaseForma d = new PoslovniObjektiForma();
+					setupFilterAndVisibility(d);
+				}
+			}));
+			popup.add(new JMenuItem(new AbstractAction("Poslovne godine") {
+				@Override
+				public void actionPerformed(ActionEvent arg1) {
+					// TODO Auto-generated method stub
+					DatabaseForma d = new PoslovnaGodinaForma();
+					setupFilterAndVisibility(d);
+				}
+			}));
+			popup.add(new JMenuItem(new AbstractAction("Artikli") {
+				@Override
+				public void actionPerformed(ActionEvent arg1) {
+					// TODO Auto-generated method stub
+					DatabaseForma d = new ArtikliForma();
+					setupFilterAndVisibility(d);
+				}
+			}));
+			break;
+	
+		case POSLOVNI_OBJEKAT:
+			popup.add(new JMenuItem(new AbstractAction("Popisni dokument") {
+				@Override
+				public void actionPerformed(ActionEvent arg1) {
+					// TODO Auto-generated method stub
+					DatabaseForma d = new PopisniDokumentForma();
+					setupFilterAndVisibility(d);
+				}
+			}));
+			popup.add(new JMenuItem(new AbstractAction("Magacinske kartice") {
+				@Override
+				public void actionPerformed(ActionEvent arg1) {
+					// TODO Auto-generated method stub
+					DatabaseForma d = new MagacinskeKarticeForma();
+					setupFilterAndVisibility(d);
+				}
+			}));
+			break;
+		
+		case POSLOVNA_GODINA:
+			popup.add(new JMenuItem(new AbstractAction("Prometni dokumenti") {
+				@Override
+				public void actionPerformed(ActionEvent arg1) {
+					// TODO Auto-generated method stub
+					DatabaseForma d = new PrometniDokumentForma();
+					setupFilterAndVisibility(d);
+				}
+			}));
+			break;
+			
+		default:
+			JOptionPane.showMessageDialog(	databaseDialog,
+					"Nije implementirano",
+					"Obavestenje",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		popup.show(databaseDialog, mousePosX, mousePosY);
+		
 	}
 
 	public void setCurrentState(State state) {
@@ -214,4 +357,17 @@ public class DialogController {
 		setCurrentState(new EditState());
 	}
 
+	public void setupFilterAndVisibility(DatabaseForma d) {
+		String[] keyPairs = databaseDialog.getModel().getSelectedKeyNameValuePair(databaseDialog.getTable().getSelectedRow());
+		if(keyPairs == null) {
+			JOptionPane.showMessageDialog(	databaseDialog,
+											"Nije implementiran menu item",
+											"Obavestenje",
+											JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		d.setKeyFilter(keyPairs);
+		d.setVisible(true);
+		databaseDialog.dispose();
+	}
 }
