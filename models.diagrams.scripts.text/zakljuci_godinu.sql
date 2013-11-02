@@ -24,14 +24,14 @@ AS
 	END
 
 	IF (SELECT COUNT(*) FROM PROMETNI_DOKUMENT WHERE PIB = @PIB
-		AND GODINA = @GODINA AND STATUS = 'F') > 0
+		AND GODINA = @GODINA AND STATUS_DOKUMENTA = 'F') > 0
 	BEGIN
 	 RAISERROR('Zakljucena godina ne sme sadrzati prometne dokumente u fazi pripreme!',11,2)
 	 RETURN
 	END
 	
 	IF (SELECT COUNT(*) FROM POPISNI_DOKUMENT WHERE PIB = @PIB
-		AND GODINA = @GODINA AND STATUS = 'F') > 0
+		AND GODINA = @GODINA AND STATUS_DOKUMENTA = 'F') > 0
 	BEGIN
 	 RAISERROR('Zakljucena godina ne sme sadrzati popisne dokumente u fazi pripreme!',11,2)
 	 RETURN
