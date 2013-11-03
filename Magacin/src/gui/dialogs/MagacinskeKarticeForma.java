@@ -112,9 +112,9 @@ public class MagacinskeKarticeForma extends DatabaseForma {
 		tfASifraArtikla.setText((String) modelAnalitika.getValueAt(index, 3));
 		tfAGodina.setText((String) modelAnalitika.getValueAt(index, 4));
 		tfABrojPrometnogDokumenta.setText((String) modelAnalitika.getValueAt(index, 5));
-		tfADatumPromijene.setText((String) modelAnalitika.getValueAt(index, 6));
+		tfADatumPromijene.setText((String) modelAnalitika.getValueAt(index, 7));
 
-		switch (((String) modelAnalitika.getValueAt(index, 7)).trim().toLowerCase()) {
+		switch (((String) modelAnalitika.getValueAt(index, 8)).trim().toLowerCase()) {
 		case "pr":
 			cbAVrstaDokumenta.setSelectedItem("Primka");
 			break;
@@ -135,12 +135,12 @@ public class MagacinskeKarticeForma extends DatabaseForma {
 			break;
 		}
 
-		tfASifraDokumenta.setText((String) modelAnalitika.getValueAt(index, 8));
-		tfAKolicina.setText((String) modelAnalitika.getValueAt(index, 9));
-		tfACena.setText((String) modelAnalitika.getValueAt(index, 10));
-		tfAVrednost.setText((String) modelAnalitika.getValueAt(index, 11));
+		tfASifraDokumenta.setText((String) modelAnalitika.getValueAt(index, 9));
+		tfAKolicina.setText((String) modelAnalitika.getValueAt(index, 10));
+		tfACena.setText((String) modelAnalitika.getValueAt(index, 11));
+		tfAVrednost.setText((String) modelAnalitika.getValueAt(index, 12));
 
-		switch (((String) modelAnalitika.getValueAt(index, 12)).trim().toUpperCase()) {
+		switch (((String) modelAnalitika.getValueAt(index, 13)).trim().toUpperCase()) {
 		case "U":
 			cbASmer.setSelectedItem("Ulaz");
 			break;
@@ -419,8 +419,7 @@ public class MagacinskeKarticeForma extends DatabaseForma {
 
 		try {
 			modelAnalitika.clear();
-			modelAnalitika.open(new String[] {"PIB", tfPib.getText(), "SIFRA_OBJEKTA", tfSifraObjekta.getText(),
-					"SIFRA_ARTIKLA", tfSifraArtikla.getText(), "GODINA", tfGodina.getText()});
+			modelAnalitika.open(model.getSelectedKeyNameValuePair(table.getSelectedRow()));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

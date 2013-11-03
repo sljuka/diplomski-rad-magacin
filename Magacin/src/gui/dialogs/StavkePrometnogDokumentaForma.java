@@ -185,11 +185,17 @@ public class StavkePrometnogDokumentaForma extends DatabaseForma {
 		editableFields[0] = tfPib;
 		editableFields[1] = tfGodina;
 		editableFields[2] = tfBrojPrometnogDokumenta;
-		editableFields[3] = tfSifraArtikla;
-		editableFields[4] = tfRbr;
+		editableFields[3] = tfRbr;
+		editableFields[4] = tfSifraArtikla;
 		editableFields[5] = tfKolicina;
 		editableFields[6] = tfCena;
 		editableFields[7] = tfVrednost;
+		
+		requiredFields = new int[4];
+		requiredFields[0] = 0;
+		requiredFields[1] = 2;
+		requiredFields[2] = 3;
+		requiredFields[3] = 4;
 	}
 
 	@Override
@@ -225,15 +231,17 @@ public class StavkePrometnogDokumentaForma extends DatabaseForma {
 		String pib = (String)model.getValueAt(index, 0);
 		String godina = (String)model.getValueAt(index, 1);
 		String brojPrometnogDokumenta = (String)model.getValueAt(index, 2);
-		String sifraArtikla = (String)model.getValueAt(index, 3);
-		String kolicina = (String)model.getValueAt(index, 3);
-		String cena = (String)model.getValueAt(index, 3);
-		String vrednost = (String)model.getValueAt(index, 3);
+		String redniBroj = (String)model.getValueAt(index, 3);
+		String sifraArtikla = (String)model.getValueAt(index, 4);
+		String kolicina = (String)model.getValueAt(index, 5);
+		String cena = (String)model.getValueAt(index, 6);
+		String vrednost = (String)model.getValueAt(index, 7);
 		
 		tfPib.setText(pib);
 		tfGodina.setText(godina);
 		tfBrojPrometnogDokumenta.setText(brojPrometnogDokumenta);
 		tfSifraArtikla.setText(sifraArtikla);
+		tfRbr.setText(redniBroj);
 		tfKolicina.setText(kolicina);
 		tfCena.setText(cena);
 		tfVrednost.setText(vrednost);
@@ -241,6 +249,8 @@ public class StavkePrometnogDokumentaForma extends DatabaseForma {
 		childRetVals[0] = pib;
 		childRetVals[1] = godina;
 		childRetVals[2] = brojPrometnogDokumenta;
+		
+		setFieldsEditable(true);
 	}
 
 	@Override

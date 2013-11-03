@@ -56,8 +56,8 @@ public class DataBaseTableModel extends MyTableModel {
 			
 			n = i * 2;
 			v = n++;
-			returnVal[n] = (String)getValueAt(selectedIndex, i);
-			returnVal[v] = getColumnName(i);
+			returnVal[n] = (String)getValueAt(selectedIndex, primaryKeysColumnNumbers[i]);
+			returnVal[v] = getColumnName(primaryKeysColumnNumbers[i]);
 		}
 		return returnVal;
 	}
@@ -104,13 +104,13 @@ public class DataBaseTableModel extends MyTableModel {
 				else
 					sqlStatement += " WHERE ";
 				
-				for (int i = 0; i < keyFilter.length; i++) {
+				for (int i = 0; i < keyFilter.length/2; i++) {
 					if (keyFilter[i + 1].equals(""))
 						break;
-					sqlStatement += keyFilter[i] + "=" + "'" + keyFilter[i + 1]
+					sqlStatement += keyFilter[i*2] + "=" + "'" + keyFilter[i*2 + 1]
 							+ "'";
 					i++;
-					if (i != keyFilter.length-1)
+					if (i < keyFilter.length/2 - 1)
 						sqlStatement += " AND ";
 				}
 			}
@@ -173,6 +173,8 @@ public class DataBaseTableModel extends MyTableModel {
 			retVal = sortedInsert(newRow);
 			fireTableRowsInserted(retVal, retVal);
 		}
+		else
+			System.out.println("insertion error");
 		return retVal;
 	}
 
@@ -290,7 +292,7 @@ public class DataBaseTableModel extends MyTableModel {
 			System.out.println(strings[1] +" "+Integer.parseInt(strings[3])+" "+Integer.parseInt(strings[5]));
 			proc.execute();
 			values.get(index)[9] = "p";
-			fireTableCellUpdated(index, 2);
+			refreshData();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

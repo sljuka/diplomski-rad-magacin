@@ -14,6 +14,7 @@ import gui.dialogs.PoslovniPartnerForma;
 import gui.dialogs.PreduzecaForma;
 import gui.dialogs.PrometniDokumentForma;
 import gui.dialogs.StavkePopisaForma;
+import gui.dialogs.StavkePrometnogDokumentaForma;
 import gui.dialogs.TipObjektaForma;
 import gui.dialogs.ZaposleniForma;
 
@@ -209,6 +210,7 @@ public class MainFrame extends JFrame {
 		 * POPISNI DOKUMENT
 		 * STAVKE POPISA
 		 * CLANOVI POPISNE KOMISIJE
+		 * STAVKE PROMETA
 		 */
 		
 		JMenuItem miZaposleni = new JMenuItem("Zaposleni");//
@@ -227,6 +229,7 @@ public class MainFrame extends JFrame {
 		JMenuItem miPrometniDokumenti = new JMenuItem("Prometni dokumenti");//
 		JMenuItem miStavkaPopisa = new JMenuItem("Stavka popisa");//
 		JMenuItem miTipoviObjekta = new JMenuItem("Tipovi objekta");
+		JMenuItem miStavkePrometa = new JMenuItem("Stavke prometa");
 		
 		miTipoviObjekta.addActionListener(new ActionListener() {
 			
@@ -381,6 +384,16 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
+		miStavkePrometa.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				StavkePrometnogDokumentaForma m = new StavkePrometnogDokumentaForma();
+				m.setVisible(true);
+			}
+		});
+		
 		menuAdministrator.add(miDrzave);
 		menuAdministrator.add(miNaseljenaMesta);
 		menuAdministrator.add(miPreduzece);
@@ -399,7 +412,7 @@ public class MainFrame extends JFrame {
 		menuMagacin.add(miPopisniDokumenti);
 		menuMagacin.add(miStavkaPopisa);
 		menuMagacin.add(miClanoviPopisneKomisije);
-		
+		menuMagacin.add(miStavkePrometa);
 		
 		menuBar.add(menuAdministrator);
 		

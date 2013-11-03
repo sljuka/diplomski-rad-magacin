@@ -30,6 +30,7 @@ public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 	private JTextField tfSifraArtikla;
 	private JTextField tfGodina;
 	private JTextField tfBrojPrometnogDokumenta;
+	private JTextField tfRedniBroj;
 	private DatePickerComponent tfDatumPromijene;
 	private JComboBox<String> cbVrstaDokumenta;
 	private JTextField tfSifraDokumenta;
@@ -57,6 +58,9 @@ public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 		
 		tfBrojPrometnogDokumenta = new JTextField(5);
 		tfBrojPrometnogDokumenta.setDocument(new DocumentNumericLimited(5));
+		
+		tfRedniBroj = new JTextField(8);
+		tfRedniBroj.setDocument(new DocumentNumericLimited(5));
 		
 		tfCena = new NumericTextField(14, new DecimalFormat("0000.00"));
 		
@@ -141,6 +145,9 @@ public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 
 		tfPanel.add(new JLabel("Vrednost"));
 		tfPanel.add(tfVrednost, "wrap");
+		
+		tfPanel.add(new JLabel("Redni broj stavke"));
+		tfPanel.add(tfRedniBroj);
 
 		tfPanel.add(new JLabel("Smer"));
 		tfPanel.add(cbSmer);
@@ -162,9 +169,10 @@ public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 		editableFields[0] = tfRbrAnalitike;
 		editableFields[1] = tfSifraObjekta;
 		editableFields[2] = tfPib;
-		editableFields[4] = tfGodina;
 		editableFields[3] = tfSifraArtikla;
+		editableFields[4] = tfGodina;
 		editableFields[5] = tfBrojPrometnogDokumenta;
+		editableFields[6] = tfRedniBroj;
 		editableFields[6] = tfDatumPromijene;
 		editableFields[7] = cbVrstaDokumenta;
 		editableFields[8] = tfSifraDokumenta;
@@ -211,7 +219,7 @@ public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 		tfSifraArtikla.setText((String) model.getValueAt(index, 3));
 		tfGodina.setText((String) model.getValueAt(index, 4));
 		tfBrojPrometnogDokumenta.setText((String) model.getValueAt(index, 5));
-		tfDatumPromijene.setText((String) model.getValueAt(index, 6));
+		tfDatumPromijene.setText((String) model.getValueAt(index, 7));
 
 		switch (((String) model.getValueAt(index, 7)).trim().toLowerCase()) {
 		case "pr":

@@ -166,10 +166,15 @@ public class MestaForma extends DatabaseForma {
 	@Override
 	public void populateFieldsArray() {
 		// TODO Auto-generated method stub
-		editableFields = new Component[4];
+		editableFields = new Component[3];
 		editableFields[0] = tfSifraDrzave;
 		editableFields[1] = tfSifraMesta;
 		editableFields[2] = tfNazivMesta;
+		
+		requiredFields = new int[3];
+		requiredFields[0] = 0;
+		requiredFields[1] = 1;
+		requiredFields[2] = 2;
 
 	}
 

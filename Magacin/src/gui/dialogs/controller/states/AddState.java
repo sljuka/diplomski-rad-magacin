@@ -14,6 +14,13 @@ public class AddState extends State {
 	@Override
 	public void handleState(FormController controller) {
 		// TODO Auto-generated method stub
+		if(!controller.getDatabaseDialog().areRequiredFieldsEntered()) {
+			JOptionPane.showMessageDialog(	controller.getDatabaseDialog(),
+					"Morate popuniti sva obavezna polja",
+					"Obavestenje",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
 		if(JOptionPane.showConfirmDialog(controller.getDatabaseDialog(), "Da li ste sigurni da zelite da dodate novi podatak", 
 				"Dodavanje podataka", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.CANCEL_OPTION)
 			return;
@@ -28,6 +35,8 @@ public class AddState extends State {
 			if (e.getMessage().startsWith("Violation of PRIMARY KEY constraint"))
 				JOptionPane.showMessageDialog(null, "Stavka sa odabranim kljucem vec postoji u bazi", 
 							"Dodavanje stavke", JOptionPane.ERROR_MESSAGE);
+			else
+				e.printStackTrace();
 		}
 		controller.setCurrentState(new EditState());
 	}

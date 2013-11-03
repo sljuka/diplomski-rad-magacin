@@ -2,6 +2,7 @@ package gui.dialogs;
 import gui.DocumentLimit;
 
 import java.awt.Component;
+import java.awt.TextField;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -121,6 +122,9 @@ public class DrzaveForma extends DatabaseForma {
 		editableFields = new Component[2];
 		editableFields[0] = tfSifraDrzave;
 		editableFields[1] = tfNazivDrzave;
+		
+		requiredFields = new int[1];
+		requiredFields[0] = 0;
 	}
 
 	@Override
@@ -147,4 +151,5 @@ public class DrzaveForma extends DatabaseForma {
 		tfNazivDrzave.setEditable(b);
 		tfSifraDrzave.setEditable(b);
 	}
+
 }

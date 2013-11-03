@@ -61,7 +61,7 @@ public abstract class DatabaseForma extends JDialog {
 	protected int[] primaryKeysColumnNumber;
 
 	protected Component[] statusBasedButtons;
-
+	protected int[] requiredFields;
 	protected JTextField parrentsTextField;
 	
 	protected StatusBar statusBar;
@@ -267,6 +267,17 @@ public abstract class DatabaseForma extends JDialog {
 	
 	public tableNames getTableName() {
 		return ID;
+	}
+	
+	public boolean areRequiredFieldsEntered() {
+		if(requiredFields == null)
+			return true;
+		for (int field : requiredFields) {
+			JTextField tf = (JTextField)editableFields[field];
+			if(tf.getText().equals(""))
+				return false;
+		}
+		return true;
 	}
 
 }

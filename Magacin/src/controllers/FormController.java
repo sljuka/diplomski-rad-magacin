@@ -11,6 +11,7 @@ import gui.dialogs.PoslovniObjektiForma;
 import gui.dialogs.PoslovniPartnerForma;
 import gui.dialogs.PreduzecaForma;
 import gui.dialogs.PrometniDokumentForma;
+import gui.dialogs.StavkePrometnogDokumentaForma;
 import gui.dialogs.ZaposleniForma;
 import gui.dialogs.controller.states.AddState;
 import gui.dialogs.controller.states.EditState;
@@ -170,8 +171,6 @@ public class FormController {
 			if (components[i] instanceof DatePickerComponent) {
 				retVal[i] = ((DatePickerComponent)components[i]).getText();
 			}
-			
-				
 			if (retVal[i].equals(""))
 				retVal[i] = null;
 		}
@@ -296,6 +295,17 @@ public class FormController {
 			}));
 			break;
 			
+		case PROMETNI_DOKUMENT:
+			popup.add(new JMenuItem(new AbstractAction("Stavke prometnog dokumenta") {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					DatabaseForma d = new StavkePrometnogDokumentaForma();
+					setupFilterAndVisibility(d);
+				}
+			}));
+			break;
 		default:
 			JOptionPane.showMessageDialog(	databaseDialog,
 					"Nije implementirano",
@@ -368,6 +378,6 @@ public class FormController {
 		}
 		d.setKeyFilter(keyPairs);
 		d.setVisible(true);
-		databaseDialog.dispose();
+		//databaseDialog.dispose();
 	}
 }

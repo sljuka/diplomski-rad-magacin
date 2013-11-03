@@ -83,13 +83,13 @@ public class PreduzecaForma extends DatabaseForma {
 		initializeStatusBasedComponents();
 		setEnabledStatusBasedComponents(false);
 		
-		JPanel tableBtnPanel = new JPanel();				//ZAPOSLENI, POSLOVNI OBJEKTI
-		tableBtnPanel.setLayout(new MigLayout());
-		tableBtnPanel.add(btnZaposleni, "width :130:");
-		tableBtnPanel.add(btnPoslovniObjekti, "width :130:");
-		tableBtnPanel.add(btnArtikli, "width :130:");
-		tableBtnPanel.add(btnPoslovniPartneri, "width :130:");
-		add(tableBtnPanel, "align left, wrap");
+//		JPanel tableBtnPanel = new JPanel();				//ZAPOSLENI, POSLOVNI OBJEKTI
+//		tableBtnPanel.setLayout(new MigLayout());
+//		tableBtnPanel.add(btnZaposleni, "width :130:");
+//		tableBtnPanel.add(btnPoslovniObjekti, "width :130:");
+//		tableBtnPanel.add(btnArtikli, "width :130:");
+//		tableBtnPanel.add(btnPoslovniPartneri, "width :130:");
+//		add(tableBtnPanel, "align left, wrap");
 		
 		
 		btnZoomMesta = new JButton("...");
@@ -219,6 +219,12 @@ public class PreduzecaForma extends DatabaseForma {
 		editableFields[1] = tfSifraDrzave;
 		editableFields[2] = tfSifraMesta;
 		editableFields[3] = tfNazivPreduzeca;
+		
+		requiredFields = new int[4];
+		requiredFields[0] = 0;
+		requiredFields[1] = 1;
+		requiredFields[2] = 2;
+		requiredFields[3] = 3;
 	}
 
 	@Override

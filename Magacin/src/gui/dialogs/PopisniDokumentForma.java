@@ -154,10 +154,10 @@ public class PopisniDokumentForma extends DatabaseForma {
 	public void populateFieldsArray() {
 		// TODO Auto-generated method stub
 		editableFields = new Component[6];
-		editableFields[0] = txtGodina;
-		editableFields[1] = txtPib;
-		editableFields[2] = txtSifraObjekta;
-		editableFields[3] = txtBrojPopisa;
+		editableFields[0] = txtBrojPopisa;
+		editableFields[1] = txtGodina;
+		editableFields[2] = txtPib;
+		editableFields[3] = txtSifraObjekta;
 		editableFields[4] = txtDatumPopisa;
 		editableFields[5] = cbStatus;
 	}
@@ -255,6 +255,17 @@ public class PopisniDokumentForma extends DatabaseForma {
 		btnZoomPoslovniObjekat.setEnabled(b);
 		txtNazivObjekta.setEditable(false);
 		txtNazivPreduzeca.setEditable(false);
+	}
+	
+	public String comboBoxHandler(JComboBox cb) {
+		// TODO Auto-generated method stub
+		if (cb.getSelectedItem().equals("Faza formiranja"))
+			return "f";
+		else if (cb.getSelectedItem().equals("Proknjizen"))
+			return "p";
+		else if (cb.getSelectedItem().equals("Storniran"))
+			return "s";
+		return null;
 	}
 
 }

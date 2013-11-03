@@ -177,7 +177,7 @@ public class PrometniDokumentForma extends DatabaseForma {
 				// TODO Auto-generated method stub
 				PoslovnaGodinaForma p = new PoslovnaGodinaForma();
 				p.setParentDialog(PrometniDokumentForma.this);
-				p.setKeyFilter(new String[] {"ZAKLJUCENA", "False", "PIB", tfPib.getText()});
+				p.setKeyFilter(new String[] {"ZAKLJUCENA", "False"});
 				p.setVisible(true);
 			}
 		});
@@ -341,6 +341,13 @@ public class PrometniDokumentForma extends DatabaseForma {
 		editableFields[8] = tfDatumKnjizenja;
 		editableFields[9] = cbStatus;
 	}
+	
+	@Override
+	public void initializePrimaryKeysNumbers() {
+		// TODO Auto-generated method stub
+		primaryKeysColumnNumber = new int[1];
+		primaryKeysColumnNumber[0] = 2;
+	}
 
 	@Override
 	public void childResponse(tableNames iD2, String[] childRetVals) {
@@ -432,13 +439,6 @@ public class PrometniDokumentForma extends DatabaseForma {
 		// TODO Auto-generated method stub
 		statusBasedButtons = new Component[1];
 		statusBasedButtons[0] = btnStavkePrometnogDokumenta;
-	}
-
-	@Override
-	public void initializePrimaryKeysNumbers() {
-		// TODO Auto-generated method stub
-		primaryKeysColumnNumber = new int[1];
-		primaryKeysColumnNumber[0] = 2;
 	}
 
 	@Override
