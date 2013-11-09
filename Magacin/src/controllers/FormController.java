@@ -42,21 +42,22 @@ public class FormController {
 
 	private State currentState;
 
-	private DatabaseForma databaseDialog;
+	private DatabaseForma databaseForm;
 
-	public FormController(DatabaseForma databaseDialog) {
-		// TODO Auto-generated constructor stub
-		this.databaseDialog = databaseDialog;
+	public FormController() {
 		setCurrentState(new EditState());
-		databaseDialog.getTable().addMouseListener(new MouseAdapter() {
+	}
+	
+	public void setForm(DatabaseForma databaseForm) {
+		this.databaseForm = databaseForm;
+			databaseForm.getTable().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				currentState.mousePressed(e, FormController.this);
-		//		setCurrentState(new EditState());
 			}
 		});
+		databaseForm.getStatusBar().setText(currentState.getName());
 	}
-
 
 	public void addAction() {
 		// TODO Auto-generated method stub
@@ -66,11 +67,11 @@ public class FormController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Component c = databaseDialog.getFields()[0];
+		Component c = databaseForm.getInputs()[0];
 		c.requestFocusInWindow();
-		databaseDialog.setFieldsEditable(true);
-		databaseDialog.setZoomButtons(true);
-		for (Component comp : databaseDialog.getFields()) {
+		databaseForm.setFieldsEditable(true);
+		databaseForm.setZoomButtons(true);
+		for (Component comp : databaseForm.getInputs()) {
 			if (comp instanceof JTextField) {
 				JTextField tfcast = (JTextField) comp;
 				tfcast.setText("");
@@ -81,15 +82,15 @@ public class FormController {
 
 	public void cancelAction() {
 		// TODO Auto-generated method stub
-		for (Component comp : databaseDialog.getFields()) {
+		for (Component comp : databaseForm.getInputs()) {
 			if (comp instanceof JTextField) {
 				JTextField tfcast = (JTextField) comp;
 				tfcast.setText("");
 			}
 		}
-		databaseDialog.setKeyFilter(null);
-		databaseDialog.getTable().clearSelection();
-		databaseDialog.setFieldsEditable(false);
+		databaseForm.setKeyFilter(null);
+		databaseForm.getTable().clearSelection();
+		databaseForm.setFieldsEditable(false);
 		setCurrentState(new EditState());
 	}
 
@@ -100,18 +101,18 @@ public class FormController {
 
 	public void jumpToPreviousForm() {
 		// TODO Auto-generated method stub
-		if (databaseDialog.getParentDialog() == null)
+		if (databaseForm.getParentDialog() == null)
 			return;
-		if (databaseDialog.getParrentsTextField() != null) {
-			databaseDialog.getParrentsTextField().setText(databaseDialog.getChildRetVals()[0]);
-			databaseDialog.setVisible(false);
+		if (databaseForm.getParrentsTextField() != null) {
+			databaseForm.getParrentsTextField().setText(databaseForm.getChildRetVals()[0]);
+			databaseForm.setVisible(false);
 			return;
 		}
-		String[] childRetVals = databaseDialog.getChildRetVals();
+		String[] childRetVals = databaseForm.getChildRetVals();
 		if (childRetVals[0] == null || childRetVals[0].equals(""))		// Bar prvi mora da ima neku informaciju!!!
 			return;
-		databaseDialog.getParentDialog().childResponse(databaseDialog.getID(), childRetVals);
-		databaseDialog.dispose();
+		databaseForm.getParentDialog().childResponse(databaseForm.getTableName(), childRetVals);
+		databaseForm.dispose();
 	}
 
 	public void jumpToNextForm() {
@@ -121,16 +122,16 @@ public class FormController {
 
 	public void deleteAction() {
 		// TODO Auto-generated method stub
-		int selectedRow = databaseDialog.getTable().getSelectedRow();
+		int selectedRow = databaseForm.getTable().getSelectedRow();
 		if (selectedRow<0)
 			return;
-		if(JOptionPane.showConfirmDialog(databaseDialog, "Delete selected row?", "Confirmation", JOptionPane.YES_NO_OPTION) == 0){
+		if(JOptionPane.showConfirmDialog(databaseForm, "Delete selected row?", "Confirmation", JOptionPane.YES_NO_OPTION) == 0){
 			try {
-				databaseDialog.getModel().deleteRow(selectedRow, databaseDialog.getPrimaryKeysColumnNumbers());
+				databaseForm.getModel().deleteRow(selectedRow, databaseForm.getPrimaryKeysColumnNumbers());
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				if (e.getMessage().startsWith("The DELETE statement conflicted with the REFERENCE constraint"))
-					JOptionPane.showMessageDialog(databaseDialog, "Stavka se ne moze obrisati posto je povezana s drugom stavkom u bazi",
+					JOptionPane.showMessageDialog(databaseForm, "Stavka se ne moze obrisati posto je povezana s drugom stavkom u bazi",
 							"Confirmation", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
@@ -139,11 +140,11 @@ public class FormController {
 
 	public void searchAction() {
 		// TODO Auto-generated method stub
-		databaseDialog.setFieldsEditable(true);
-		Component c = databaseDialog.getFields()[0];  //omoguci unos u textfildove
+		databaseForm.setFieldsEditable(true);
+		Component c = databaseForm.getInputs()[0];  //omoguci unos u textfildove
 		c.requestFocusInWindow();
 		
-		for (Component comp : databaseDialog.getFields()) {
+		for (Component comp : databaseForm.getInputs()) {
 			if (comp instanceof JTextField) {
 				JTextField tfcast = (JTextField) comp;
 				tfcast.setText("");
@@ -152,12 +153,12 @@ public class FormController {
 		setCurrentState(new SearchState());		
 		this.getDatabaseDialog().getModel().getValues().clear();   //isprazni tabelu
 		this.getDatabaseDialog().getModel().fireTableDataChanged();
-		databaseDialog.setFieldsEditable(true);
+		databaseForm.setFieldsEditable(true);
 	}
 
 	public String[] getComponentStrings() {
-		String[] retVal = new String[databaseDialog.getFields().length];
-		Component[] components = databaseDialog.getFields(); 
+		String[] retVal = new String[databaseForm.getInputs().length];
+		Component[] components = databaseForm.getInputs(); 
 		for (int i = 0; i<components.length; i++) {
 			if (components[i] instanceof JTextField)
 				retVal[i] = ((JTextField)components[i]).getText();
@@ -166,7 +167,7 @@ public class FormController {
 				retVal[i] = cb.isSelected()?"True":"False";
 			}
 			if (components[i] instanceof JComboBox) {
-				retVal[i] = databaseDialog.comboBoxHandler((JComboBox) components[i]);
+				retVal[i] = databaseForm.comboBoxHandler((JComboBox) components[i]);
 			}
 			if (components[i] instanceof DatePickerComponent) {
 				retVal[i] = ((DatePickerComponent)components[i]).getText();
@@ -179,22 +180,22 @@ public class FormController {
 	}
 
 	public DatabaseForma getDatabaseDialog() {
-		return databaseDialog;
+		return databaseForm;
 	}
 	
 	public void next() {
 		
-		if(databaseDialog.getTable().getSelectedRow() == -1) {
-			JOptionPane.showMessageDialog(	databaseDialog,
+		if(databaseForm.getTable().getSelectedRow() == -1) {
+			JOptionPane.showMessageDialog(	databaseForm,
 											"Morate imati selektovani red",
 											"Obavestenje",
 											JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
-		tableNames name = databaseDialog.getTableName();
-		int mousePosX = MouseInfo.getPointerInfo().getLocation().x - databaseDialog.getLocation().x;
-		int mousePosY = MouseInfo.getPointerInfo().getLocation().y - databaseDialog.getLocation().y;
+		tableNames name = databaseForm.getTableName();
+		int mousePosX = MouseInfo.getPointerInfo().getLocation().x - databaseForm.getLocation().x;
+		int mousePosY = MouseInfo.getPointerInfo().getLocation().y - databaseForm.getLocation().y;
 		final JPopupMenu popup = new JPopupMenu();
 		
 		switch (name) {
@@ -307,38 +308,37 @@ public class FormController {
 			}));
 			break;
 		default:
-			JOptionPane.showMessageDialog(	databaseDialog,
+			JOptionPane.showMessageDialog(	databaseForm,
 					"Nije implementirano",
 					"Obavestenje",
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
-		popup.show(databaseDialog, mousePosX, mousePosY);
+		popup.show(databaseForm, mousePosX, mousePosY);
 		
 	}
 
 	public void setCurrentState(State state) {
 		if (currentState instanceof SearchState) {
 			try {
-				databaseDialog.getModel().refreshData();
+				databaseForm.getModel().refreshData();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		currentState = state;
-		databaseDialog.getStatusBar().setText(state.getName());
 	}
 
 	public void zakljuciGodinu(String[] godina) {
 		// TODO Auto-generated method stub
-		if(JOptionPane.showConfirmDialog(databaseDialog, "Da li ste sigurni da zelite da zakljucite godinu?", 
+		if(JOptionPane.showConfirmDialog(databaseForm, "Da li ste sigurni da zelite da zakljucite godinu?", 
 				"Zakljucivanje godine", JOptionPane.OK_CANCEL_OPTION) == 0) {
-			int index = databaseDialog.getTable().getSelectedRow();
+			int index = databaseForm.getTable().getSelectedRow();
 			try {
-				databaseDialog.getModel().zakljuciGodinu(index, godina);
-				databaseDialog.getTable().setRowSelectionInterval(index, index);
+				databaseForm.getModel().zakljuciGodinu(index, godina);
+				databaseForm.getTable().setRowSelectionInterval(index, index);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -354,10 +354,10 @@ public class FormController {
 
 	public void proknjiziDokument(String[] strings) {
 		// TODO Auto-generated method stub
-		if(JOptionPane.showConfirmDialog(databaseDialog, "Da li ste sigurni da zelite da proknjizite prometni dokument?", 
+		if(JOptionPane.showConfirmDialog(databaseForm, "Da li ste sigurni da zelite da proknjizite prometni dokument?", 
 				"Proknjizavanje", JOptionPane.OK_CANCEL_OPTION) == 0) {
-			int index = databaseDialog.getTable().getSelectedRow();
-			databaseDialog.getModel().proknjiziDokument(index, strings);
+			int index = databaseForm.getTable().getSelectedRow();
+			databaseForm.getModel().proknjiziDokument(index, strings);
 		}
 	}
 
@@ -368,9 +368,9 @@ public class FormController {
 	}
 
 	public void setupFilterAndVisibility(DatabaseForma d) {
-		String[] keyPairs = databaseDialog.getModel().getSelectedKeyNameValuePair(databaseDialog.getTable().getSelectedRow());
+		String[] keyPairs = databaseForm.getModel().getSelectedKeyNameValuePair(databaseForm.getTable().getSelectedRow());
 		if(keyPairs == null) {
-			JOptionPane.showMessageDialog(	databaseDialog,
+			JOptionPane.showMessageDialog(	databaseForm,
 											"Nije implementiran menu item",
 											"Obavestenje",
 											JOptionPane.WARNING_MESSAGE);

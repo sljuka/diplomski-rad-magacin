@@ -44,7 +44,7 @@ public class ArtikliForma extends DatabaseForma {
 		// TODO Auto-generated constructor stub
 		super();
 		ID = tableNames.ARTIKAL;
-		setTitle(ID.toString());
+		setTitle(tableName.toString());
 		setSizeAndMove(1000, 600);
 		setLocationRelativeTo(null);
 		initializeComponents();

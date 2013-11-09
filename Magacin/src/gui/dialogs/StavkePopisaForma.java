@@ -42,9 +42,7 @@ public class StavkePopisaForma extends DatabaseForma {
 	private JButton btnZoomPopisniDokument;
 
 	public StavkePopisaForma() {
-		super();
-		ID = tableNames.STAVKE_POPISA;
-		setTitle(ID.toString());
+		super(tableNames.STAVKE_POPISA);
 		setSizeAndMove(750, 450);
 		initializeComponents();
 		initializeStatusBar();

@@ -54,9 +54,8 @@ public class ZaposleniForma extends DatabaseForma {
 	
 	public ZaposleniForma() {
 		// TODO Auto-generated constructor stub
-		super();
-		ID = tableNames.ZAPOSLENI;
-		setTitle(ID.toString());
+		super(tableNames.ZAPOSLENI);
+		setTitle(tableName.toString());
 		setSizeAndMove(700, 420);
 		initializeComponents();
 		initializeStatusBar();

@@ -3,6 +3,7 @@ package app;
 import gui.dialogs.AnalitikaMagacinskeKarticeForma;
 import gui.dialogs.ArtikliForma;
 import gui.dialogs.ClanPopisneKomisijeForma;
+import gui.dialogs.DatabaseForma;
 import gui.dialogs.DrzaveForma;
 import gui.dialogs.MagacinskeKarticeForma;
 import gui.dialogs.MernaJedinicaForma;
@@ -38,6 +39,7 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 import controllers.AuthentificationController;
+import controllers.FormController;
 
 import db.DBConnection;
 
@@ -236,8 +238,10 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				TipObjektaForma t = new TipObjektaForma();
-				t.setVisible(true);
+				FormController fc = new FormController();
+				DatabaseForma form = new TipObjektaForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		
@@ -245,8 +249,10 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ClanPopisneKomisijeForma cpd = new ClanPopisneKomisijeForma();
-				cpd.setVisible(true);
+				FormController fc = new FormController();
+				ClanPopisneKomisijeForma form = new ClanPopisneKomisijeForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 				
 			}
 		});
@@ -255,8 +261,10 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PreduzecaForma p = new PreduzecaForma();
-				p.setVisible(true);
+				FormController fc = new FormController();
+				PreduzecaForma form = new PreduzecaForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		
@@ -265,8 +273,10 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				PoslovniObjektiForma p = new PoslovniObjektiForma();
-				p.setVisible(true);
+				FormController fc = new FormController();
+				PoslovniObjektiForma form = new PoslovniObjektiForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		miZaposleni.addActionListener(new ActionListener() {
@@ -274,53 +284,60 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				ZaposleniForma z = new ZaposleniForma();
-				z.setVisible(true);
+				FormController fc = new FormController();
+				ZaposleniForma form = new ZaposleniForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		miPoslovnaGodina.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				PoslovnaGodinaForma p = new PoslovnaGodinaForma();
-				p.setVisible(true);
+				FormController fc = new FormController();
+				PoslovnaGodinaForma form = new PoslovnaGodinaForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		miPoslovniPartner.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				PoslovniPartnerForma p = new PoslovniPartnerForma();
-				p.setVisible(true);
+				FormController fc = new FormController();
+				PoslovniPartnerForma form = new PoslovniPartnerForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		miArtikli.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				ArtikliForma d = new ArtikliForma();
-				d.setVisible(true);
+				FormController fc = new FormController();
+				ArtikliForma form = new ArtikliForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		miMagacinkseKartice.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				MagacinskeKarticeForma m = new MagacinskeKarticeForma();
-				m.setVisible(true);
+				FormController fc = new FormController();
+				MagacinskeKarticeForma form = new MagacinskeKarticeForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		miPrometniDokumenti.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				PrometniDokumentForma d = new PrometniDokumentForma();
-				d.setVisible(true);
+				FormController fc = new FormController();
+				PrometniDokumentForma form = new PrometniDokumentForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		
@@ -328,9 +345,10 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				PopisniDokumentForma pdD = new PopisniDokumentForma();
-				pdD.setVisible(true);
+				FormController fc = new FormController();
+				PopisniDokumentForma form = new PopisniDokumentForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		
@@ -338,9 +356,10 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				StavkePopisaForma stvDlg = new StavkePopisaForma();
-				stvDlg.setVisible(true);
+				FormController fc = new FormController();
+				StavkePopisaForma form = new StavkePopisaForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		
@@ -348,9 +367,10 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				AnalitikaMagacinskeKarticeForma anlDlg = new AnalitikaMagacinskeKarticeForma();
-				anlDlg.setVisible(true);
+				FormController fc = new FormController();
+				AnalitikaMagacinskeKarticeForma form = new AnalitikaMagacinskeKarticeForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		
@@ -358,9 +378,10 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				DrzaveForma drzD = new DrzaveForma();
-				drzD.setVisible(true);
+				FormController fc = new FormController();
+				DatabaseForma form = new DrzaveForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		
@@ -368,9 +389,10 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				MestaForma m = new MestaForma();
-				m.setVisible(true);
+				FormController fc = new FormController();
+				MestaForma form = new MestaForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		
@@ -378,9 +400,10 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				MernaJedinicaForma m = new MernaJedinicaForma();
-				m.setVisible(true);
+				FormController fc = new FormController();
+				MernaJedinicaForma form = new MernaJedinicaForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		
@@ -388,9 +411,10 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				StavkePrometnogDokumentaForma m = new StavkePrometnogDokumentaForma();
-				m.setVisible(true);
+				FormController fc = new FormController();
+				StavkePrometnogDokumentaForma form = new StavkePrometnogDokumentaForma(fc);
+				fc.setForm(form);
+				form.setVisible(true);
 			}
 		});
 		

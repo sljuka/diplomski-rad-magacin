@@ -1,6 +1,9 @@
 package gui.dialogs;
 
 import gui.DocumentLimit;
+import gui.IInput;
+import gui.TextInput;
+import gui.ZoomInput;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -44,117 +47,48 @@ import model.DataBaseTableModel.tableNames;
 
 public class MestaForma extends DatabaseForma {
 
-	private JTextField tfSifraDrzave;
-	private JTextField tfSifraMesta;
-	private JTextField tfNazivMesta;
-
-	private JTextField tfNazivDrzave;
-
-	private JButton btnZoomDrzave;
-
-	public MestaForma() {
+	private IInput zSifraDrzave;
+	private IInput tfSifraMesta;
+	private IInput tfNazivMesta;
+	
+	public MestaForma(FormController controller) {
 		// TODO Auto-generated constructor stub
-		super();
-		ID = tableNames.NASELJENO_MESTO;
-		setTitle(ID.toString());
-		setSizeAndMove(500, 300);
-		initializeComponents();
-		initializeStatusBar();
-		populateFieldsArray();
-		setFieldsEditable(false);
-		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
+		super(controller, tableNames.NASELJENO_MESTO, 600, 300);
 	}
 
 	@Override
-	protected void initializeComponents() {
-		// TODO Auto-generated method stub
+	protected void initializeInputFields(FormController controller) {
+		
 		setLayout(new MigLayout("", "[align r][align l, grow, fill]", ""));
 
-		tfSifraDrzave = new JTextField(3);
-		tfSifraDrzave.setDocument(new DocumentLimit(3));
+		zSifraDrzave = new ZoomInput(this, tableNames.DRZAVA, "Sifra drzave", 3, 30);
 
-		tfSifraMesta = new JTextField(3);
-		tfSifraMesta.setDocument(new DocumentLimit(5));
-		tfNazivMesta = new JTextField(30);
-		tfNazivMesta.setDocument(new DocumentLimit(40));
+		tfSifraMesta = new TextInput(3, "Sifra mesta", new DocumentLimit(5));
+		tfNazivMesta = new TextInput(30, "Naziv mesta", null);
+		
+		inputPanel = new JPanel();
+		inputPanel.setLayout(new MigLayout("center"));
 
-		tfNazivDrzave = new JTextField(20);
+		inputPanel.add(zSifraDrzave.getComponent(), "wrap");
 
-		initializeTable();
-		controller = new FormController(this);
-		initializeToolbar();
+		inputPanel.add(tfSifraMesta.getComponent(), "wrap");
 
-		add(toolbar, "dock north");
-		add(new JScrollPane(table), "dock north");
-
-		btnZoomDrzave = new JButton("...");
-		btnZoomDrzave.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				DrzaveForma d = new DrzaveForma();
-				d.setParentDialog(MestaForma.this);
-				d.setVisible(true);
-			}
-		});
-
-		tfSifraDrzave.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				String sifraDrzave = tfSifraDrzave.getText().trim();
-				try {
-					if (sifraDrzave != "") {
-						String naziv = Lookup.getDrzava(sifraDrzave);
-						tfNazivDrzave.setText(naziv);
-					}
-				} catch (SQLException e1) {
-
-				}
-			}
-		});
-
-		JPanel tfPanel = new JPanel();
-		tfPanel.setLayout(new MigLayout("center"));
-
-		tfPanel.add(new JLabel("Sifra drzave"));
-		tfPanel.add(tfSifraDrzave, "grow 0, split 3");
-		tfPanel.add(btnZoomDrzave, "grow 0");
-		tfPanel.add(tfNazivDrzave, "wrap 5");
-
-		tfPanel.add(new JLabel("Sifra mesta"));
-		tfPanel.add(tfSifraMesta, "wrap");
-
-		tfPanel.add(new JLabel("Naziv mesta"));
-		tfPanel.add(tfNazivMesta, "wrap");
-
-		add(tfPanel);
-
-		btnPanel = new JPanel();
-		btnPanel.setLayout(new MigLayout("align right"));
-		btnPanel.add(new JButton(new ActionCommit(controller)), "wrap");
-		btnPanel.add(new JButton(new ActionCancelAction(controller)));
-		add(btnPanel, "cell 3 0");
-
-		populateFieldsArray();
-		setFieldsEditable(false);
-
+		inputPanel.add(tfNazivMesta.getComponent(), "wrap");
+		
 	}
-
+	
 	public void sync() {
 		int index = table.getSelectedRow();
 		if (index < 0) {
-			tfSifraDrzave.setText("");
-			tfSifraMesta.setText("");
-			tfNazivMesta.setText("");
-			tfNazivDrzave.setText("");
-			setFieldsEditable(false);
-			return;
+			for (IInput input : inputsArray) {
+				input.setText("");
+			}
 		}
 		String sifraD = (String) model.getValueAt(index, 0);
 		String sifraM = (String) model.getValueAt(index, 1);
 		String nazivM = (String) model.getValueAt(index, 2);
 
-		tfSifraDrzave.setText(sifraD);
+		zSifraDrzave.setText(sifraD);
 		tfSifraMesta.setText(sifraM);
 		tfNazivMesta.setText(nazivM);
 		setFieldsEditable(true);
@@ -164,12 +98,12 @@ public class MestaForma extends DatabaseForma {
 	}
 
 	@Override
-	public void populateFieldsArray() {
+	public void populateInputsAndRequiredArray() {
 		// TODO Auto-generated method stub
-		editableFields = new Component[3];
-		editableFields[0] = tfSifraDrzave;
-		editableFields[1] = tfSifraMesta;
-		editableFields[2] = tfNazivMesta;
+		inputsArray = new IInput[3];
+		inputsArray[0] = zSifraDrzave;
+		inputsArray[1] = tfSifraMesta;
+		inputsArray[2] = tfNazivMesta;
 		
 		requiredFields = new int[3];
 		requiredFields[0] = 0;
@@ -182,8 +116,8 @@ public class MestaForma extends DatabaseForma {
 	public void childResponse(tableNames iD2, String[] childRetVals) {
 		// TODO Auto-generated method stub
 		if (iD2 == tableNames.DRZAVA) {
-			tfSifraDrzave.setText(childRetVals[0]);
-			tfNazivDrzave.setText(childRetVals[1]);
+			zSifraDrzave.setText(childRetVals[0]);
+			((ZoomInput)zSifraDrzave).setNaziv(childRetVals[1]);
 		}
 	}
 
@@ -200,17 +134,4 @@ public class MestaForma extends DatabaseForma {
 		primaryKeysColumnNumber[0] = 1;
 	}
 
-	@Override
-	public void setFieldsEditable(boolean b) {
-		tfSifraDrzave.setEditable(!b);
-		tfNazivMesta.setEditable(b);
-		tfSifraMesta.setEditable(b);
-		btnZoomDrzave.setEnabled(b);
-		tfNazivDrzave.setEditable(false);
-
-	}
-	
-	public void setZoomButtons(Boolean b){
-		btnZoomDrzave.setEnabled(b);
-	}
 }

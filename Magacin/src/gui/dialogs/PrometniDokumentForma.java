@@ -63,9 +63,8 @@ public class PrometniDokumentForma extends DatabaseForma {
 
 	public PrometniDokumentForma() {
 		// TODO Auto-generated constructor stub
-		super();
-		ID = tableNames.PROMETNI_DOKUMENT;
-		setTitle(ID.toString());
+		super(tableNames.PROMETNI_DOKUMENT);
+		setTitle(tableName.toString());
 		setSizeAndMove(1050, 600);
 		initializeComponents();
 		populateFieldsArray();

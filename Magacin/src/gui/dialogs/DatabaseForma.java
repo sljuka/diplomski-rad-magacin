@@ -1,6 +1,7 @@
 package gui.dialogs;
 
 import gui.DatePickerComponent;
+import gui.IInput;
 import gui.StatusBar;
 
 import java.awt.Component;
@@ -13,6 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -27,6 +29,8 @@ import net.miginfocom.swing.MigLayout;
 import model.DataBaseTableModel;
 import model.DataBaseTableModel.tableNames;
 import actions.ActionAdd;
+import actions.ActionCancelAction;
+import actions.ActionCommit;
 import actions.ActionEdit;
 import actions.ActionHelp;
 import actions.ActionJumoToPreviousForm;
@@ -42,39 +46,76 @@ import app.MainFrame;
 
 public abstract class DatabaseForma extends JDialog {
 
-	protected tableNames ID;
+	// ime tabele u bazi koja je predstavljena u formi
+	protected tableNames tableName;
 
-	protected JTable table;
+	// gui komponente u formi
 	protected JToolBar toolbar;
-	protected Component[] editableFields;
-	protected FormController controller;
-	protected DataBaseTableModel model;
-
-	protected JPanel btnPanel;
+	protected JTable table;
+	protected JPanel inputPanel;
+	protected JPanel executeCancelPanel;
+	protected StatusBar statusBar;
 	
+	// polja za unos (text fieldovi, checkboxovi, comboboxovi koji se nalaze na formi
+	protected IInput[] inputsArray;
+	
+	protected JButton[] procedures;
+	
+	// controller, najverovatnije cu izbaciti
+	protected FormController controller;
+	
+	// model za pristup bazi ujedno model gui tabele
+	protected DataBaseTableModel model;
+		
+	// parent dialog prilikom aktiviranja zoom polja
 	protected DatabaseForma parentDialog;
 
+	// povratne vrednosti koje vraca zoom forma parent formi
 	protected String[] childRetVals;
-
+	
+	/*
+	*  	where filter koji se koristi prilikom prelaska u formu next akcijom
+	*	koristi se u formatu [ polje, vrednost, polje, vrednost...]
+	*/
 	protected String[] keyFilter;
 
+	/*
+	 *	niz intova koji predstavljaju broj kolona koje ulaze u sastav primarnog kljuca
+	 */
 	protected int[] primaryKeysColumnNumber;
 
 	protected Component[] statusBasedButtons;
+	
+	/*
+	 *	niz intova koji predstavljaju brojeve polja za unos koja su obavezna
+	 *	prilikom dodavanja i editovanja
+	 */
 	protected int[] requiredFields;
+	
+	/*
+	 *	parent zoom polje koje se popunjava da prilikom povratka iz zoom polja na parent formu
+	 */
 	protected JTextField parrentsTextField;
 	
-	protected StatusBar statusBar;
-
-	public DatabaseForma() {
+	public DatabaseForma(FormController controller, tableNames tableName, int width, int height) {
 		// TODO Auto-generated constructor stub
 		super();
-		setLocationRelativeTo(MainFrame.getInstance());
+		
+		this.tableName = tableName;
+		setTitle(tableName.toString());
+		
+		setSizeAndMove(width, height);
 		setModal(true);
-		setLayout(new MigLayout("", "[align r][align l, grow, fill]", ""));
+		
 		childRetVals = new String[4]; //Najvise 4 stringa child vraca parentu!
+		initializeComponents(controller);
+		populateInputsAndRequiredArray();
+		layoutComponents();
+		
 		initializePrimaryKeysNumbers();
-		statusBar = new StatusBar();
+		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
+		
+		setFieldsEditable(false);
 	}
 
 	protected void setSizeAndMove(int width, int height) {
@@ -82,13 +123,45 @@ public abstract class DatabaseForma extends JDialog {
 		setLocationRelativeTo(null);
 	}
 	
-	protected abstract void initializeComponents();
+	protected void initializeComponents(FormController controller) {
+		initializeStatusBar();
+		initializeTable();
+		initializeToolbar(controller);
+		initializeInputFields(controller);
+		initializeExecuteCancelPanel(controller);
+		initializeProcedures(controller);
+	}
 	
-	public abstract void populateFieldsArray();
+	protected void layoutComponents() {
+		add(toolbar, "dock north");
+		add(new JScrollPane(table), "dock north");
+		add(inputPanel);
+		add(executeCancelPanel, "cell 3 0");
+		add(statusBar, "south, growx");
+	}
+	
+	protected void initializeExecuteCancelPanel(FormController controller) {
+		executeCancelPanel = new JPanel();
+		executeCancelPanel.setLayout(new MigLayout("align right"));
+		executeCancelPanel.add(new JButton(new ActionCommit(controller)), "wrap");
+		executeCancelPanel.add(new JButton(new ActionCancelAction(controller)));
+	}
+	
+	protected abstract void initializeInputFields(FormController controller);
+	
+	protected void initializeProcedures(FormController controller) {
+		procedures = new JButton[0];
+	}
+	
+	
+	protected void initializeStatusBar() {
+		statusBar = new StatusBar();
+	}
+	
+	public abstract void populateInputsAndRequiredArray();
 
-	public Component[] getFields() {
-		populateFieldsArray();
-		return editableFields;
+	public Component[] getInputs() {
+		return inputsArray;
 	}
 
 	public DataBaseTableModel getModel() {
@@ -102,8 +175,8 @@ public abstract class DatabaseForma extends JDialog {
 	public void setParentDialog(DatabaseForma parentDialog) {
 		this.parentDialog = parentDialog;
 		initializeToolbarForChild();
-		if(btnPanel != null)
-			btnPanel.setVisible(false);
+		if(inputPanel != null)
+			inputPanel.setVisible(false);
 	}
 
 	public String[] getChildRetVals() {
@@ -118,7 +191,7 @@ public abstract class DatabaseForma extends JDialog {
 		return table;
 	}
 
-	protected void initializeToolbar() {
+	protected void initializeToolbar(FormController controller) {
 		toolbar = new JToolBar();
 		toolbar.add(new ActionSearch(controller));
 		toolbar.add(new ActionRefresh(controller));
@@ -171,7 +244,7 @@ public abstract class DatabaseForma extends JDialog {
 		table.setRowSelectionAllowed(true);
 		table.setColumnSelectionAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		model = new DataBaseTableModel(ID);
+		model = new DataBaseTableModel(tableName);
 		table.setModel(model);
 		try {
 			model.open(keyFilter);
@@ -214,10 +287,6 @@ public abstract class DatabaseForma extends JDialog {
 
 	public abstract void initializePrimaryKeysNumbers();
 
-	public tableNames getID() {
-		return ID;
-	}
-
 	public int[] getPrimaryKeysColumnNumbers() {
 		return primaryKeysColumnNumber;
 	}
@@ -231,19 +300,11 @@ public abstract class DatabaseForma extends JDialog {
 	}
 
 	public void setFieldsEditable(boolean b) {
-		for (Component c : editableFields) {
-			if (c instanceof JTextField)
-				((JTextField) c).setEditable(b);
-			if (c instanceof JComboBox)
-				c.setEnabled(b);
-			if (c instanceof DatePickerComponent)
-				((DatePickerComponent) c).setEditable(b);
+		for (IInput c : inputsArray) {
+			c.setUserEditable(b);
 		}
 	}
 	
-	public void initializeStatusBar() {
-		add(statusBar, "south, growx");
-	}
 
 	public StatusBar getStatusBar() {
 		return statusBar;
@@ -255,7 +316,7 @@ public abstract class DatabaseForma extends JDialog {
 	
 	public void disableFields(){
 		setZoomButtons(false);
-		for (Component c : editableFields){
+		for (Component c : inputsArray){
 			if (c instanceof JTextField)
 				((JTextField) c).setEditable(false);
 			if (c instanceof JComboBox)
@@ -266,18 +327,22 @@ public abstract class DatabaseForma extends JDialog {
 	}
 	
 	public tableNames getTableName() {
-		return ID;
+		return tableName;
 	}
 	
 	public boolean areRequiredFieldsEntered() {
 		if(requiredFields == null)
 			return true;
 		for (int field : requiredFields) {
-			JTextField tf = (JTextField)editableFields[field];
+			JTextField tf = (JTextField)inputsArray[field];
 			if(tf.getText().equals(""))
 				return false;
 		}
 		return true;
+	}
+	
+	public void zoomNotify(tableNames parentDialogName) {
+		
 	}
 
 }

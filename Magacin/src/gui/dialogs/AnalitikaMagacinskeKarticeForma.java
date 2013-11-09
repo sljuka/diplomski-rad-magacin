@@ -40,9 +40,7 @@ public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 	private JComboBox<String> cbSmer;
 
 	public AnalitikaMagacinskeKarticeForma() {
-		super();
-		ID = tableNames.ANALITIKA_MAGACINSKE_KARTICE;
-		setTitle(ID.toString());
+		super(tableNames.ANALITIKA_MAGACINSKE_KARTICE, 750, 450);
 		setSizeAndMove(750, 450);
 		initializeComponents();
 		populateFieldsArray();
@@ -101,7 +99,6 @@ public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 		cbSmer.addItem("Ulaz");
 
 		initializeTable();
-		controller = new FormController(this);
 		initializeToolbar();
 
 		add(toolbar, "dock north");

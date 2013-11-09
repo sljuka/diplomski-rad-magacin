@@ -35,8 +35,7 @@ public class ClanPopisneKomisijeForma extends DatabaseForma {
 
 	public ClanPopisneKomisijeForma() {
 		super();
-		ID = tableNames.CLAN_POPISNE_KOMISIJE;
-		setTitle(ID.toString());
+		setTitle(tableName.toString());
 		setSizeAndMove(1000, 600);
 		initializeComponents();
 		populateFieldsArray();

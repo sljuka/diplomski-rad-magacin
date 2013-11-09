@@ -1,5 +1,7 @@
 package gui.dialogs;
 import gui.DocumentLimit;
+import gui.IInput;
+import gui.TextInput;
 
 import java.awt.Component;
 import java.awt.TextField;
@@ -38,70 +40,37 @@ import actions.ActionSelectPrevious;
 
 public class DrzaveForma extends DatabaseForma {
 	
-	private JTextField tfSifraDrzave;
-	private JTextField tfNazivDrzave;
+	private IInput tfSifraDrzave;
+	private IInput tfNazivDrzave;
 	
-	public DrzaveForma() {
+	//private JTextField tfSifraDrzave;
+	//private JTextField tfNazivDrzave;
+	
+	public DrzaveForma(FormController controller) {
 		// TODO Auto-generated constructor stub
-		super();
-		setupNextButton();
-		ID = tableNames.DRZAVA;
-		setTitle(ID.toString());
-		setSizeAndMove(500, 300);
-		initializeComponents();
-		initializeStatusBar();
-		setFieldsEditable(false);
-		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
-	}
-	
-	protected void setupNextButton() {
-		
+		super(controller, tableNames.DRZAVA, 500, 300);
 	}
 	
 	@Override
-	protected void initializeComponents() {
+	protected void initializeInputFields(FormController controller) {
 		// TODO Auto-generated method stub
 		setLayout(new MigLayout("", "[align r][align l, grow, fill]", ""));
+
+		inputPanel = new JPanel();
+		inputPanel.setLayout(new MigLayout("center"));	
 		
-		tfSifraDrzave = new JTextField(3);
-		tfSifraDrzave.setDocument(new DocumentLimit(3));
-		
-		tfNazivDrzave = new JTextField(25);
-		
-		tfSifraDrzave.setEditable(false);
-		tfNazivDrzave.setEditable(false);
-		
-		initializeTable();
-		controller = new FormController(this);
-		initializeToolbar();
-		
-		add(toolbar, "dock north");
-		add(new JScrollPane(table), "dock north");
-		
-		JPanel tfPanel = new JPanel();
-		tfPanel.setLayout(new MigLayout("center"));
-		tfPanel.add(new JLabel("Sifra drzave"));
-		tfPanel.add(tfSifraDrzave, "wrap");
-		tfPanel.add(new JLabel("Naziv drzave"));
-		tfPanel.add(tfNazivDrzave, "wrap");
-		add(tfPanel);
-		
-		btnPanel = new JPanel();
-		btnPanel.setLayout(new MigLayout("align right"));
-		btnPanel.add(new JButton(new ActionCommit(controller)), "wrap");
-		btnPanel.add(new JButton(new ActionCancelAction(controller)));
-		add(btnPanel, "cell 3 0");
-		
-		populateFieldsArray();
-		setFieldsEditable(false);
+		tfSifraDrzave = new TextInput(3, "Sifra drzave", new DocumentLimit(3));
+		tfNazivDrzave = new TextInput(25, "Naziv drzave", null);
+			
+		inputPanel.add(tfSifraDrzave.getComponent(), "wrap");
+		inputPanel.add(tfNazivDrzave.getComponent(), "wrap");
 	}
 	
 	public void sync() {
 		int index = table.getSelectedRow();
 		if (index < 0) {
-			for (Component c : editableFields) {
-				if (c instanceof JTextField)
-					((JTextField) c).setText("");
+			for (IInput c : inputsArray) {
+				c.setText("");
 			}
 			setFieldsEditable(false);
 			return;
@@ -117,14 +86,15 @@ public class DrzaveForma extends DatabaseForma {
 	}
 
 	@Override
-	public void populateFieldsArray() {
+	public void populateInputsAndRequiredArray() {
 		// TODO Auto-generated method stub
-		editableFields = new Component[2];
-		editableFields[0] = tfSifraDrzave;
-		editableFields[1] = tfNazivDrzave;
+		inputsArray = new IInput[2];
+		inputsArray[0] = tfSifraDrzave;
+		inputsArray[1] = tfNazivDrzave;
 		
-		requiredFields = new int[1];
+		requiredFields = new int[2];
 		requiredFields[0] = 0;
+		requiredFields[1] = 1;
 	}
 
 	@Override
@@ -144,12 +114,6 @@ public class DrzaveForma extends DatabaseForma {
 		// TODO Auto-generated method stub
 		primaryKeysColumnNumber = new int[1];
 		primaryKeysColumnNumber[0] = 0;
-	}
-	
-	@Override
-	public void setFieldsEditable(boolean b){
-		tfNazivDrzave.setEditable(b);
-		tfSifraDrzave.setEditable(b);
 	}
 
 }
