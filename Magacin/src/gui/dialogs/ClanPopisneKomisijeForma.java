@@ -1,11 +1,18 @@
 package gui.dialogs;
 
+import gui.ComboBoxInput;
+import gui.ComboListitem;
 import gui.DocumentLimit;
 import gui.DocumentNumericLimited;
+import gui.Input;
+import gui.TextInput;
+import gui.ZoomInput;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,127 +30,59 @@ import actions.ActionCommit;
 
 public class ClanPopisneKomisijeForma extends DatabaseForma {
 
-	private JTextField tfGodina;
-	private JTextField tfPib;
-	private JTextField tfSifraObjekta;
-	private JTextField tfBrojPopisa;
-	private JTextField tfSifraRdnk;
-	private JComboBox<String> cbFunkcijaClana;
+	private ZoomInput zGodina;
+	private ZoomInput zPib;
+	private ZoomInput zSifraObjekta;
+	private ZoomInput zBrojPopisa;
+	private ZoomInput zSifraRdnk;
+	private ComboBoxInput cbFunkcijaClana;
 
-	private JButton btnZoomPopisniDokument;
-	private JButton btnZoomZaposleni;
-
-	public ClanPopisneKomisijeForma() {
-		super();
-		setTitle(tableName.toString());
-		setSizeAndMove(1000, 600);
-		initializeComponents();
-		populateFieldsArray();
-		initializeStatusBar();
-		setFieldsEditable(false);
-		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
+	public ClanPopisneKomisijeForma(FormController fc) {
+		super(fc, tableNames.CLAN_POPISNE_KOMISIJE, 1000, 600, false);
 	}
 
 	@Override
-	protected void initializeComponents() {
-		setLayout(new MigLayout("", "[align r][align l, grow, fill]", ""));
-		tfGodina = new JTextField(4);
-		tfGodina.setDocument(new DocumentNumericLimited(4));
-		tfGodina.setEditable(false);
-		tfPib = new JTextField(12);
-		tfPib.setDocument(new DocumentLimit(12));
-		tfPib.setEditable(false);
-		tfSifraObjekta = new JTextField(12);
-		tfSifraObjekta.setDocument(new DocumentLimit(12));
-		tfSifraObjekta.setEditable(false);
-		tfBrojPopisa = new JTextField(4);
-		tfBrojPopisa.setEditable(false);
-		tfBrojPopisa.setDocument(new DocumentNumericLimited(4));
-		tfSifraRdnk = new JTextField(4);
-		tfSifraRdnk.setEditable(false);
-		tfSifraRdnk.setDocument(new DocumentNumericLimited(4));
-
-		cbFunkcijaClana = new JComboBox<String>();
-		cbFunkcijaClana.addItem("Predsednik");
-		cbFunkcijaClana.addItem("Clan");
-
-		initializeTable();
-		controller = new FormController(this);
-		initializeToolbar();
-
-		btnZoomPopisniDokument = new JButton("...");
-		btnZoomPopisniDokument.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				PopisniDokumentForma pdDlg = new PopisniDokumentForma();
-				pdDlg.setParentDialog(ClanPopisneKomisijeForma.this);
-				pdDlg.setVisible(true);
-			}
-		});
-
-		btnZoomZaposleni = new JButton("...");
-		btnZoomZaposleni.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				ZaposleniForma zapDlg = new ZaposleniForma();
-				zapDlg.setParentDialog(ClanPopisneKomisijeForma.this);
-				zapDlg.setVisible(true);
-			}
-		});
-
-		initializeTable();
-		controller = new FormController(this);
-		initializeToolbar();
-
-		add(toolbar, "dock north");
-		add(new JScrollPane(table), "dock north");
-
-		JPanel tfPanel = new JPanel();
-		tfPanel.setLayout(new MigLayout("center"));
-
-		tfPanel.add(new JLabel("Godina:"));
-		tfPanel.add(tfGodina, "wrap");
-
-		tfPanel.add(new JLabel("PIB:"));
-		tfPanel.add(tfPib, "wrap");
-
-		tfPanel.add(new JLabel("Sifra objekta:"));
-		tfPanel.add(tfSifraObjekta, "wrap");
-
-		tfPanel.add(new JLabel("Broj popisa"));
-		tfPanel.add(tfBrojPopisa, "grow 0, split 3");
-		tfPanel.add(btnZoomPopisniDokument, "grow 0, wrap");
-
-		tfPanel.add(new JLabel("Sifra radnika:"));
-		tfPanel.add(tfSifraRdnk, "grow 0, split 3");
-		tfPanel.add(btnZoomZaposleni, "grow 0, wrap");
-
-		tfPanel.add(new JLabel("Funkcija clana u komisiji:"));
-		tfPanel.add(cbFunkcijaClana, "wrap");
-		add(tfPanel);
-
-		btnPanel = new JPanel();
-		btnPanel.setLayout(new MigLayout("align right"));
-		btnPanel.add(new JButton(new ActionCommit(controller)), "wrap");
-		btnPanel.add(new JButton(new ActionCancelAction(controller)));
-		add(btnPanel);
+	protected void initializeInputFields(FormController controller) {
+		zGodina = new ZoomInput(this, tableNames.POSLOVNA_GODINA, "Poslovna godina", 5, 5);
+		zPib = new ZoomInput(this, tableNames.PREDUZECE, "Pib", 15, 30);
+		zSifraObjekta = new ZoomInput(this, tableNames.POSLOVNI_OBJEKAT, "Sifra objekta", 10, 30);
+		zBrojPopisa = new ZoomInput(this, tableNames.POPISNI_DOKUMENT, "Broj popusa", 5, 5);
+		zSifraRdnk = new ZoomInput(this, tableNames.ZAPOSLENI, "Sifra radnika", 4, 4);
+		
+		List<ComboListitem> items = new ArrayList<>();
+		items.add(new ComboListitem("Predsednik", "P"));
+		items.add(new ComboListitem("Clan", "C"));
+		cbFunkcijaClana = new ComboBoxInput(items, "Funkcija clana");
 	}
 
 	@Override
-	public void populateFieldsArray() {
-		// TODO Auto-generated method stub
-		editableFields = new Component[6];
-		editableFields[0] = tfGodina;
-		editableFields[1] = tfPib;
-		editableFields[2] = tfSifraObjekta;
-		editableFields[3] = tfBrojPopisa;
-		editableFields[4] = tfSifraRdnk;
-		editableFields[5] = cbFunkcijaClana;
+	public void populateInputsAndRequiredArray() {
 
+		inputsArray = new Input[6];
+		inputsArray[0] = zGodina;
+		inputsArray[1] = zPib;
+		inputsArray[2] = zSifraObjekta;
+		inputsArray[3] = zBrojPopisa;
+		inputsArray[4] = zSifraRdnk;
+		inputsArray[5] = cbFunkcijaClana;
+		
+		requiredFields = new int[6];
+		requiredFields[0] = 0;
+		requiredFields[1] = 1;
+		requiredFields[2] = 2;
+		requiredFields[3] = 3;
+		requiredFields[4] = 4;
+		requiredFields[5] = 5;
+		
+		inputPanel = new JPanel();
+		inputPanel.setLayout(new MigLayout("center"));
+
+		inputPanel.add(zGodina.getComponent(), "wrap");
+		inputPanel.add(zPib.getComponent(), "wrap");
+		inputPanel.add(zSifraObjekta.getComponent(), "wrap");
+		inputPanel.add(zBrojPopisa.getComponent(), "wrap");
+		inputPanel.add(zSifraRdnk.getComponent(), "wrap");
+		inputPanel.add(cbFunkcijaClana.getComponent(), "wrap");
 	}
 
 	@Override
@@ -151,56 +90,17 @@ public class ClanPopisneKomisijeForma extends DatabaseForma {
 		// TODO Auto-generated method stub
 		switch (iD2) {
 		case POPISNI_DOKUMENT:
-			tfGodina.setText(childRetVals[0]);
-			tfPib.setText(childRetVals[1]);
-			tfBrojPopisa.setText(childRetVals[3]);
-			tfSifraObjekta.setText(childRetVals[2]);
+			zGodina.setText(childRetVals[0]);
+			zPib.setText(childRetVals[1]);
+			zBrojPopisa.setText(childRetVals[3]);
+			zSifraObjekta.setText(childRetVals[2]);
 			break;
 		case ZAPOSLENI:
-			tfSifraRdnk.setText(childRetVals[0]);
+			zSifraRdnk.setText(childRetVals[0]);
 			break;
 
 		}
 
-	}
-
-	@Override
-	protected void sync() {
-		// TODO Auto-generated method stub
-		int index = table.getSelectedRow();
-		if (index < 0) {
-			tfBrojPopisa.setText("");
-			tfGodina.setText("");
-			tfPib.setText("");
-			tfSifraObjekta.setText("");
-			tfSifraRdnk.setText("");
-			cbFunkcijaClana.setSelectedIndex(0);
-			setFieldsEditable(false);
-			return;
-		}
-
-		tfBrojPopisa.setText((String) model.getValueAt(index, 3));
-		tfGodina.setText((String) model.getValueAt(index, 0));
-		tfPib.setText((String) model.getValueAt(index, 1));
-		tfSifraObjekta.setText((String) model.getValueAt(index, 2));
-		tfSifraRdnk.setText((String) model.getValueAt(index, 4));
-
-		switch (((String) model.getValueAt(index, 5))) {
-		case "P":
-			cbFunkcijaClana.setSelectedItem("Predsednik");
-			break;
-		case "C":
-			cbFunkcijaClana.setSelectedItem("Clan");
-			break;
-
-		}
-		setFieldsEditable(true);
-	}
-
-	@Override
-	public void populateStatusBasedComponents() {
-		// TODO Auto-generated method stub
-		statusBasedButtons = new Component[0];
 	}
 
 	@Override
@@ -215,9 +115,9 @@ public class ClanPopisneKomisijeForma extends DatabaseForma {
 	}
 
 	@Override
-	public void setFieldsEditable(boolean b) {
-		super.setFieldsEditable(b);
-		btnZoomPopisniDokument.setEnabled(b);
-		btnZoomZaposleni.setEnabled(b);
+	public void populateStatusBasedComponents() {
+		// TODO Auto-generated method stub
+		
 	}
+
 }

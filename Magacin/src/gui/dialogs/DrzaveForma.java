@@ -49,7 +49,7 @@ public class DrzaveForma extends DatabaseForma {
 	
 	public DrzaveForma(FormController controller) {
 		// TODO Auto-generated constructor stub
-		super(controller, tableNames.DRZAVA, 500, 300);
+		super(controller, tableNames.DRZAVA, 500, 300, false);
 	}
 	
 	@Override
@@ -62,25 +62,6 @@ public class DrzaveForma extends DatabaseForma {
 			
 		inputPanel.add(tfSifraDrzave.getComponent(), "wrap");
 		inputPanel.add(tfNazivDrzave.getComponent(), "wrap");
-	}
-	
-	public void sync() {
-		int index = table.getSelectedRow();
-		if (index < 0) {
-			for (IInput c : inputsArray) {
-				c.setText("");
-			}
-			setFieldsEditable(false);
-			return;
-		}
-		
-		String sifra = (String)model.getValueAt(index, 0);
-		String naziv = (String)model.getValueAt(index, 1);
-		tfSifraDrzave.setText(sifra);
-		tfNazivDrzave.setText(naziv);
-		setFieldsEditable(true);
-		childRetVals[0] = sifra;
-		childRetVals[1] = naziv;
 	}
 
 	@Override

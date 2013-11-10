@@ -53,7 +53,7 @@ public class MestaForma extends DatabaseForma {
 	private Input tfNazivMesta;
 	
 	public MestaForma(FormController controller) {
-		super(controller, tableNames.NASELJENO_MESTO, 600, 300);
+		super(controller, tableNames.NASELJENO_MESTO, 600, 300, false);
 	}
 
 	@Override
@@ -73,26 +73,6 @@ public class MestaForma extends DatabaseForma {
 		inputPanel.add(tfNazivMesta.getComponent(), "wrap");
 		
 	}
-	
-	public void sync() {
-		int index = table.getSelectedRow();
-		if (index < 0) {
-			for (IInput input : inputsArray) {
-				input.setText("");
-			}
-		}
-		String sifraD = (String) model.getValueAt(index, 0);
-		String sifraM = (String) model.getValueAt(index, 1);
-		String nazivM = (String) model.getValueAt(index, 2);
-
-		zSifraDrzave.setText(sifraD);
-		tfSifraMesta.setText(sifraM);
-		tfNazivMesta.setText(nazivM);
-		setFieldsEditable(true);
-		childRetVals[0] = sifraD;
-		childRetVals[1] = sifraM;
-		childRetVals[2] = nazivM;
-	}
 
 	@Override
 	public void populateInputsAndRequiredArray() {
@@ -105,7 +85,6 @@ public class MestaForma extends DatabaseForma {
 		requiredFields[0] = 0;
 		requiredFields[1] = 1;
 		requiredFields[2] = 2;
-
 	}
 
 	@Override

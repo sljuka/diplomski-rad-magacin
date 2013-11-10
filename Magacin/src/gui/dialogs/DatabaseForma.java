@@ -6,6 +6,7 @@ import gui.Input;
 import gui.StatusBar;
 
 import java.awt.Component;
+import java.awt.font.TextHitInfo;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -98,7 +99,9 @@ public abstract class DatabaseForma extends JDialog {
 	 */
 	protected JTextField parrentsTextField;
 	
-	public DatabaseForma(FormController controller, tableNames tableName, int width, int height) {
+	private boolean hasTwoColsOfInputFields;
+	
+	public DatabaseForma(FormController controller, tableNames tableName, int width, int height, boolean has2columnsOfInputs) {
 		// TODO Auto-generated constructor stub
 		super();
 		
@@ -111,6 +114,8 @@ public abstract class DatabaseForma extends JDialog {
 		childRetVals = new String[4]; //Najvise 4 stringa child vraca parentu!
 		initializeComponents(controller);
 		populateInputsAndRequiredArray();
+		this.hasTwoColsOfInputFields = has2columnsOfInputs;
+		layoutInputPan();
 		layoutComponents();
 		
 		initializePrimaryKeysNumbers();
@@ -119,6 +124,25 @@ public abstract class DatabaseForma extends JDialog {
 		setFieldsEditable(false);
 	}
 
+	protected void layoutInputPan() {
+		inputPanel = new JPanel();
+		inputPanel.setLayout(new MigLayout("center"));
+
+		if(!hasTwoColsOfInputFields) {
+			for (IInput input : inputsArray) {
+				inputPanel.add(input.getComponent(), "wrap");
+			}
+		}
+		else {
+			for(int i = 0; i<inputsArray.length; i++) {
+				if(i % 2 == 0)
+					inputPanel.add(inputsArray[i].getComponent());
+				else
+					inputPanel.add(inputsArray[i].getComponent(), "wrap");
+			}
+		}
+	}
+	
 	protected void setSizeAndMove(int width, int height) {
 		setSize(width, height);
 		setLocationRelativeTo(null);
@@ -187,7 +211,19 @@ public abstract class DatabaseForma extends JDialog {
 
 	public abstract void childResponse(tableNames iD2, String[] childRetVals);
 
-	protected abstract void sync();
+	protected void sync() {
+		int index = table.getSelectedRow();
+		if (index < 0) {
+			for (Input i : inputsArray) {
+				i.setText("");
+			}
+			return;
+		}
+		
+		for (int i = 0; i < inputsArray.length; i++) {
+			inputsArray[i].setText((String)model.getValueAt(index, i));
+		}
+	}
 
 	public JTable getTable() {
 		return table;
@@ -306,18 +342,12 @@ public abstract class DatabaseForma extends JDialog {
 			c.setUserEditable(b);
 		}
 	}
-	
 
 	public StatusBar getStatusBar() {
 		return statusBar;
 	}
 	
-	public void setZoomButtons(Boolean b){
-		
-	}
-	
 	public void disableFields(){
-		setZoomButtons(false);
 		for (Input c : inputsArray){
 			c.setUserEditable(false);
 		}
@@ -331,8 +361,7 @@ public abstract class DatabaseForma extends JDialog {
 		if(requiredFields == null)
 			return true;
 		for (int field : requiredFields) {
-			JTextField tf = (JTextField)inputsArray[field];
-			if(tf.getText().equals(""))
+			if(inputsArray[field].isEmpty())
 				return false;
 		}
 		return true;

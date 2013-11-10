@@ -3,6 +3,8 @@ package gui.dialogs;
 import gui.DatePickerComponent;
 import gui.DocumentLimit;
 import gui.DocumentNumericLimited;
+import gui.NumericTextInput;
+import gui.ZoomInput;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -30,55 +32,49 @@ import numeric.textField.NumericTextField;
 
 public class MagacinskeKarticeForma extends DatabaseForma {
 
-	private JTextField tfPib; // editable false
-	private JTextField tfSifraObjekta; // isto
-	private JTextField tfSifraArtikla; // isto
-	private JTextField tfGodina; // isto
-	private JTextField tfProsecnaCena;
-	private JTextField tfKolicinaPocetnogStanja;
-	private JTextField tfVrednostPocetnogStanja;
-	private JTextField tfKolicinaUlaza;
-	private JTextField tfVrednostUlaza;
-	private JTextField tfKolicinaIzlaza;
-	private JTextField tfVrednostIzlaza;
-	private JTextField tfKalkulisanaCena;
-
-	private JTextField tfNazivPreduzeca;
-	private JTextField tfNazivObjekta;
-	private JTextField tfNazivArtikla;
-
-	private JTable tableAnalitike;
-	private DataBaseTableModel modelAnalitika;
-
-	private JTextField tfARbrAnalitike;
-	private JTextField tfASifraObjekta;
-	private JTextField tfAPib;
-	private JTextField tfASifraArtikla;
-	private JTextField tfAGodina;
-	private JTextField tfABrojPrometnogDokumenta;
-	private DatePickerComponent tfADatumPromijene;
-	private JComboBox<String> cbAVrstaDokumenta;
-	private JTextField tfASifraDokumenta;
-	private NumericTextField tfAKolicina;
-	private NumericTextField tfACena;
-	private NumericTextField tfAVrednost;
-	private JComboBox<String> cbASmer;
-
-	public MagacinskeKarticeForma() {
+	private ZoomInput zPib;
+	private ZoomInput zSifraObjekta;
+	private ZoomInput zSifraArtikla;
+	private ZoomInput zGodina;
+	private NumericTextInput tfProsecnaCena;
+	private NumericTextInput tfKolicinaPocetnogStanja;
+	private NumericTextInput tfVrednostPocetnogStanja;
+	private NumericTextInput tfKolicinaUlaza;
+	private NumericTextInput tfVrednostUlaza;
+	private NumericTextInput tfKolicinaIzlaza;
+	private NumericTextInput tfVrednostIzlaza;
+	private NumericTextInput tfKalkulisanaCena;
+	
+	public MagacinskeKarticeForma(FormController fc) {
 		// TODO Auto-generated constructor stub
-		super();
-		ID = tableNames.MAGACINSAK_KARTICA;
-		setTitle(ID.toString());
-		Toolkit toolkit =  Toolkit.getDefaultToolkit ();
-		Dimension dim = toolkit.getScreenSize();
-		setSizeAndMove(dim.width,dim.height);
-		initializeComponents();
-		populateFieldsArray();
-		setFieldsEditable(false);
-		populateStatusBasedComponents();
-		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
+		super(	fc, tableNames.MAGACINSAK_KARTICA,
+				Toolkit.getDefaultToolkit().getScreenSize().width,
+				Toolkit.getDefaultToolkit().getScreenSize().height, true);
 	}
 
+	@Override
+	protected void initializeInputFields(FormController controller) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void populateInputsAndRequiredArray() {
+		// TODO Auto-generated method stub
+		zPib = new ZoomInput(this, tableNames.PREDUZECE, "Pib", 14, 14);
+		zSifraObjekta = new ZoomInput(this, tableNames.POSLOVNI_OBJEKAT, "Sifra poslovnog objetkta", 15, 16);
+		zSifraArtikla = new ZoomInput(this, tableNames.ARTIKAL, "Sifra artikla", 15, 15);
+		zGodina = new ZoomInput(this, tableNames.POSLOVNA_GODINA, "Poslovna godina", 15, 15);
+		tfProsecnaCena = new NumericTextInput("Prosecna cena", 14);
+		tfKolicinaPocetnogStanja = new NumericTextInput("Kolicina pocetnog stanja", 14);
+		tfVrednostPocetnogStanja = new NumericTextInput("Vrednost pocetnog stanja", 14);
+		tfKolicinaUlaza = new NumericTextInput("Kolicina ulaza", 14);
+		tfVrednostUlaza = new NumericTextInput("Vrednost ulaza", 14);
+		tfKolicinaIzlaza = new NumericTextInput("Kolicina izlaza", 14);
+		tfVrednostIzlaza = new NumericTextInput("Vrednost izlaza", 14);
+		tfKalkulisanaCena = new NumericTextInput("Kalkulisana cena", 14);
+	}
+	
 	private void initializeAnalitikeTable() {
 		tableAnalitike = new JTable();
 		tableAnalitike.setRowSelectionAllowed(true);
@@ -447,5 +443,7 @@ public class MagacinskeKarticeForma extends DatabaseForma {
 		primaryKeysColumnNumber[2] = 2;
 		primaryKeysColumnNumber[3] = 3;
 	}
+
+
 
 }
