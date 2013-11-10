@@ -4,24 +4,30 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.text.PlainDocument;
 
-public class CheckBoxInput extends JCheckBox implements IInput {
+public class CheckBoxInput extends Input {
 
+	private JCheckBox checkBox;
+	
+	public CheckBoxInput() {
+		this.checkBox = new JCheckBox();
+	}
+	
 	@Override
 	public String getText() {
 		// TODO Auto-generated method stub
-		return isSelected()?"True":"False";
+		return checkBox.isSelected()?"True":"False";
 	}
 
 	@Override
 	public void setUserEditable(boolean b) {
 		// TODO Auto-generated method stub
-		setEnabled(b);
+		checkBox.setEnabled(b);
 	}
 
 	@Override
 	public JComponent getComponent() {
 		// TODO Auto-generated method stub
-		return this;
+		return checkBox;
 	}
 
 	@Override
@@ -29,9 +35,10 @@ public class CheckBoxInput extends JCheckBox implements IInput {
 		// TODO Auto-generated method stub
 		String firstLetter = text.toLowerCase();
 		if(firstLetter.startsWith("t"))
-			setSelected(true);
+			checkBox.setSelected(true);
 		else
-			setSelected(false);
+			checkBox.setSelected(false);
+		inputChanged(null);
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.im.InputContext;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
@@ -42,9 +43,7 @@ import net.miginfocom.swing.MigLayout;
 import model.Lookup;
 import model.DataBaseTableModel.tableNames;
 
-public class ZoomInput extends JPanel implements IInput {
-
-	private Set<DatabaseForma> observers;
+public class ZoomInput extends Input {
 	
 	private String label;
 	private tableNames parentTableName;
@@ -55,7 +54,6 @@ public class ZoomInput extends JPanel implements IInput {
 	private JButton btnZoom;
 	
 	public ZoomInput(DatabaseForma containerForm, tableNames parentTableName, String label, int sifraLength, int nameLength) {
-		observers = new HashSet<DatabaseForma>();
 		this.label = label;
 		tfSifra = new JTextField(sifraLength);
 		tfNaziv = new JTextField(nameLength);
@@ -139,11 +137,14 @@ public class ZoomInput extends JPanel implements IInput {
 
 	@Override
 	public void setText(String text) {
-		// TODO Auto-generated method stub
 		tfSifra.setText(text);
-		for (DatabaseForma f : observers) {
-			f.zoomNotify(parentTableName);
-		}
+		inputChanged(null);
+	}
+	
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return tfSifra.getText().equals("");
 	}
 	
 	public void setNaziv(String naziv) {

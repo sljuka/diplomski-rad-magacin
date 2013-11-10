@@ -2,6 +2,7 @@ package gui.dialogs;
 
 import gui.DocumentLimit;
 import gui.IInput;
+import gui.Input;
 import gui.TextInput;
 import gui.ZoomInput;
 
@@ -47,12 +48,11 @@ import model.DataBaseTableModel.tableNames;
 
 public class MestaForma extends DatabaseForma {
 
-	private IInput zSifraDrzave;
-	private IInput tfSifraMesta;
-	private IInput tfNazivMesta;
+	private Input zSifraDrzave;
+	private Input tfSifraMesta;
+	private Input tfNazivMesta;
 	
 	public MestaForma(FormController controller) {
-		// TODO Auto-generated constructor stub
 		super(controller, tableNames.NASELJENO_MESTO, 600, 300);
 	}
 
@@ -62,7 +62,6 @@ public class MestaForma extends DatabaseForma {
 		setLayout(new MigLayout("", "[align r][align l, grow, fill]", ""));
 
 		zSifraDrzave = new ZoomInput(this, tableNames.DRZAVA, "Sifra drzave", 3, 30);
-
 		tfSifraMesta = new TextInput(3, "Sifra mesta", new DocumentLimit(5));
 		tfNazivMesta = new TextInput(30, "Naziv mesta", null);
 		
@@ -70,9 +69,7 @@ public class MestaForma extends DatabaseForma {
 		inputPanel.setLayout(new MigLayout("center"));
 
 		inputPanel.add(zSifraDrzave.getComponent(), "wrap");
-
 		inputPanel.add(tfSifraMesta.getComponent(), "wrap");
-
 		inputPanel.add(tfNazivMesta.getComponent(), "wrap");
 		
 	}
@@ -99,8 +96,7 @@ public class MestaForma extends DatabaseForma {
 
 	@Override
 	public void populateInputsAndRequiredArray() {
-		// TODO Auto-generated method stub
-		inputsArray = new IInput[3];
+		inputsArray = new Input[3];
 		inputsArray[0] = zSifraDrzave;
 		inputsArray[1] = tfSifraMesta;
 		inputsArray[2] = tfNazivMesta;
@@ -114,7 +110,6 @@ public class MestaForma extends DatabaseForma {
 
 	@Override
 	public void childResponse(tableNames iD2, String[] childRetVals) {
-		// TODO Auto-generated method stub
 		if (iD2 == tableNames.DRZAVA) {
 			zSifraDrzave.setText(childRetVals[0]);
 			((ZoomInput)zSifraDrzave).setNaziv(childRetVals[1]);
@@ -123,13 +118,11 @@ public class MestaForma extends DatabaseForma {
 
 	@Override
 	public void populateStatusBasedComponents() {
-		// TODO Auto-generated method stub
 		statusBasedButtons = new Component[0];
 	}
 
 	@Override
 	public void initializePrimaryKeysNumbers() {
-		// TODO Auto-generated method stub
 		primaryKeysColumnNumber = new int[1];
 		primaryKeysColumnNumber[0] = 1;
 	}

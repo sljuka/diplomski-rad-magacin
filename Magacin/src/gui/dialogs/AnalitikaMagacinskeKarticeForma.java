@@ -1,183 +1,126 @@
 package gui.dialogs;
 
-import gui.DatePickerComponent;
-import gui.DocumentLimit;
+import gui.ComboBoxInput;
+import gui.ComboListitem;
+import gui.DateInput;
 import gui.DocumentNumericLimited;
+import gui.Input;
+import gui.NumericTextInput;
+import gui.TextInput;
+import gui.ZoomInput;
 
 import java.awt.Component;
-import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-
-import controllers.FormController;
 
 import model.DataBaseTableModel.tableNames;
 import net.miginfocom.swing.MigLayout;
-import numeric.textField.NumericTextField;
-import actions.ActionCancelAction;
-import actions.ActionCommit;
+import controllers.FormController;
 
 public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 
-	private JTextField tfRbrAnalitike;
-	private JTextField tfSifraObjekta;
-	private JTextField tfPib;
-	private JTextField tfSifraArtikla;
-	private JTextField tfGodina;
-	private JTextField tfBrojPrometnogDokumenta;
-	private JTextField tfRedniBroj;
-	private DatePickerComponent tfDatumPromijene;
-	private JComboBox<String> cbVrstaDokumenta;
-	private JTextField tfSifraDokumenta;
-	private NumericTextField tfKolicina;
-	private NumericTextField tfCena;
-	private NumericTextField tfVrednost;
-	private JComboBox<String> cbSmer;
+	private TextInput tfRbrAnalitike;
+	private ZoomInput zSifraObjekta;
+	private ZoomInput zPib;
+	private ZoomInput zSifraArtikla;
+	private ZoomInput zGodina;
+	private ZoomInput zBrojPrometnogDokumenta;
+	private DateInput diDatumPromijene;
+	private ComboBoxInput cbVrstaDokumenta;
+	private TextInput tfSifraDokumenta;
+	private NumericTextInput tfKolicina;
+	private NumericTextInput tfCena;
+	private NumericTextInput tfVrednost;
+	private ComboBoxInput cbSmer;
 
-	public AnalitikaMagacinskeKarticeForma() {
-		super(tableNames.ANALITIKA_MAGACINSKE_KARTICE, 750, 450);
-		setSizeAndMove(750, 450);
-		initializeComponents();
-		populateFieldsArray();
-		initializeStatusBar();
-		setFieldsEditable(false);
-		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
+	public AnalitikaMagacinskeKarticeForma(FormController controller) {
+		super(controller, tableNames.ANALITIKA_MAGACINSKE_KARTICE, 1200, 700);
+	}
+	
+	@Override
+	public void setFieldsEditable(boolean b) {
+		super.setFieldsEditable(false);
 	}
 
 	@Override
-	protected void initializeComponents() {
-		// TODO Auto-generated method stub
-		setLayout(new MigLayout("", "[align r][align l, grow, fill]", ""));
+	protected void initializeInputFields(FormController controller) {
 		
-		tfBrojPrometnogDokumenta = new JTextField(5);
-		tfBrojPrometnogDokumenta.setDocument(new DocumentNumericLimited(5));
+		// INICIJALIZACIJA
 		
-		tfRedniBroj = new JTextField(8);
-		tfRedniBroj.setDocument(new DocumentNumericLimited(5));
+		tfRbrAnalitike = new TextInput(5, "Redni broj analitike", new DocumentNumericLimited(5));
+		zSifraObjekta = new ZoomInput(this, tableNames.POSLOVNI_OBJEKAT, "Sifra objekta", 12, 30);
+		zPib = new ZoomInput(this, tableNames.PREDUZECE, "Preduzece", 12, 30);
+		zSifraArtikla = new ZoomInput(this, tableNames.ARTIKAL, "Sifra artikla", 5, 30);
+		zGodina = new ZoomInput(this, tableNames.POSLOVNA_GODINA, "Poslovna godina", 5, 5);
+		zBrojPrometnogDokumenta = new ZoomInput(this, tableNames.PROMETNI_DOKUMENT, "Broj prometnog dokumenta", 12, 30);
+		diDatumPromijene = new DateInput("Datum promene");
 		
-		tfCena = new NumericTextField(14, new DecimalFormat("0000.00"));
+		List<ComboListitem> vrsteDokumenta = new ArrayList<ComboListitem>();
+		vrsteDokumenta.add(new ComboListitem("primka", "pr"));
+		vrsteDokumenta.add(new ComboListitem("otpremnica", "ot"));
+		vrsteDokumenta.add(new ComboListitem("medjumagacinsko", "mm"));
+		vrsteDokumenta.add(new ComboListitem("nivelacija", "ni"));
+		vrsteDokumenta.add(new ComboListitem("korekcija", "kp"));
+		vrsteDokumenta.add(new ComboListitem("pocetno", "ps"));
+		cbVrstaDokumenta = new ComboBoxInput(vrsteDokumenta, "Vrste dokumenta");
 		
-		tfDatumPromijene = new DatePickerComponent();
+		tfSifraDokumenta = new TextInput(20, "Sifra dokumenta", null);
+		tfKolicina = new NumericTextInput("Kolicina", 20);
+		tfCena = new NumericTextInput("Cena", 20);
+		tfVrednost = new NumericTextInput("Vrednost", 20);
 		
-		tfGodina = new JTextField(7);
-		tfGodina.setDocument(new DocumentNumericLimited(4));
+		List<ComboListitem> smerovi = new ArrayList<ComboListitem>();
+		smerovi.add(new ComboListitem("Ulaz", "U"));
+		smerovi.add(new ComboListitem("Izlaz", "I"));
+		cbSmer = new ComboBoxInput(smerovi, "Smer");
 		
-		tfKolicina = new NumericTextField(14, new DecimalFormat("0000.00"));
+		// LAYOUT
 		
-		tfPib = new JTextField(13);
-		tfPib.setDocument(new DocumentLimit(12));
+		inputPanel = new JPanel();
+		inputPanel.setLayout(new MigLayout("center"));
+
+		inputPanel.add(tfRbrAnalitike.getComponent());
+		inputPanel.add(zSifraObjekta.getComponent(), "wrap");
 		
-		tfRbrAnalitike = new JTextField(5);
-		tfRbrAnalitike.setDocument(new DocumentNumericLimited(5));
+		inputPanel.add(zPib.getComponent());
+		inputPanel.add(zSifraArtikla.getComponent(), "wrap");
 		
-		tfSifraArtikla = new JTextField(5);	
-		tfSifraArtikla.setDocument(new DocumentLimit(4));
+		inputPanel.add(zGodina.getComponent());
+		inputPanel.add(zBrojPrometnogDokumenta.getComponent(), "wrap");
 		
-		tfSifraDokumenta = new JTextField(13);
-		tfSifraDokumenta.setDocument(new DocumentLimit(12));
+		inputPanel.add(diDatumPromijene.getComponent());
+		inputPanel.add(cbVrstaDokumenta.getComponent(), "wrap");
 		
-		tfSifraObjekta = new JTextField(13);
-		tfSifraObjekta.setDocument(new DocumentLimit(12));
+		inputPanel.add(tfSifraDokumenta.getComponent());
+		inputPanel.add(tfKolicina.getComponent(), "wrap");
 		
-		tfVrednost = new NumericTextField(5, new DecimalFormat("0000.00"));
-
-		cbVrstaDokumenta = new JComboBox<String>();
-		cbVrstaDokumenta.addItem("Primka");
-		cbVrstaDokumenta.addItem("Otpremnica");
-		cbVrstaDokumenta.addItem("Medjumagacinski promet");
-		cbVrstaDokumenta.addItem("Nivelacija");
-		cbVrstaDokumenta.addItem("Korekcija po popisu");
-		cbVrstaDokumenta.addItem("Pocetno stanje");
-
-		cbSmer = new JComboBox<String>();
-		cbSmer.addItem("Izlaz");
-		cbSmer.addItem("Ulaz");
-
-		initializeTable();
-		initializeToolbar();
-
-		add(toolbar, "dock north");
-		add(new JScrollPane(table), "dock north");
-
-		JPanel tfPanel = new JPanel();
-		tfPanel.setLayout(new MigLayout("center"));
-
-		tfPanel.add(new JLabel("Rbr. Analitike"));
-		tfPanel.add(tfRbrAnalitike);
-
-		tfPanel.add(new JLabel("Sifra objekta"));
-		tfPanel.add(tfSifraObjekta, "wrap");
-
-		tfPanel.add(new JLabel("PIB"));
-		tfPanel.add(tfPib);
-
-		tfPanel.add(new JLabel("Godina"));
-		tfPanel.add(tfGodina, "wrap");
-
-		tfPanel.add(new JLabel("Sifra artikla"));
-		tfPanel.add(tfSifraArtikla);
-
-		tfPanel.add(new JLabel("Broj prometnog dokumenta"));
-		tfPanel.add(tfBrojPrometnogDokumenta, "wrap");
-
-		tfPanel.add(new JLabel("Datum promene"));
-		tfPanel.add(tfDatumPromijene);
-
-		tfPanel.add(new JLabel("Vrsta dokumenta"));
-		tfPanel.add(cbVrstaDokumenta, "wrap");
-
-		tfPanel.add(new JLabel("Sifra dokumenta"));
-		tfPanel.add(tfSifraDokumenta);
-
-		tfPanel.add(new JLabel("Kolicina"));
-		tfPanel.add(tfKolicina, "wrap");
-
-		tfPanel.add(new JLabel("Cena"));
-		tfPanel.add(tfCena);
-
-		tfPanel.add(new JLabel("Vrednost"));
-		tfPanel.add(tfVrednost, "wrap");
+		inputPanel.add(tfCena.getComponent());
+		inputPanel.add(tfVrednost.getComponent(), "wrap");
 		
-		tfPanel.add(new JLabel("Redni broj stavke"));
-		tfPanel.add(tfRedniBroj);
-
-		tfPanel.add(new JLabel("Smer"));
-		tfPanel.add(cbSmer);
-
-		add(tfPanel);
-
-		btnPanel = new JPanel();
-		btnPanel.setLayout(new MigLayout("align right"));
-		btnPanel.add(new JButton(new ActionCommit(controller)), "wrap");
-		btnPanel.add(new JButton(new ActionCancelAction(controller)));
-		add(btnPanel);
+		inputPanel.add(cbSmer.getComponent());
+		
 	}
 
 	@Override
-	public void populateFieldsArray() {
-		// TODO Auto-generated method stub
-
-		editableFields = new Component[13];
-		editableFields[0] = tfRbrAnalitike;
-		editableFields[1] = tfSifraObjekta;
-		editableFields[2] = tfPib;
-		editableFields[3] = tfSifraArtikla;
-		editableFields[4] = tfGodina;
-		editableFields[5] = tfBrojPrometnogDokumenta;
-		editableFields[6] = tfRedniBroj;
-		editableFields[6] = tfDatumPromijene;
-		editableFields[7] = cbVrstaDokumenta;
-		editableFields[8] = tfSifraDokumenta;
-		editableFields[9] = tfKolicina;
-		editableFields[10] = tfCena;
-		editableFields[11] = tfVrednost;
-		editableFields[12] = cbSmer;
-
+	public void populateInputsAndRequiredArray() {
+		
+		inputsArray = new Input[13];
+		inputsArray[0] = tfRbrAnalitike;
+		inputsArray[1] = zSifraObjekta;
+		inputsArray[2] = zPib;
+		inputsArray[3] = zSifraArtikla;
+		inputsArray[4] = zGodina;
+		inputsArray[5] = zBrojPrometnogDokumenta;
+		inputsArray[6] = diDatumPromijene;
+		inputsArray[7] = cbVrstaDokumenta;
+		inputsArray[8] = tfSifraDokumenta;
+		inputsArray[9] = tfKolicina;
+		inputsArray[10] = tfCena;
+		inputsArray[11] = tfVrednost;
+		inputsArray[12] = cbSmer;
+		
 	}
 
 	@Override
@@ -185,15 +128,15 @@ public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 		// TODO Auto-generated method stub
 		switch (iD2) {
 		case MAGACINSAK_KARTICA:
-			tfSifraObjekta.setText(childRetVals[0]);
-			tfPib.setText(childRetVals[1]);
-			tfSifraArtikla.setText(childRetVals[2]);
-			tfGodina.setText(childRetVals[3]);
+			zSifraObjekta.setText(childRetVals[0]);
+			zPib.setText(childRetVals[1]);
+			zSifraArtikla.setText(childRetVals[2]);
+			zGodina.setText(childRetVals[3]);
 			break;
 		case STAVKA_PROMETNOG_DOKUMENTA:
-			tfBrojPrometnogDokumenta.setText(childRetVals[3]);
-			tfPib.setText(childRetVals[0]);
-			tfGodina.setText(childRetVals[2]);
+			zBrojPrometnogDokumenta.setText(childRetVals[3]);
+			zPib.setText(childRetVals[0]);
+			zGodina.setText(childRetVals[2]);
 			break;
 		}
 	}
@@ -201,57 +144,57 @@ public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 	@Override
 	protected void sync() {
 		// TODO Auto-generated method stub
-		int index = table.getSelectedRow();
-		if (index < 0) {
-			for (Component c : editableFields) {
-				if (c instanceof JTextField)
-					((JTextField) c).setText("");
-			}
-			return;
-		}
-
-		tfRbrAnalitike.setText((String) model.getValueAt(index, 0));
-		tfSifraObjekta.setText((String) model.getValueAt(index, 1));
-		tfPib.setText((String) model.getValueAt(index, 2));
-		tfSifraArtikla.setText((String) model.getValueAt(index, 3));
-		tfGodina.setText((String) model.getValueAt(index, 4));
-		tfBrojPrometnogDokumenta.setText((String) model.getValueAt(index, 5));
-		tfDatumPromijene.setText((String) model.getValueAt(index, 7));
-
-		switch (((String) model.getValueAt(index, 7)).trim().toLowerCase()) {
-		case "pr":
-			cbVrstaDokumenta.setSelectedItem("Primka");
-			break;
-		case "ot":
-			cbVrstaDokumenta.setSelectedItem("Otpremnica");
-			break;
-		case "mm":
-			cbVrstaDokumenta.setSelectedItem("Medjumagacinsko poslovanje");
-			break;
-		case "ni":
-			cbVrstaDokumenta.setSelectedItem("Nivelacija");
-			break;
-		case "kp":
-			cbVrstaDokumenta.setSelectedItem("Korekcija po popisu");
-			break;
-		case "ps":
-			cbVrstaDokumenta.setSelectedItem("Pocetno stanje");
-			break;
-		}
-
-		tfSifraDokumenta.setText((String) model.getValueAt(index, 8));
-		tfKolicina.setText((String) model.getValueAt(index, 9));
-		tfCena.setText((String) model.getValueAt(index, 10));
-		tfVrednost.setText((String) model.getValueAt(index, 11));
-
-		switch (((String) model.getValueAt(index, 12)).trim().toUpperCase()) {
-		case "U":
-			cbSmer.setSelectedItem("Ulaz");
-			break;
-		case "I":
-			cbSmer.setSelectedItem("Izlaz");
-			break;
-		}
+//		int index = table.getSelectedRow();
+//		if (index < 0) {
+//			for (Component c : editableFields) {
+//				if (c instanceof JTextField)
+//					((JTextField) c).setText("");
+//			}
+//			return;
+//		}
+//
+//		tfRbrAnalitike.setText((String) model.getValueAt(index, 0));
+//		tfSifraObjekta.setText((String) model.getValueAt(index, 1));
+//		tfPib.setText((String) model.getValueAt(index, 2));
+//		tfSifraArtikla.setText((String) model.getValueAt(index, 3));
+//		tfGodina.setText((String) model.getValueAt(index, 4));
+//		tfBrojPrometnogDokumenta.setText((String) model.getValueAt(index, 5));
+//		tfDatumPromijene.setText((String) model.getValueAt(index, 7));
+//
+//		switch (((String) model.getValueAt(index, 7)).trim().toLowerCase()) {
+//		case "pr":
+//			cbVrstaDokumenta.setSelectedItem("Primka");
+//			break;
+//		case "ot":
+//			cbVrstaDokumenta.setSelectedItem("Otpremnica");
+//			break;
+//		case "mm":
+//			cbVrstaDokumenta.setSelectedItem("Medjumagacinsko poslovanje");
+//			break;
+//		case "ni":
+//			cbVrstaDokumenta.setSelectedItem("Nivelacija");
+//			break;
+//		case "kp":
+//			cbVrstaDokumenta.setSelectedItem("Korekcija po popisu");
+//			break;
+//		case "ps":
+//			cbVrstaDokumenta.setSelectedItem("Pocetno stanje");
+//			break;
+//		}
+//
+//		tfSifraDokumenta.setText((String) model.getValueAt(index, 8));
+//		tfKolicina.setText((String) model.getValueAt(index, 9));
+//		tfCena.setText((String) model.getValueAt(index, 10));
+//		tfVrednost.setText((String) model.getValueAt(index, 11));
+//
+//		switch (((String) model.getValueAt(index, 12)).trim().toUpperCase()) {
+//		case "U":
+//			cbSmer.setSelectedItem("Ulaz");
+//			break;
+//		case "I":
+//			cbSmer.setSelectedItem("Izlaz");
+//			break;
+//		}
 	}
 
 	@Override
@@ -267,9 +210,6 @@ public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 		primaryKeysColumnNumber[0] = 0;
 	}
 
-	@Override
-	public void setFieldsEditable(boolean b) {
-		super.setFieldsEditable(false);
-	}
+	
 
 }

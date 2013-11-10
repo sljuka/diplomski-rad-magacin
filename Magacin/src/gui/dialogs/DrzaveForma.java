@@ -1,6 +1,7 @@
 package gui.dialogs;
 import gui.DocumentLimit;
 import gui.IInput;
+import gui.Input;
 import gui.TextInput;
 
 import java.awt.Component;
@@ -40,8 +41,8 @@ import actions.ActionSelectPrevious;
 
 public class DrzaveForma extends DatabaseForma {
 	
-	private IInput tfSifraDrzave;
-	private IInput tfNazivDrzave;
+	private Input tfSifraDrzave;
+	private Input tfNazivDrzave;
 	
 	//private JTextField tfSifraDrzave;
 	//private JTextField tfNazivDrzave;
@@ -53,9 +54,6 @@ public class DrzaveForma extends DatabaseForma {
 	
 	@Override
 	protected void initializeInputFields(FormController controller) {
-		// TODO Auto-generated method stub
-		setLayout(new MigLayout("", "[align r][align l, grow, fill]", ""));
-
 		inputPanel = new JPanel();
 		inputPanel.setLayout(new MigLayout("center"));	
 		
@@ -88,7 +86,7 @@ public class DrzaveForma extends DatabaseForma {
 	@Override
 	public void populateInputsAndRequiredArray() {
 		// TODO Auto-generated method stub
-		inputsArray = new IInput[2];
+		inputsArray = new Input[2];
 		inputsArray[0] = tfSifraDrzave;
 		inputsArray[1] = tfNazivDrzave;
 		

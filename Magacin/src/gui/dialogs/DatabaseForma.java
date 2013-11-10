@@ -2,6 +2,7 @@ package gui.dialogs;
 
 import gui.DatePickerComponent;
 import gui.IInput;
+import gui.Input;
 import gui.StatusBar;
 
 import java.awt.Component;
@@ -57,7 +58,7 @@ public abstract class DatabaseForma extends JDialog {
 	protected StatusBar statusBar;
 	
 	// polja za unos (text fieldovi, checkboxovi, comboboxovi koji se nalaze na formi
-	protected IInput[] inputsArray;
+	protected Input[] inputsArray;
 	
 	protected JButton[] procedures;
 	
@@ -133,6 +134,7 @@ public abstract class DatabaseForma extends JDialog {
 	}
 	
 	protected void layoutComponents() {
+		setLayout(new MigLayout("", "[align r][align l, grow, fill]", ""));
 		add(toolbar, "dock north");
 		add(new JScrollPane(table), "dock north");
 		add(inputPanel);
@@ -160,7 +162,7 @@ public abstract class DatabaseForma extends JDialog {
 	
 	public abstract void populateInputsAndRequiredArray();
 
-	public Component[] getInputs() {
+	public Input[] getInputs() {
 		return inputsArray;
 	}
 
@@ -316,13 +318,8 @@ public abstract class DatabaseForma extends JDialog {
 	
 	public void disableFields(){
 		setZoomButtons(false);
-		for (Component c : inputsArray){
-			if (c instanceof JTextField)
-				((JTextField) c).setEditable(false);
-			if (c instanceof JComboBox)
-				c.setEnabled(false);
-			if (c instanceof DatePickerComponent)
-				((DatePickerComponent) c).setEditable(false);
+		for (Input c : inputsArray){
+			c.setUserEditable(false);
 		}
 	}
 	
