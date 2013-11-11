@@ -4,6 +4,7 @@ import gui.Input;
 import gui.TextInput;
 import gui.ZoomInput;
 import model.DataBaseTableModel.tableNames;
+import controllers.AuthentificationController;
 import controllers.FormController;
 
 public class PoslovniObjektiForma extends DatabaseForma {
@@ -11,7 +12,7 @@ public class PoslovniObjektiForma extends DatabaseForma {
 	private ZoomInput zPib;
 	private TextInput tfSifraObjekta;
 	private ZoomInput zSifraDrzave;
-	private ZoomInput zfSifraMesta;
+	private ZoomInput zSifraMesta;
 	private ZoomInput zSifraTipa;
 	private TextInput tfNazivObjekta;
 
@@ -23,7 +24,7 @@ public class PoslovniObjektiForma extends DatabaseForma {
 	protected void sync() {
 		super.sync();
 		childRetVals[0] = zSifraDrzave.getText();
-		childRetVals[1] = zfSifraMesta.getText();
+		childRetVals[1] = zSifraMesta.getText();
 		childRetVals[2] = zPib.getText();
 		childRetVals[3] = tfSifraObjekta.getText();
 	}
@@ -34,7 +35,7 @@ public class PoslovniObjektiForma extends DatabaseForma {
 		zPib = new ZoomInput(this, tableNames.PREDUZECE, "Pib", 14, 30);
 		tfSifraObjekta = new TextInput(14, "Sifra objekta", null);
 		zSifraDrzave = new ZoomInput(this, tableNames.DRZAVA, "Drzava", 5, 30);
-		zfSifraMesta = new ZoomInput(this, tableNames.NASELJENO_MESTO, "Naseljeno mesto", 4, 14);
+		zSifraMesta = new ZoomInput(this, tableNames.NASELJENO_MESTO, "Naseljeno mesto", 4, 14);
 		zSifraTipa = new ZoomInput(this, tableNames.TIP_OBJEKTA, "Tip objekta", 4, 30);
 		tfNazivObjekta = new TextInput(30, "Naziv objekta", null);
 	}
@@ -46,7 +47,7 @@ public class PoslovniObjektiForma extends DatabaseForma {
 		inputsArray[0] = zPib;
 		inputsArray[1] = tfSifraObjekta;
 		inputsArray[2] = zSifraDrzave;
-		inputsArray[3] = zfSifraMesta;
+		inputsArray[3] = zSifraMesta;
 		inputsArray[4] = zSifraTipa;
 		inputsArray[5] = tfNazivObjekta;
 		
@@ -65,17 +66,16 @@ public class PoslovniObjektiForma extends DatabaseForma {
 		switch (iD2) {
 		case TIP_OBJEKTA:
 			zSifraTipa.setText(childRetVals[0]);
-			//tfNazivTipa.setText(childRetVals[1]);
 			break;
 		case NASELJENO_MESTO:
 			zSifraDrzave.setText(childRetVals[0]);
-			//tfSifraMesta.setText(childRetVals[1]);
-			//tfNazivMesta.setText(childRetVals[2]);
+			zSifraMesta.setText(childRetVals[1]);
 			break;
 		case PREDUZECE:
-			zPib.setText(childRetVals[0]);
-			//tfNazivPreduzeca.setText(childRetVals[1]);
-			//break;
+			zSifraDrzave.setText(childRetVals[0]);
+			zSifraMesta.setText(childRetVals[1]);
+			zPib.setText(childRetVals[2]);
+			break;
 		default:
 			break;
 		}
@@ -86,6 +86,14 @@ public class PoslovniObjektiForma extends DatabaseForma {
 		primaryKeysColumnNumber = new int[2];
 		primaryKeysColumnNumber[0] = 0;
 		primaryKeysColumnNumber[1] = 1;
+	}
+	
+	@Override
+	public void setFieldsEditable(boolean b) {
+		// TODO Auto-generated method stub
+		super.setFieldsEditable(b);
+		zSifraDrzave.setUserEditable(false);
+		zSifraMesta.setUserEditable(false);
 	}
 
 }

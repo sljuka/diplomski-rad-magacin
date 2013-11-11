@@ -6,6 +6,7 @@ import gui.DateInput;
 import gui.DatePickerComponent;
 import gui.DocumentLimit;
 import gui.DocumentNumericLimited;
+import gui.IInputChangeListener;
 import gui.Input;
 import gui.TextInput;
 import gui.ZoomInput;
@@ -83,6 +84,35 @@ public class PrometniDokumentForma extends DatabaseForma {
 		vrste.add(new ComboListitem("Medjumagacinski transfer", "MM"));
 		cbVrstaDokumenta = new ComboBoxInput(vrste, "Vrste dokumenta");
 		
+		cbVrstaDokumenta.addListener(new IInputChangeListener() {
+			
+			@Override
+			public void inputChanged(Object message) {
+				// TODO Auto-generated method stub
+				if(	cbVrstaDokumenta.getText().equals("PR") ||
+					cbVrstaDokumenta.getText().equals("OT")) {
+					
+					zSiftaMagacinaMMPromet.setUserEditable(false);
+					zPibPoslovnogPartnera.setUserEditable(true);
+				
+				}
+				else
+				{
+					zSiftaMagacinaMMPromet.setUserEditable(true);
+					zPibPoslovnogPartnera.setUserEditable(false);
+				}
+			}
+		});
+		
+	}
+	
+	@Override
+	protected void sync() {
+		// TODO Auto-generated method stub
+		super.sync();
+		childRetVals[0] = zPib.getText();
+		childRetVals[1] = zGodina.getText();
+		childRetVals[2] = tfBrojPrometnogDokumenta.getText();
 	}
 
 	@Override
@@ -122,19 +152,30 @@ public class PrometniDokumentForma extends DatabaseForma {
 	public void childResponse(tableNames iD2, String[] childRetVals) {
 		// TODO Auto-generated method stub
 		if (iD2==tableNames.POSLOVNI_OBJEKAT) {
-			zSifraMagacina.setText(childRetVals[0]);
-			((ZoomInput)zSifraMagacina).setNaziv(childRetVals[1]);
-			zPib.setText(childRetVals[2]);
+			zSifraMagacina.setText(childRetVals[1]);
+			zPib.setText(childRetVals[0]);
 		}
 		if (iD2==tableNames.POSLOVNA_GODINA) {
-			zGodina.setText(childRetVals[0]);
-			zPib.setText(childRetVals[1]);
+			zGodina.setText(childRetVals[1]);
+			zPib.setText(childRetVals[0]);
 		}
 		if (iD2==tableNames.POSLOVNI_PARTNER) {
-			zPibPoslovnogPartnera.setText(childRetVals[0]);
-			((ZoomInput)zPibPoslovnogPartnera).setNaziv(childRetVals[1]);
-			zPib.setText(childRetVals[2]);
+			zPibPoslovnogPartnera.setText(childRetVals[1]);
+			zPib.setText(childRetVals[0]);
 		}
+	}
+	
+	@Override
+	public void beforeAdd() {
+		cbStatus.setText("F");
+	}
+	
+	@Override
+	public void setFieldsEditable(boolean b) {
+		// TODO Auto-generated method stub
+		super.setFieldsEditable(b);
+		zPib.setUserEditable(false);
+		cbStatus.setUserEditable(false);
 	}
 
 }

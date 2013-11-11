@@ -78,16 +78,23 @@ public class StavkePopisaForma extends DatabaseForma {
 		// TODO Auto-generated method stub
 		switch (iD2) {
 		case POPISNI_DOKUMENT:
-			zGodina.setText(childRetVals[0]);
+			zGodina.setText(childRetVals[2]);
 			zBrojPopisa.setText(childRetVals[3]);
-			zPib.setText(childRetVals[1]);
-			zSifraObjekta.setText(childRetVals[2]);
+			zPib.setText(childRetVals[0]);
+			zSifraObjekta.setText(childRetVals[1]);
 			break;
 		case ARTIKAL:
-			zSifraArtikla.setText(childRetVals[0]);
+			zSifraArtikla.setText(childRetVals[1]);
 			break;
 
 		}
 
+	}
+	
+	@Override
+	public void setFieldsEditable(boolean b) {
+		// TODO Auto-generated method stub
+		super.setFieldsEditable(b);
+		zPib.setUserEditable(false);
 	}
 }

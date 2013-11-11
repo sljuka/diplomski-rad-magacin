@@ -61,7 +61,7 @@ public class ZaposleniForma extends DatabaseForma {
 	public void childResponse(tableNames iD2, String[] childRetVals) {
 		// TODO Auto-generated method stub
 		if (iD2 == tableNames.PREDUZECE) {
-			zPib.setText(childRetVals[0]);
+			zPib.setText(childRetVals[2]);
 		}
 	}
 
@@ -69,8 +69,14 @@ public class ZaposleniForma extends DatabaseForma {
 	public void setFieldsEditable(boolean b) {
 		// TODO Auto-generated method stub
 		super.setFieldsEditable(b);
+		zPib.setUserEditable(false);
 		if(!AuthentificationController.getAuthenticationInstance().isAdmin())
 			cbIsAdmin.setUserEditable(false);
 	}
 
+	@Override
+	public void beforeAdd() {
+		zPib.setText(AuthentificationController.getAuthenticationInstance().getPibPreduzecaUlogovanogKorisnika());
+	}
+	
 }

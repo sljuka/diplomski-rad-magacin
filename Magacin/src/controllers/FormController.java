@@ -72,6 +72,7 @@ public class FormController {
 		for (Input comp : databaseForm.getInputs()) {
 			comp.setText("");
 		}
+		databaseForm.beforeAdd();	
 		setCurrentState(new AddState());
 	}
 
@@ -95,11 +96,6 @@ public class FormController {
 		// TODO Auto-generated method stub
 		if (databaseForm.getParentDialog() == null)
 			return;
-		if (databaseForm.getParrentsTextField() != null) {
-			databaseForm.getParrentsTextField().setText(databaseForm.getChildRetVals()[0]);
-			databaseForm.setVisible(false);
-			return;
-		}
 		String[] childRetVals = databaseForm.getChildRetVals();
 		if (childRetVals[0] == null || childRetVals[0].equals(""))		// Bar prvi mora da ima neku informaciju!!!
 			return;

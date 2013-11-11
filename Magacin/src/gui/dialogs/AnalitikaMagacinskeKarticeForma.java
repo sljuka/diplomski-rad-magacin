@@ -102,19 +102,7 @@ public class AnalitikaMagacinskeKarticeForma extends DatabaseForma {
 	@Override
 	public void childResponse(tableNames iD2, String[] childRetVals) {
 		// TODO Auto-generated method stub
-		switch (iD2) {
-		case MAGACINSAK_KARTICA:
-			zSifraObjekta.setText(childRetVals[0]);
-			zPib.setText(childRetVals[1]);
-			zSifraArtikla.setText(childRetVals[2]);
-			zGodina.setText(childRetVals[3]);
-			break;
-		case STAVKA_PROMETNOG_DOKUMENTA:
-			zBrojPrometnogDokumenta.setText(childRetVals[3]);
-			zPib.setText(childRetVals[0]);
-			zGodina.setText(childRetVals[2]);
-			break;
-		}
+
 	}
 
 	@Override

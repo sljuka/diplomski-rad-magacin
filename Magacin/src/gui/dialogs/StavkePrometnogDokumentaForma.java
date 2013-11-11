@@ -80,16 +80,13 @@ public class StavkePrometnogDokumentaForma extends DatabaseForma {
 	public void childResponse(tableNames iD2, String[] childRetVals) {
 		// TODO Auto-generated method stub
 		if (iD2 == tableNames.ARTIKAL) {
-			zSifraArtikla.setText(childRetVals[0]);
-			zPib.setText(childRetVals[2]);
+			zSifraArtikla.setText(childRetVals[1]);
+			zPib.setText(childRetVals[0]);
 		}
 		if (iD2 == tableNames.PROMETNI_DOKUMENT) {
-			zBrojPrometnogDokumenta.setText(childRetVals[0]);
-			zPib.setText(childRetVals[1]);
-		}
-		if (iD2==tableNames.POSLOVNA_GODINA) {
-			zGodina.setText(childRetVals[0]);
-			zPib.setText(childRetVals[1]);
+			zBrojPrometnogDokumenta.setText(childRetVals[2]);
+			zPib.setText(childRetVals[0]);
+			zGodina.setText(childRetVals[1]);
 		}
 	}
 }

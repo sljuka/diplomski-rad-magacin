@@ -32,6 +32,13 @@ public class MernaJedinicaForma extends DatabaseForma {
 	}
 	
 	@Override
+	protected void sync() {
+		// TODO Auto-generated method stub
+		super.sync();
+		childRetVals[0] = tfSifraJedinice.getText();
+	}
+	
+	@Override
 	protected void initializeInputFields(FormController controller) {
 		tfSifraJedinice = new TextInput(30, "Sifra jedinice", null);
 		tfNazivJedinice = new TextInput(30, "Naziv jedinice", null);

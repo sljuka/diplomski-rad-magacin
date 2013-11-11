@@ -90,17 +90,15 @@ public class ClanPopisneKomisijeForma extends DatabaseForma {
 		// TODO Auto-generated method stub
 		switch (iD2) {
 		case POPISNI_DOKUMENT:
-			zGodina.setText(childRetVals[0]);
-			zPib.setText(childRetVals[1]);
+			zGodina.setText(childRetVals[2]);
+			zPib.setText(childRetVals[0]);
 			zBrojPopisa.setText(childRetVals[3]);
-			zSifraObjekta.setText(childRetVals[2]);
+			zSifraObjekta.setText(childRetVals[1]);
 			break;
 		case ZAPOSLENI:
 			zSifraRdnk.setText(childRetVals[0]);
 			break;
-
 		}
-
 	}
 
 	@Override
@@ -112,6 +110,15 @@ public class ClanPopisneKomisijeForma extends DatabaseForma {
 		primaryKeysColumnNumber[2] = 2;
 		primaryKeysColumnNumber[3] = 3;
 		primaryKeysColumnNumber[4] = 4;
+	}
+	
+	@Override
+	public void setFieldsEditable(boolean b) {
+		// TODO Auto-generated method stub
+		super.setFieldsEditable(b);
+		zPib.setUserEditable(false);
+		zBrojPopisa.setUserEditable(false);
+		zSifraObjekta.setUserEditable(false);
 	}
 
 }

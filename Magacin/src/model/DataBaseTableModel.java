@@ -161,11 +161,11 @@ public class DataBaseTableModel extends MyTableModel {
 		}
 		columnsPart += ")";
 		valuesPart += ")";
-		System.out.println(columnsPart);
 		PreparedStatement stmt = DBConnection.getConnection().prepareStatement(
 				"INSERT INTO " + tableName + columnsPart + valuesPart);
 		for (int i = 0; i < columnNames.length; i++)
 			stmt.setString(i + 1, newRow[i]);
+		System.out.println("INSERT INTO " + tableName + columnsPart + valuesPart);
 		int rowsAffected = stmt.executeUpdate();
 		stmt.close();
 		DBConnection.getConnection().commit();

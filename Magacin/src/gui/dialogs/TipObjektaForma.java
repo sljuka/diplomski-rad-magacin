@@ -17,6 +17,13 @@ public class TipObjektaForma extends DatabaseForma {
 	}
 	
 	@Override
+	protected void sync() {
+		// TODO Auto-generated method stub
+		super.sync();
+		childRetVals[0] = tfsifraTipa.getText();
+	}
+	
+	@Override
 	protected void initializeInputFields(FormController controller) {
 		inputsArray = new Input[] {
 			tfsifraTipa = new TextInput(14, "Sifra tipa", new DocumentLimit(14)),

@@ -38,7 +38,7 @@ public class PreduzecaForma extends DatabaseForma {
 	@Override
 	protected void initializeInputFields(FormController controller) {
 		// TODO Auto-generated method stub
-		tfPib = new TextInput(14, "Pib", new DocumentLimit(14));
+		tfPib = new TextInput(12, "Pib", new DocumentLimit(12));
 		zSifraDrzave = new ZoomInput(this, tableNames.DRZAVA, "Drzava", 5, 30);
 		zSifraMesta = new ZoomInput(this, tableNames.NASELJENO_MESTO, "Mesto", 5, 30);
 		tfNazivPreduzeca = new TextInput(30, "Naziv preduzeca", null);
@@ -67,7 +67,6 @@ public class PreduzecaForma extends DatabaseForma {
 		if (iD2 == tableNames.NASELJENO_MESTO) {
 			zSifraDrzave.setText(childRetVals[0]);
 			zSifraMesta.setText(childRetVals[1]);
-			((ZoomInput)zSifraMesta).setNaziv(childRetVals[2]);
 		}
 	}
 	
@@ -87,6 +86,13 @@ public class PreduzecaForma extends DatabaseForma {
 		primaryKeysColumnNumber[0] = 0;
 		primaryKeysColumnNumber[1] = 1;
 		primaryKeysColumnNumber[2] = 2;
+	}
+	
+	@Override
+	public void setFieldsEditable(boolean b) {
+		// TODO Auto-generated method stub
+		super.setFieldsEditable(b);
+		zSifraDrzave.setUserEditable(false);
 	}
 	
 }

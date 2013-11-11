@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controllers.AuthentificationController;
 import controllers.FormController;
 
 import model.DataBaseTableModel.tableNames;
@@ -40,6 +41,14 @@ public class ArtikliForma extends DatabaseForma {
 	public ArtikliForma(FormController fc) {
 		// TODO Auto-generated constructor stub
 		super(fc, tableNames.ARTIKAL, 1000, 600, false);
+	}
+	
+	@Override
+	protected void sync() {
+		// TODO Auto-generated method stub
+		super.sync();
+		childRetVals[0] = zPib.getText();
+		childRetVals[1] = tfSifraArtikla.getText();
 	}
 
 	@Override
@@ -83,11 +92,9 @@ public class ArtikliForma extends DatabaseForma {
 		// TODO Auto-generated method stub
 		if (iD2 == tableNames.MERNA_JEDINICA) {
 			zSifraMerneJedinice.setText(childRetVals[0]);
-			((ZoomInput)zSifraMerneJedinice).setNaziv(childRetVals[1]);
 		}
 		if (iD2 == tableNames.PREDUZECE) {
 			zPib.setText(childRetVals[0]);
-			((ZoomInput)zPib).setNaziv(childRetVals[1]);
 		}
 	}
 
@@ -96,6 +103,18 @@ public class ArtikliForma extends DatabaseForma {
 		// TODO Auto-generated method stub
 		primaryKeysColumnNumber = new int[1];
 		primaryKeysColumnNumber[0] = 1;
+	}
+	
+	@Override
+	public void setFieldsEditable(boolean b) {
+		// TODO Auto-generated method stub
+		super.setFieldsEditable(b);
+		zPib.setUserEditable(false);
+	}
+	
+	@Override
+	public void beforeAdd() {
+		zPib.setText(AuthentificationController.getAuthenticationInstance().getPibPreduzecaUlogovanogKorisnika());
 	}
 
 }

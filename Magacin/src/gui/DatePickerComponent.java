@@ -38,7 +38,7 @@ public class DatePickerComponent extends JPanel {
 	}
 	
 	public void setText(String text) {
-		if (text == null) {
+		if (text == null || text.equals("")) {
 			tfDate.setText("");
 			return;
 		}

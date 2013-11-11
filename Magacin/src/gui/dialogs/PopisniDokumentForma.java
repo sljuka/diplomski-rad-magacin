@@ -46,6 +46,16 @@ public class PopisniDokumentForma extends DatabaseForma {
 	}
 	
 	@Override
+	protected void sync() {
+		// TODO Auto-generated method stub
+		super.sync();
+		childRetVals[0] = zPib.getText();
+		childRetVals[1] = zSifraObjekta.getText();
+		childRetVals[0] = zGodina.getText();
+		childRetVals[1] = tfBrojPopisa.getText();
+	}
+	
+	@Override
 	protected void initializeInputFields(FormController controller) {
 		tfBrojPopisa = new TextInput(4, "Broj popisa", new DocumentNumericLimited(4));
 		zGodina = new ZoomInput(this, tableNames.POSLOVNA_GODINA, "Poslovna godina", 5, 5);
@@ -82,12 +92,12 @@ public class PopisniDokumentForma extends DatabaseForma {
 		// TODO Auto-generated method stub
 		switch (iD2) {
 		case POSLOVNA_GODINA:
-			zGodina.setText(childRetVals[0]);
-			zPib.setText(childRetVals[1]);
+			zGodina.setText(childRetVals[1]);
+			zPib.setText(childRetVals[0]);
 			break;
 		case POSLOVNI_OBJEKAT:
-			zSifraObjekta.setText(childRetVals[0]);
-			zPib.setText(childRetVals[2]);
+			zSifraObjekta.setText(childRetVals[1]);
+			zPib.setText(childRetVals[0]);
 			break;
 		case PREDUZECE:
 			zPib.setText(childRetVals[0]);
@@ -105,6 +115,13 @@ public class PopisniDokumentForma extends DatabaseForma {
 		primaryKeysColumnNumber[2] = 2;
 		primaryKeysColumnNumber[3] = 3;
 
+	}
+	
+	@Override
+	public void setFieldsEditable(boolean b) {
+		// TODO Auto-generated method stub
+		super.setFieldsEditable(b);
+		zPib.setUserEditable(false);
 	}
 	
 }

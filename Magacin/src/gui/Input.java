@@ -1,8 +1,6 @@
 package gui;
 
-import java.awt.event.ItemListener;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.swing.JComponent;
@@ -40,6 +38,10 @@ public abstract class Input implements IInput {
 		for (IInputChangeListener item : listeners) {
 			item.inputChanged(message);
 		}
+	}
+	
+	public void addListener(IInputChangeListener listener) {
+		listeners.add(listener);
 	}
 
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.DataBaseTableModel.tableNames;
+import controllers.AuthentificationController;
 import controllers.FormController;
 
 public class PoslovniPartnerForma extends DatabaseForma {
@@ -35,8 +36,8 @@ public class PoslovniPartnerForma extends DatabaseForma {
 
 	@Override
 	protected void initializeInputFields(FormController controller) {
-		zPibPreduzeca = new ZoomInput(this, tableNames.PREDUZECE, "Pib preduzeca", 15, 30);
-		tfPibPoslovnogPartnera = new TextInput(14, "Pib poslovnog partenra", new DocumentLimit(14));
+		zPibPreduzeca = new ZoomInput(this, tableNames.PREDUZECE, "Pib preduzeca", 12, 30);
+		tfPibPoslovnogPartnera = new TextInput(14, "Pib poslovnog partenra", new DocumentLimit(12));
 
 		List<ComboListitem> items = new ArrayList<>();
 		items.add(new ComboListitem("dobavlja", "d"));
@@ -67,8 +68,7 @@ public class PoslovniPartnerForma extends DatabaseForma {
 	public void childResponse(tableNames iD2, String[] childRetVals) {
 		// TODO Auto-generated method stub
 		if (iD2==tableNames.PREDUZECE) {
-			zPibPreduzeca.setText(childRetVals[0]);
-			((ZoomInput)zPibPreduzeca).setNaziv(childRetVals[1]);
+			zPibPreduzeca.setText(childRetVals[2]);
 		}
 	}
 
@@ -79,4 +79,16 @@ public class PoslovniPartnerForma extends DatabaseForma {
 		primaryKeysColumnNumber[1] = 1;
 	}
 
+	@Override
+	public void setFieldsEditable(boolean b) {
+		// TODO Auto-generated method stub
+		super.setFieldsEditable(b);
+		zPibPreduzeca.setUserEditable(false);
+	}
+	
+	@Override
+	public void beforeAdd() {
+		zPibPreduzeca.setText(AuthentificationController.getAuthenticationInstance().getPibPreduzecaUlogovanogKorisnika());
+	}
+	
 }

@@ -6,6 +6,7 @@ import gui.Input;
 import gui.TextInput;
 import gui.ZoomInput;
 import model.DataBaseTableModel.tableNames;
+import controllers.AuthentificationController;
 import controllers.FormController;
 
 public class PoslovnaGodinaForma extends DatabaseForma {
@@ -18,6 +19,14 @@ public class PoslovnaGodinaForma extends DatabaseForma {
 		super(fc, tableNames.POSLOVNA_GODINA, 900, 500, false);
 	}
 
+	@Override
+	protected void sync() {
+		// TODO Auto-generated method stub
+		super.sync();
+		childRetVals[0] = zPib.getText();
+		childRetVals[1] = tfgodina.getText();
+	}
+	
 	@Override
 	protected void initializeInputFields(FormController controller) {
 		zPib = new ZoomInput(this, tableNames.PREDUZECE, "Pib", 14, 14);
@@ -43,7 +52,6 @@ public class PoslovnaGodinaForma extends DatabaseForma {
 		// TODO Auto-generated method stub
 		if (iD2 == tableNames.PREDUZECE) {
 			zPib.setText(childRetVals[0]);
-			((ZoomInput)zPib).setNaziv(childRetVals[1]);
 		}
 	}
 
@@ -53,6 +61,18 @@ public class PoslovnaGodinaForma extends DatabaseForma {
 		primaryKeysColumnNumber = new int[2];
 		primaryKeysColumnNumber[0] = 0;
 		primaryKeysColumnNumber[1] = 1;
+	}
+	
+	@Override
+	public void setFieldsEditable(boolean b) {
+		// TODO Auto-generated method stub
+		super.setFieldsEditable(b);
+		zPib.setUserEditable(false);
+	}
+	
+	@Override
+	public void beforeAdd() {
+		zPib.setText(AuthentificationController.getAuthenticationInstance().getPibPreduzecaUlogovanogKorisnika());
 	}
 
 }
