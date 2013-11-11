@@ -1,6 +1,10 @@
 package gui.dialogs;
 
 import gui.DocumentNumericLimited;
+import gui.Input;
+import gui.NumericTextInput;
+import gui.TextInput;
+import gui.ZoomInput;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -26,268 +30,66 @@ import model.DataBaseTableModel.tableNames;
 
 public class StavkePrometnogDokumentaForma extends DatabaseForma {
 
-	private JTextField tfPib;
-	private JTextField tfGodina;
-	private JTextField tfBrojPrometnogDokumenta;
-	private JTextField tfSifraArtikla;
-	private JTextField tfRbr;
-	private NumericTextField tfKolicina;
-	private NumericTextField tfCena;
-	private NumericTextField tfVrednost;
+	private ZoomInput zPib;
+	private ZoomInput zGodina;
+	private ZoomInput zBrojPrometnogDokumenta;
+	private ZoomInput zSifraArtikla;
+	private TextInput tfRbr;
+	private NumericTextInput tfKolicina;
+	private NumericTextInput tfCena;
+	private NumericTextInput tfVrednost;
 	
-	private JTextField tfNazivArtikla;
-	
-	private JButton btnZoomArtikli;
-	private JButton btnZoomDokumenti;
-	private JButton btnZoomGodine;
-	
-	public StavkePrometnogDokumentaForma() {
+	public StavkePrometnogDokumentaForma(FormController fc) {
 		// TODO Auto-generated constructor stub
-		super();
-		ID = tableNames.STAVKA_PROMETNOG_DOKUMENTA;
-		setTitle(ID.toString());
-		setSizeAndMove(1000, 600);
-		initializeComponents();
-		populateFieldsArray();
-		initializeStatusBar();
-		setFieldsEditable(false);
-		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
+		super(fc, tableNames.STAVKA_PROMETNOG_DOKUMENTA, 1000, 600, true);
 	}
 	
 	@Override
-	protected void initializeComponents() {
+	protected void initializeInputFields(FormController controller) {
 		// TODO Auto-generated method stub
-		setLayout(new MigLayout("", "[align r][align l, grow, fill]", ""));
-		tfPib = new JTextField(12);
-		tfGodina = new JTextField(12);
-		tfBrojPrometnogDokumenta = new JTextField(5);
-		tfSifraArtikla = new JTextField(12);
-		tfRbr = new JTextField(5);
-		tfRbr.setDocument(new DocumentNumericLimited(5));
-		tfKolicina = new NumericTextField(12, new DecimalFormat("0000.00"));
-		tfKolicina.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				if (tfKolicina.getText().equals("") || tfCena.getText().equals(""))
-					return;
-				double cena = Double.parseDouble(tfCena.getText());
-				double kolicina = Double.parseDouble(tfKolicina.getText());
-				tfVrednost.setText(cena*kolicina+"");
-			}
-		});
-		tfCena =  new NumericTextField(12, new DecimalFormat("##############.##"));
-		tfCena.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				if (tfKolicina.getText().equals("") || tfCena.getText().equals(""))
-					return;
-				double cena = Double.parseDouble(tfCena.getText());
-				DecimalFormat dfVrednost = new DecimalFormat("#.##");	
-				double kolicina = Double.parseDouble(tfKolicina.getText());
-				tfVrednost.setText(dfVrednost.format(cena*kolicina));
-			}
-		});
-		tfVrednost =new NumericTextField(12, new DecimalFormat("0000.00"));
-		tfVrednost.setEditable(false);
-		
-		tfNazivArtikla = new JTextField(20);
-		
-		initializeTable();
-		controller = new FormController(this);
-		initializeToolbar();
-		
-		add(toolbar, "dock north");
-		add(new JScrollPane(table), "dock north");
-		
-		btnZoomArtikli = new JButton("...");
-		btnZoomArtikli.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				ArtikliForma a = new ArtikliForma();
-				a.setParentDialog(StavkePrometnogDokumentaForma.this);
-				a.setKeyFilter(new String[] {"PIB", tfPib.getText()});
-				a.setVisible(true);
-			}
-		});
-		btnZoomDokumenti = new JButton("...");
-		btnZoomDokumenti.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				PrometniDokumentForma a = new PrometniDokumentForma();
-				a.setParentDialog(StavkePrometnogDokumentaForma.this);
-				a.setKeyFilter(new String[] {"PIB", tfPib.getText()});
-				a.setVisible(true);
-			}
-		});
-		btnZoomGodine = new JButton("...");
-		btnZoomGodine.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				PoslovnaGodinaForma p = new PoslovnaGodinaForma();
-				p.setKeyFilter(new String[] {"PIB", tfPib.getText()});
-				p.setParentDialog(StavkePrometnogDokumentaForma.this);
-				p.setVisible(true);
-			}
-		});
-		
-		JPanel tfPanel = new JPanel();
-		tfPanel.setLayout(new MigLayout("center"));
-		
-		tfPanel.add(new JLabel("Broj prometnog dokumenta"));
-		tfPanel.add(tfBrojPrometnogDokumenta, "grow 0, split 3");
-		tfPanel.add(btnZoomDokumenti, "grow 0, wrap");
-		
-		tfPanel.add(new JLabel("Godina"));
-		tfPanel.add(tfGodina, "grow 0, split 3");
-		tfPanel.add(btnZoomGodine, "grow 0, wrap");
-		
-		tfPanel.add(new JLabel("Artikal"));
-		tfPanel.add(tfSifraArtikla, "grow 0, split 3");
-		tfPanel.add(btnZoomArtikli, "grow 0");
-		tfPanel.add(tfNazivArtikla, "wrap");
-		
-		tfPanel.add(new JLabel("Pib"));
-		tfPanel.add(tfPib, "wrap");
-		
-		tfPanel.add(new JLabel("Redni broj stavke"));
-		tfPanel.add(tfRbr, "wrap");
-		
-		tfPanel.add(new JLabel("Kolicina"));
-		tfPanel.add(tfKolicina, "wrap");
-		
-		tfPanel.add(new JLabel("Cena"));
-		tfPanel.add(tfCena, "wrap");
-		
-		tfPanel.add(new JLabel("Vrednost"));
-		tfPanel.add(tfVrednost, "wrap");
-		
-		add(tfPanel);
-		
-		btnPanel = new JPanel();
-		btnPanel.setLayout(new MigLayout("align right"));
-		btnPanel.add(new JButton(new ActionCommit(controller)), "wrap");
-		btnPanel.add(new JButton(new ActionCancelAction(controller)));
-		add(btnPanel);
+		inputsArray = new Input[] {
+			zPib = new ZoomInput(this, tableNames.PREDUZECE, "Preduzece", 14, 30),
+			zGodina = new ZoomInput(this, tableNames.POSLOVNA_GODINA, "Poslovna godina", 5, 5),
+			zBrojPrometnogDokumenta = new ZoomInput(this, tableNames.PROMETNI_DOKUMENT, "Broj prometnog dokumenta", 4, 5),
+			tfRbr = new TextInput(3, "Redni broj stavke", new DocumentNumericLimited(3)),
+			zSifraArtikla = new ZoomInput(this, tableNames.ARTIKAL, "Artikl", 14, 30),
+			tfKolicina = new NumericTextInput("Kolicina", 14),
+			tfCena = new NumericTextInput("Cena", 14),
+			tfVrednost = new NumericTextInput("Vrednost", 14)
+		};
 	}
 
 	@Override
-	public void populateFieldsArray() {
+	public void populateInputsAndRequiredArray() {
+		requiredFields = new int[8];
+		for(int i = 0; i<inputsArray.length; i++)	//every field required
+			requiredFields[i] = i;
+	}
+
+	@Override
+	public void populatePrimaryInputsArray() {
 		// TODO Auto-generated method stub
-		editableFields = new Component[8];
-		editableFields[0] = tfPib;
-		editableFields[1] = tfGodina;
-		editableFields[2] = tfBrojPrometnogDokumenta;
-		editableFields[3] = tfRbr;
-		editableFields[4] = tfSifraArtikla;
-		editableFields[5] = tfKolicina;
-		editableFields[6] = tfCena;
-		editableFields[7] = tfVrednost;
-		
-		requiredFields = new int[4];
-		requiredFields[0] = 0;
-		requiredFields[1] = 2;
-		requiredFields[2] = 3;
-		requiredFields[3] = 4;
+		primaryKeysColumnNumber = new int[5];
+		primaryKeysColumnNumber[0] = 0;
+		primaryKeysColumnNumber[1] = 1;
+		primaryKeysColumnNumber[2] = 2;
+		primaryKeysColumnNumber[3] = 3;
 	}
 
 	@Override
 	public void childResponse(tableNames iD2, String[] childRetVals) {
 		// TODO Auto-generated method stub
 		if (iD2 == tableNames.ARTIKAL) {
-			tfSifraArtikla.setText(childRetVals[0]);
-			tfNazivArtikla.setText(childRetVals[1]);
-			tfPib.setText(childRetVals[2]);
+			zSifraArtikla.setText(childRetVals[0]);
+			zPib.setText(childRetVals[2]);
 		}
 		if (iD2 == tableNames.PROMETNI_DOKUMENT) {
-			tfBrojPrometnogDokumenta.setText(childRetVals[0]);
-			tfPib.setText(childRetVals[1]);
+			zBrojPrometnogDokumenta.setText(childRetVals[0]);
+			zPib.setText(childRetVals[1]);
 		}
 		if (iD2==tableNames.POSLOVNA_GODINA) {
-			tfGodina.setText(childRetVals[0]);
-			tfPib.setText(childRetVals[1]);
+			zGodina.setText(childRetVals[0]);
+			zPib.setText(childRetVals[1]);
 		}
 	}
-
-	@Override
-	protected void sync() {
-		// TODO Auto-generated method stub
-		int index = table.getSelectedRow();
-		if (index < 0) {
-			for (Component c : editableFields) {
-				if (c instanceof JTextField)
-					((JTextField)c).setText("");
-			}
-			tfNazivArtikla.setText("");
-			return;
-		}
-		String pib = (String)model.getValueAt(index, 0);
-		String godina = (String)model.getValueAt(index, 1);
-		String brojPrometnogDokumenta = (String)model.getValueAt(index, 2);
-		String redniBroj = (String)model.getValueAt(index, 3);
-		String sifraArtikla = (String)model.getValueAt(index, 4);
-		String kolicina = (String)model.getValueAt(index, 5);
-		String cena = (String)model.getValueAt(index, 6);
-		String vrednost = (String)model.getValueAt(index, 7);
-		
-		tfPib.setText(pib);
-		tfGodina.setText(godina);
-		tfBrojPrometnogDokumenta.setText(brojPrometnogDokumenta);
-		tfSifraArtikla.setText(sifraArtikla);
-		tfRbr.setText(redniBroj);
-		tfKolicina.setText(kolicina);
-		tfCena.setText(cena);
-		tfVrednost.setText(vrednost);
-		
-		childRetVals[0] = pib;
-		childRetVals[1] = godina;
-		childRetVals[2] = brojPrometnogDokumenta;
-		
-		setFieldsEditable(true);
-	}
-
-	@Override
-	public void populateStatusBasedComponents() {
-		// TODO Auto-generated method stub
-		statusBasedButtons = new Component[0];
-	}
-
-	@Override
-	public void initializePrimaryKeysNumbers() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void setFieldsEditable(boolean b) {
-		// TODO Auto-generated method stub
-		super.setFieldsEditable(b);
-		tfBrojPrometnogDokumenta.setEditable(false);
-		tfSifraArtikla.setEditable(false);
-		tfPib.setEditable(false);
-		tfGodina.setEditable(false);
-		tfNazivArtikla.setEditable(false);
-		tfVrednost.setEditable(false);
-		btnZoomArtikli.setEnabled(b);
-		btnZoomDokumenti.setEnabled(b);
-		btnZoomGodine.setEnabled(b);
-	}
-
-	public JTextField getTfPib() {
-		return tfPib;
-	}
-
-	public JTextField getTfBrojPrometnogDokumenta() {
-		return tfBrojPrometnogDokumenta;
-	}
-	
-	
-
 }

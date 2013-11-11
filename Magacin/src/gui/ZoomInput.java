@@ -55,6 +55,9 @@ public class ZoomInput extends Input {
 	
 	public ZoomInput(DatabaseForma containerForm, tableNames parentTableName, String label, int sifraLength, int nameLength) {
 		this.label = label;
+		this.parentTableName = parentTableName;
+		this.containerForm = containerForm;
+		
 		tfSifra = new JTextField(sifraLength);
 		tfNaziv = new JTextField(nameLength);
 		btnZoom = new JButton("...");
@@ -67,8 +70,10 @@ public class ZoomInput extends Input {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				DatabaseForma m = resolveForm(ZoomInput.this.parentTableName);
-				m.setParentDialog(ZoomInput.this.containerForm);
+				FormController fc = new FormController();
+				DatabaseForma m = resolveForm(fc, ZoomInput.this.parentTableName);
+				fc.setForm(m);
+				m.setParentDialog(ZoomInput.this.containerForm, fc);
 				m.setVisible(true);
 			}
 		});
@@ -93,9 +98,7 @@ public class ZoomInput extends Input {
 		return zoomPanel;
 	}
 	
-	private DatabaseForma resolveForm(tableNames tableName) {
-		
-		FormController fc = new FormController();
+	private DatabaseForma resolveForm(FormController fc, tableNames tableName) {
 		
 		switch (tableName) {
 		case ANALITIKA_MAGACINSKE_KARTICE:
@@ -113,25 +116,27 @@ public class ZoomInput extends Input {
 		case NASELJENO_MESTO:
 			return new MestaForma(fc);
 		case POPISNI_DOKUMENT:
-			return new PopisniDokumentForma();
+			return new PopisniDokumentForma(fc);
 		case POSLOVNA_GODINA:
-			return new PoslovnaGodinaForma();
+			return new PoslovnaGodinaForma(fc);
 		case POSLOVNI_OBJEKAT:
-			return new PoslovniObjektiForma();
+			return new PoslovniObjektiForma(fc);
 		case POSLOVNI_PARTNER:
-			return new PoslovniPartnerForma();
+			return new PoslovniPartnerForma(fc);
 		case PREDUZECE:
-			return new PreduzecaForma();
+			return new PreduzecaForma(fc);
 		case PROMETNI_DOKUMENT:
-			return new PrometniDokumentForma();
+			return new PrometniDokumentForma(fc);
 		case STAVKA_PROMETNOG_DOKUMENTA:
-			return new StavkePrometnogDokumentaForma();
+			return new StavkePrometnogDokumentaForma(fc);
 		case STAVKE_POPISA:
-			return new StavkePopisaForma();
+			return new StavkePopisaForma(fc);
 		case TIP_OBJEKTA:
-			return new TipObjektaForma();
+			return new TipObjektaForma(fc);
 		case ZAPOSLENI:
-			return new ZaposleniForma();
+			return new ZaposleniForma(fc);
+		default:
+			return null;
 		}
 	}
 

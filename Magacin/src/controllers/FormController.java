@@ -1,6 +1,7 @@
 package controllers;
 
 import gui.DatePickerComponent;
+import gui.Input;
 import gui.dialogs.ArtikliForma;
 import gui.dialogs.DatabaseForma;
 import gui.dialogs.MagacinskeKarticeForma;
@@ -67,26 +68,17 @@ public class FormController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Component c = databaseForm.getInputs()[0];
-		c.requestFocusInWindow();
 		databaseForm.setFieldsEditable(true);
-		databaseForm.setZoomButtons(true);
-		for (Component comp : databaseForm.getInputs()) {
-			if (comp instanceof JTextField) {
-				JTextField tfcast = (JTextField) comp;
-				tfcast.setText("");
-			}
+		for (Input comp : databaseForm.getInputs()) {
+			comp.setText("");
 		}
 		setCurrentState(new AddState());
 	}
 
 	public void cancelAction() {
 		// TODO Auto-generated method stub
-		for (Component comp : databaseForm.getInputs()) {
-			if (comp instanceof JTextField) {
-				JTextField tfcast = (JTextField) comp;
-				tfcast.setText("");
-			}
+		for (Input comp : databaseForm.getInputs()) {
+			comp.setText("");
 		}
 		databaseForm.setKeyFilter(null);
 		databaseForm.getTable().clearSelection();
@@ -141,41 +133,21 @@ public class FormController {
 	public void searchAction() {
 		// TODO Auto-generated method stub
 		databaseForm.setFieldsEditable(true);
-		Component c = databaseForm.getInputs()[0];  //omoguci unos u textfildove
-		c.requestFocusInWindow();
 		
-		for (Component comp : databaseForm.getInputs()) {
-			if (comp instanceof JTextField) {
-				JTextField tfcast = (JTextField) comp;
-				tfcast.setText("");
-			}
+		for (Input comp : databaseForm.getInputs()) {
+			comp.setText("");
 		}
 		setCurrentState(new SearchState());		
 		this.getDatabaseDialog().getModel().getValues().clear();   //isprazni tabelu
 		this.getDatabaseDialog().getModel().fireTableDataChanged();
-		databaseForm.setFieldsEditable(true);
 	}
 
 	public String[] getComponentStrings() {
 		String[] retVal = new String[databaseForm.getInputs().length];
-		Component[] components = databaseForm.getInputs(); 
+		Input[] components = databaseForm.getInputs(); 
 		for (int i = 0; i<components.length; i++) {
-			if (components[i] instanceof JTextField)
-				retVal[i] = ((JTextField)components[i]).getText();
-			if (components[i] instanceof JCheckBox) {
-				JCheckBox cb = (JCheckBox)components[i];
-				retVal[i] = cb.isSelected()?"True":"False";
-			}
-			if (components[i] instanceof JComboBox) {
-				retVal[i] = databaseForm.comboBoxHandler((JComboBox) components[i]);
-			}
-			if (components[i] instanceof DatePickerComponent) {
-				retVal[i] = ((DatePickerComponent)components[i]).getText();
-			}
-			if (retVal[i].equals(""))
-				retVal[i] = null;
+			retVal[i] = components[i].getText();
 		}
-
 		return retVal;
 	}
 
@@ -184,7 +156,6 @@ public class FormController {
 	}
 	
 	public void next() {
-		
 		if(databaseForm.getTable().getSelectedRow() == -1) {
 			JOptionPane.showMessageDialog(	databaseForm,
 											"Morate imati selektovani red",
@@ -204,7 +175,9 @@ public class FormController {
 				@Override
 				public void actionPerformed(ActionEvent arg1) {
 					// TODO Auto-generated method stub
-					DatabaseForma d = new MestaForma();
+					FormController fc = new FormController();
+					DatabaseForma d = new MestaForma(fc);
+					fc.setForm(d);
 					setupFilterAndVisibility(d);			
 				}
 			}));
@@ -215,7 +188,9 @@ public class FormController {
 				@Override
 				public void actionPerformed(ActionEvent arg1) {
 					// TODO Auto-generated method stub
-					DatabaseForma d = new PreduzecaForma();
+					FormController fc = new FormController();
+					DatabaseForma d = new PreduzecaForma(fc);
+					fc.setForm(d);
 					setupFilterAndVisibility(d);
 				}
 			}));
@@ -226,7 +201,9 @@ public class FormController {
 				@Override
 				public void actionPerformed(ActionEvent arg1) {
 					// TODO Auto-generated method stub
-					DatabaseForma d = new ZaposleniForma();
+					FormController fc = new FormController();
+					DatabaseForma d = new ZaposleniForma(fc);
+					fc.setForm(d);
 					setupFilterAndVisibility(d);
 				}
 			}));
@@ -235,7 +212,9 @@ public class FormController {
 				@Override
 				public void actionPerformed(ActionEvent arg1) {
 					// TODO Auto-generated method stub
-					DatabaseForma d = new PoslovniPartnerForma();
+					FormController fc = new FormController();
+					DatabaseForma d = new PoslovniPartnerForma(fc);
+					fc.setForm(d);
 					setupFilterAndVisibility(d);
 				}
 			}));
@@ -244,7 +223,9 @@ public class FormController {
 				@Override
 				public void actionPerformed(ActionEvent arg1) {
 					// TODO Auto-generated method stub
-					DatabaseForma d = new PoslovniObjektiForma();
+					FormController fc = new FormController();
+					DatabaseForma d = new PoslovniObjektiForma(fc);
+					fc.setForm(d);
 					setupFilterAndVisibility(d);
 				}
 			}));
@@ -252,7 +233,9 @@ public class FormController {
 				@Override
 				public void actionPerformed(ActionEvent arg1) {
 					// TODO Auto-generated method stub
-					DatabaseForma d = new PoslovnaGodinaForma();
+					FormController fc = new FormController();
+					DatabaseForma d = new PoslovnaGodinaForma(fc);
+					fc.setForm(d);
 					setupFilterAndVisibility(d);
 				}
 			}));
@@ -260,7 +243,9 @@ public class FormController {
 				@Override
 				public void actionPerformed(ActionEvent arg1) {
 					// TODO Auto-generated method stub
-					DatabaseForma d = new ArtikliForma();
+					FormController fc = new FormController();
+					DatabaseForma d = new ArtikliForma(fc);
+					fc.setForm(d);
 					setupFilterAndVisibility(d);
 				}
 			}));
@@ -271,7 +256,9 @@ public class FormController {
 				@Override
 				public void actionPerformed(ActionEvent arg1) {
 					// TODO Auto-generated method stub
-					DatabaseForma d = new PopisniDokumentForma();
+					FormController fc = new FormController();
+					DatabaseForma d = new PopisniDokumentForma(fc);
+					fc.setForm(d);
 					setupFilterAndVisibility(d);
 				}
 			}));
@@ -279,7 +266,9 @@ public class FormController {
 				@Override
 				public void actionPerformed(ActionEvent arg1) {
 					// TODO Auto-generated method stub
-					DatabaseForma d = new MagacinskeKarticeForma();
+					FormController fc = new FormController();
+					DatabaseForma d = new MagacinskeKarticeForma(fc);
+					fc.setForm(d);
 					setupFilterAndVisibility(d);
 				}
 			}));
@@ -290,7 +279,9 @@ public class FormController {
 				@Override
 				public void actionPerformed(ActionEvent arg1) {
 					// TODO Auto-generated method stub
-					DatabaseForma d = new PrometniDokumentForma();
+					FormController fc = new FormController();
+					DatabaseForma d = new PrometniDokumentForma(fc);
+					fc.setForm(d);
 					setupFilterAndVisibility(d);
 				}
 			}));
@@ -302,7 +293,9 @@ public class FormController {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					DatabaseForma d = new StavkePrometnogDokumentaForma();
+					FormController fc = new FormController();
+					DatabaseForma d = new StavkePrometnogDokumentaForma(fc);
+					fc.setForm(d);
 					setupFilterAndVisibility(d);
 				}
 			}));

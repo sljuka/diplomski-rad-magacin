@@ -15,7 +15,7 @@ public class PoslovnaGodinaForma extends DatabaseForma {
 	private CheckBoxInput cZakljucena;
 
 	public PoslovnaGodinaForma(FormController fc) {
-		super(fc, tableNames.POSLOVNA_GODINA, 600, 300, false);
+		super(fc, tableNames.POSLOVNA_GODINA, 900, 500, false);
 	}
 
 	@Override
@@ -48,12 +48,7 @@ public class PoslovnaGodinaForma extends DatabaseForma {
 	}
 
 	@Override
-	public void populateStatusBasedComponents() {
-
-	}
-
-	@Override
-	public void initializePrimaryKeysNumbers() {
+	public void populatePrimaryInputsArray() {
 		// TODO Auto-generated method stub
 		primaryKeysColumnNumber = new int[2];
 		primaryKeysColumnNumber[0] = 0;

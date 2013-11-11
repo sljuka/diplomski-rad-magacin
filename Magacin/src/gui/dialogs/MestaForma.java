@@ -61,7 +61,7 @@ public class MestaForma extends DatabaseForma {
 		
 		setLayout(new MigLayout("", "[align r][align l, grow, fill]", ""));
 
-		zSifraDrzave = new ZoomInput(this, tableNames.DRZAVA, "Sifra drzave", 3, 30);
+		zSifraDrzave = new ZoomInput(this, tableNames.DRZAVA, "Sifra drzave", 5, 30);
 		tfSifraMesta = new TextInput(3, "Sifra mesta", new DocumentLimit(5));
 		tfNazivMesta = new TextInput(30, "Naziv mesta", null);
 		
@@ -72,6 +72,14 @@ public class MestaForma extends DatabaseForma {
 		inputPanel.add(tfSifraMesta.getComponent(), "wrap");
 		inputPanel.add(tfNazivMesta.getComponent(), "wrap");
 		
+	}
+	
+	@Override
+	protected void sync() {
+		// TODO Auto-generated method stub
+		super.sync();
+		childRetVals[0] = zSifraDrzave.getText();
+		childRetVals[1] = tfSifraMesta.getText();
 	}
 
 	@Override
@@ -96,12 +104,7 @@ public class MestaForma extends DatabaseForma {
 	}
 
 	@Override
-	public void populateStatusBasedComponents() {
-		statusBasedButtons = new Component[0];
-	}
-
-	@Override
-	public void initializePrimaryKeysNumbers() {
+	public void populatePrimaryInputsArray() {
 		primaryKeysColumnNumber = new int[1];
 		primaryKeysColumnNumber[0] = 1;
 	}

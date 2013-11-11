@@ -18,6 +18,15 @@ public class PoslovniObjektiForma extends DatabaseForma {
 	public PoslovniObjektiForma(FormController fc) {
 		super(fc, tableNames.POSLOVNI_OBJEKAT, 750, 450, false);
 	}
+	
+	@Override
+	protected void sync() {
+		super.sync();
+		childRetVals[0] = zSifraDrzave.getText();
+		childRetVals[1] = zfSifraMesta.getText();
+		childRetVals[2] = zPib.getText();
+		childRetVals[3] = tfSifraObjekta.getText();
+	}
 
 	@Override
 	protected void initializeInputFields(FormController controller) {
@@ -73,12 +82,7 @@ public class PoslovniObjektiForma extends DatabaseForma {
 	}
 
 	@Override
-	public void populateStatusBasedComponents() {
-
-	}
-
-	@Override
-	public void initializePrimaryKeysNumbers() {
+	public void populatePrimaryInputsArray() {
 		primaryKeysColumnNumber = new int[2];
 		primaryKeysColumnNumber[0] = 0;
 		primaryKeysColumnNumber[1] = 1;

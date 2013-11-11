@@ -49,7 +49,9 @@ public class ComboBoxInput extends Input {
 	public void setText(String text) {
 		// TODO Auto-generated method stub
 		for (ComboListitem item : listItems) {
-			if(item.getText().equals(text))
+			String val1 = text.toLowerCase().trim();
+			String val2 = item.getValue().toLowerCase().trim();
+			if(val1.equals(val2))
 				comboBox.setSelectedItem(item);
 		}
 		inputChanged(null);

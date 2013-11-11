@@ -63,9 +63,6 @@ public abstract class DatabaseForma extends JDialog {
 	
 	protected JButton[] procedures;
 	
-	// controller, najverovatnije cu izbaciti
-	protected FormController controller;
-	
 	// model za pristup bazi ujedno model gui tabele
 	protected DataBaseTableModel model;
 		
@@ -106,19 +103,20 @@ public abstract class DatabaseForma extends JDialog {
 		super();
 		
 		this.tableName = tableName;
+		childRetVals = new String[10];
+		
 		setTitle(tableName.toString());
 		
 		setSizeAndMove(width, height);
 		setModal(true);
 		
-		childRetVals = new String[4]; //Najvise 4 stringa child vraca parentu!
 		initializeComponents(controller);
 		populateInputsAndRequiredArray();
 		this.hasTwoColsOfInputFields = has2columnsOfInputs;
 		layoutInputPan();
 		layoutComponents();
 		
-		initializePrimaryKeysNumbers();
+		populatePrimaryInputsArray();
 		model.setPrimaryKeysNumbers(primaryKeysColumnNumber);
 		
 		setFieldsEditable(false);
@@ -198,9 +196,9 @@ public abstract class DatabaseForma extends JDialog {
 		return parentDialog;
 	}
 
-	public void setParentDialog(DatabaseForma parentDialog) {
+	public void setParentDialog(DatabaseForma parentDialog, FormController fc) {
 		this.parentDialog = parentDialog;
-		initializeToolbarForChild();
+		initializeToolbarForChild(fc);
 		if(inputPanel != null)
 			inputPanel.setVisible(false);
 	}
@@ -246,7 +244,7 @@ public abstract class DatabaseForma extends JDialog {
 		toolbar.add(new ActionNext(controller));
 	}
 	
-	protected void initializeToolbarForChild() {
+	protected void initializeToolbarForChild(FormController controller) {
 		toolbar.removeAll();
 		toolbar.add(new ActionSearch(controller));
 		toolbar.add(new ActionRefresh(controller));
@@ -258,22 +256,6 @@ public abstract class DatabaseForma extends JDialog {
 		toolbar.add(new ActionSelectLast(table));
 		toolbar.addSeparator();
 		toolbar.add(new ActionJumoToPreviousForm(controller));
-	}
-
-	protected void initMagacinKarticaToolBar() {
-		toolbar = new JToolBar();
-		toolbar.add(new ActionSearch(controller));
-		toolbar.add(new ActionRefresh(controller));
-		//toolbar.add(new ActionJumoToPreviousForm(controller));
-		toolbar.add(new ActionHelp());
-		toolbar.addSeparator();
-		toolbar.add(new ActionSelectFirst(table));
-		toolbar.add(new ActionSelectPrevious(table));
-		toolbar.add(new ActionSelectNext(table));
-		toolbar.add(new ActionSelectLast(table));
-		toolbar.addSeparator();
-		toolbar.add(new ActionJumoToPreviousForm(controller));
-
 	}
 
 	protected void initializeTable() {
@@ -312,25 +294,10 @@ public abstract class DatabaseForma extends JDialog {
 		model.setKeyFilter(keyFilter);
 	}
 
-	public abstract void populateStatusBasedComponents();
-
-	public void setEnabledStatusBasedComponents(boolean b) {
-		for (Component c : statusBasedButtons) {
-			if (c != null) {
-				if (c instanceof JButton)
-					((JButton) c).setEnabled(b);
-			}
-		}
-	}
-
-	public abstract void initializePrimaryKeysNumbers();
+	public abstract void populatePrimaryInputsArray();
 
 	public int[] getPrimaryKeysColumnNumbers() {
 		return primaryKeysColumnNumber;
-	}
-
-	public String comboBoxHandler(JComboBox c) {
-		return null;
 	}
 
 	public JTextField getParrentsTextField() {

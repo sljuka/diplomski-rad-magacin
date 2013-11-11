@@ -44,9 +44,6 @@ public class DrzaveForma extends DatabaseForma {
 	private Input tfSifraDrzave;
 	private Input tfNazivDrzave;
 	
-	//private JTextField tfSifraDrzave;
-	//private JTextField tfNazivDrzave;
-	
 	public DrzaveForma(FormController controller) {
 		// TODO Auto-generated constructor stub
 		super(controller, tableNames.DRZAVA, 500, 300, false);
@@ -54,26 +51,28 @@ public class DrzaveForma extends DatabaseForma {
 	
 	@Override
 	protected void initializeInputFields(FormController controller) {
-		inputPanel = new JPanel();
-		inputPanel.setLayout(new MigLayout("center"));	
 		
-		tfSifraDrzave = new TextInput(3, "Sifra drzave", new DocumentLimit(3));
-		tfNazivDrzave = new TextInput(25, "Naziv drzave", null);
+		inputsArray = new Input[] {
+			tfSifraDrzave = new TextInput(3, "Sifra drzave", new DocumentLimit(3)),
+			tfNazivDrzave = new TextInput(25, "Naziv drzave", null)
+		};
 			
-		inputPanel.add(tfSifraDrzave.getComponent(), "wrap");
-		inputPanel.add(tfNazivDrzave.getComponent(), "wrap");
 	}
 
 	@Override
 	public void populateInputsAndRequiredArray() {
-		// TODO Auto-generated method stub
-		inputsArray = new Input[2];
-		inputsArray[0] = tfSifraDrzave;
-		inputsArray[1] = tfNazivDrzave;
-		
+
 		requiredFields = new int[2];
 		requiredFields[0] = 0;
 		requiredFields[1] = 1;
+	
+	}
+	
+	@Override
+	protected void sync() {
+		// TODO Auto-generated method stub
+		super.sync();
+		childRetVals[0] = tfSifraDrzave.getText();
 	}
 
 	@Override
@@ -83,13 +82,7 @@ public class DrzaveForma extends DatabaseForma {
 	}
 
 	@Override
-	public void populateStatusBasedComponents() {
-		// TODO Auto-generated method stub
-		statusBasedButtons = new Component[0];
-	}
-
-	@Override
-	public void initializePrimaryKeysNumbers() {
+	public void populatePrimaryInputsArray() {
 		// TODO Auto-generated method stub
 		primaryKeysColumnNumber = new int[1];
 		primaryKeysColumnNumber[0] = 0;

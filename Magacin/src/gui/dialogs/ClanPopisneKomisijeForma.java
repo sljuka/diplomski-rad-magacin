@@ -104,7 +104,7 @@ public class ClanPopisneKomisijeForma extends DatabaseForma {
 	}
 
 	@Override
-	public void initializePrimaryKeysNumbers() {
+	public void populatePrimaryInputsArray() {
 		// TODO Auto-generated method stub
 		primaryKeysColumnNumber = new int[5];
 		primaryKeysColumnNumber[0] = 0;
@@ -112,12 +112,6 @@ public class ClanPopisneKomisijeForma extends DatabaseForma {
 		primaryKeysColumnNumber[2] = 2;
 		primaryKeysColumnNumber[3] = 3;
 		primaryKeysColumnNumber[4] = 4;
-	}
-
-	@Override
-	public void populateStatusBasedComponents() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

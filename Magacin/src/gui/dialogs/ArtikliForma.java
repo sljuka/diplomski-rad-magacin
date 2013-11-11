@@ -92,13 +92,7 @@ public class ArtikliForma extends DatabaseForma {
 	}
 
 	@Override
-	public void populateStatusBasedComponents() {
-		// TODO Auto-generated method stub
-		statusBasedButtons = new Component[0];
-	}
-
-	@Override
-	public void initializePrimaryKeysNumbers() {
+	public void populatePrimaryInputsArray() {
 		// TODO Auto-generated method stub
 		primaryKeysColumnNumber = new int[1];
 		primaryKeysColumnNumber[0] = 1;
