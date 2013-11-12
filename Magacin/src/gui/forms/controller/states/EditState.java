@@ -1,4 +1,4 @@
-package gui.dialogs.controller.states;
+package gui.forms.controller.states;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
@@ -17,7 +17,7 @@ import db.DBConnection;
 import model.DataBaseTableModel;
 import model.DataBaseTableModel.tableNames;
 import model.Lookup;
-import gui.dialogs.DatabaseForma;
+import gui.forms.DatabaseForma;
 
 public class EditState extends State {
 

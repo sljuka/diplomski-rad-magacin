@@ -14,6 +14,16 @@ public abstract class Input implements IInput {
 		listeners = new HashSet<IInputChangeListener>(); 
 	}
 	
+	public void inputChanged(Object message) {
+		for (IInputChangeListener item : listeners) {
+			item.inputChanged(message);
+		}
+	}
+	
+	public void addListener(IInputChangeListener listener) {
+		listeners.add(listener);
+	}
+	
 	@Override
 	public abstract String getText();
 	
@@ -34,14 +44,6 @@ public abstract class Input implements IInput {
 		return false;
 	}
 	
-	public void inputChanged(Object message) {
-		for (IInputChangeListener item : listeners) {
-			item.inputChanged(message);
-		}
-	}
-	
-	public void addListener(IInputChangeListener listener) {
-		listeners.add(listener);
-	}
+
 
 }

@@ -1,4 +1,4 @@
-package gui.dialogs;
+package gui.forms;
 
 import gui.ComboBoxInput;
 import gui.ComboListitem;

@@ -1,7 +1,7 @@
 package actions;
 
-import gui.dialogs.DrzaveForma;
-import gui.dialogs.MestaForma;
+import gui.forms.DrzaveForma;
+import gui.forms.MestaForma;
 
 import java.awt.MouseInfo;
 import java.awt.event.ActionEvent;

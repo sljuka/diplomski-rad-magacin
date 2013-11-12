@@ -1,4 +1,4 @@
-package gui.dialogs;
+package gui.forms;
 import gui.DocumentLimit;
 import gui.IInput;
 import gui.Input;

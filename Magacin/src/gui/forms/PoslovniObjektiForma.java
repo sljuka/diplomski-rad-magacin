@@ -1,4 +1,4 @@
-package gui.dialogs;
+package gui.forms;
 
 import gui.Input;
 import gui.TextInput;

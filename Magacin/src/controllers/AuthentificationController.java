@@ -15,6 +15,7 @@ public class AuthentificationController {
 	private String imeUlogovanogKorisnika;
 	private String prezimeUlogovanogKorisnika;
 	private boolean isAdmin;
+	
 	private static AuthentificationController instance;
 	
 	private AuthentificationController() {

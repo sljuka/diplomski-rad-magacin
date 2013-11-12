@@ -1,6 +1,6 @@
 package actions;
 
-import gui.dialogs.DatabaseForma;
+import gui.forms.DatabaseForma;
 
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;

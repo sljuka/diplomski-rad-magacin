@@ -1,4 +1,4 @@
-package gui.dialogs.controller.states;
+package gui.forms.controller.states;
 
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;

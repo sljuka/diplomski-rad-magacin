@@ -2,22 +2,22 @@ package controllers;
 
 import gui.DatePickerComponent;
 import gui.Input;
-import gui.dialogs.ArtikliForma;
-import gui.dialogs.DatabaseForma;
-import gui.dialogs.MagacinskeKarticeForma;
-import gui.dialogs.MestaForma;
-import gui.dialogs.PopisniDokumentForma;
-import gui.dialogs.PoslovnaGodinaForma;
-import gui.dialogs.PoslovniObjektiForma;
-import gui.dialogs.PoslovniPartnerForma;
-import gui.dialogs.PreduzecaForma;
-import gui.dialogs.PrometniDokumentForma;
-import gui.dialogs.StavkePrometnogDokumentaForma;
-import gui.dialogs.ZaposleniForma;
-import gui.dialogs.controller.states.AddState;
-import gui.dialogs.controller.states.EditState;
-import gui.dialogs.controller.states.SearchState;
-import gui.dialogs.controller.states.State;
+import gui.forms.ArtikliForma;
+import gui.forms.DatabaseForma;
+import gui.forms.MagacinskeKarticeForma;
+import gui.forms.MestaForma;
+import gui.forms.PopisniDokumentForma;
+import gui.forms.PoslovnaGodinaForma;
+import gui.forms.PoslovniObjektiForma;
+import gui.forms.PoslovniPartnerForma;
+import gui.forms.PreduzecaForma;
+import gui.forms.PrometniDokumentForma;
+import gui.forms.StavkePrometnogDokumentaForma;
+import gui.forms.ZaposleniForma;
+import gui.forms.controller.states.AddState;
+import gui.forms.controller.states.EditState;
+import gui.forms.controller.states.SearchState;
+import gui.forms.controller.states.State;
 
 import java.awt.Component;
 import java.awt.MouseInfo;
@@ -317,6 +317,8 @@ public class FormController {
 				e.printStackTrace();
 			}
 		}
+		if(databaseForm != null)
+			databaseForm.getStatusBar().setText(state.getName());
 		currentState = state;
 	}
 
