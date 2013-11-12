@@ -68,7 +68,7 @@ public abstract class DatabaseForma extends JDialog {
 	protected DataBaseTableModel model;
 		
 	/********************* parent dialog prilikom aktiviranja zoom polja ***/
-	protected DatabaseForma parentDialog;
+	protected DatabaseForma parentForm;
 
 	/********************* povratne vrednosti koje vraca zoom forma parent formi ***/
 	protected String[] childRetVals;
@@ -97,7 +97,11 @@ public abstract class DatabaseForma extends JDialog {
 	 */
 	private boolean hasTwoColsOfInputFields;
 	
-	public DatabaseForma(FormController controller, tableNames tableName, int width, int height, boolean has2columnsOfInputs) {
+	public DatabaseForma(	FormController controller,
+							tableNames tableName,
+							int width,
+							int height,
+							boolean has2columnsOfInputs) {
 		super();
 		
 		this.tableName = tableName;
@@ -223,7 +227,7 @@ public abstract class DatabaseForma extends JDialog {
 	public abstract void populateInputsAndRequiredArray();
 
 	/**
-	 * METODA SE POZIVA PRILIKOM VRAVANJA IZ ZOOM POPUPA
+	 * METODA SE POZIVA PRILIKOM VRACANJA IZ ZOOM POPUPA
 	 * SLUZI DA NAMESTI VREDNOSTI IZ ZOOM POPUPA U PRETHODNI POPUP I DA ZATVORI ZOOM POPUP
 	 * @param tableName
 	 * @param childRetVals
@@ -335,11 +339,11 @@ public abstract class DatabaseForma extends JDialog {
 	}
 
 	public DatabaseForma getParentDialog() {
-		return parentDialog;
+		return parentForm;
 	}
 
 	public void setParentDialog(DatabaseForma parentDialog, FormController fc) {
-		this.parentDialog = parentDialog;
+		this.parentForm = parentDialog;
 		initializeToolbarForChild(fc);
 		if(inputPanel != null)
 			inputPanel.setVisible(false);
