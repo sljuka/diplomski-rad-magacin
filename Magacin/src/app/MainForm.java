@@ -44,12 +44,12 @@ import controllers.FormController;
 import db.DBConnection;
 
 
-public class MainFrame extends JFrame {
+public class MainForm extends JFrame {
 
 	private JMenuBar menuBar;
 	private JMenu menuAdministrator; 
 	
-	private static MainFrame mf;
+	private static MainForm mf;
 	
 	private JPanel loginPanel;
 	private JPanel welcomePanel;
@@ -60,7 +60,7 @@ public class MainFrame extends JFrame {
 	
 	private JLabel lblWelcome;
 	
-	private MainFrame() {
+	private MainForm() {
 		setSize(700, 500);
 		setTitle("PI magacin");
 		setLocationRelativeTo(null);
@@ -85,9 +85,9 @@ public class MainFrame extends JFrame {
 		welcomePanel.setVisible(false);
 	}
 	
-	public static MainFrame getInstance() {
+	public static MainForm getInstance() {
 		if (mf == null)
-			mf = new MainFrame();
+			mf = new MainForm();
 		return mf;
 	}
 
@@ -143,7 +143,7 @@ public class MainFrame extends JFrame {
 				try {
 					boolean successful = AuthentificationController.getAuthenticationInstance().authenticate(txtSifra.getText(), txtPassword.getText());
 					if(successful) {
-						String welcomeText = "Pozrav, " + AuthentificationController.getAuthenticationInstance().getImeUlogovanogKorisnika() + 
+						String welcomeText = "Pozdrav, " + AuthentificationController.getAuthenticationInstance().getImeUlogovanogKorisnika() + 
 								(AuthentificationController.getAuthenticationInstance().isAdmin()? " care!" : "");
 						lblWelcome.setText(welcomeText);
 						

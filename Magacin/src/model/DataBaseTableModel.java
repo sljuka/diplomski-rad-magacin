@@ -325,66 +325,6 @@ public class DataBaseTableModel extends MyTableModel {
 		fireTableDataChanged();
 	}
 
-	//Dodata metoda za proveru i zakljucavanje tekuceg reda
-	public void checkRow(int index) throws SQLException {
-
-		DBConnection.getConnection().setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
-		String selectString;
-		selectString = basicQuery;
-		selectString += " WHERE ";
-		for (int i = 0; i<primaryKeysColumnNumbers.length; i++) {
-			basicQuery+=getColumnName(primaryKeysColumnNumbers[i])+" = ?";
-		}
-		
-		PreparedStatement selectStmt = DBConnection.getConnection().prepareStatement(selectString);
-		
-		for (int i = 0; i<primaryKeysColumnNumbers.length; i++) {
-			selectStmt.setString(i+1, (String)getValueAt(index, primaryKeysColumnNumbers[i]));
-		}
-		
-		ResultSet rset = selectStmt.executeQuery();
-
-		String[] rows = new String[getColumnCount()];
-		for (String string : rows) {
-			string="";
-		}
-		Boolean postoji = false;
-		String errorMsg = "";
-		while (rset.next()) {
-			for(int i = 0; i<getColumnCount(); i++) {
-				rows[i] = rset.getString(getColumnName(i)).trim();
-				postoji = true;
-			}
-		}
-		if (!postoji) {
-			removeRow(index);
-			fireTableDataChanged();
-			errorMsg = ERROR_RECORD_WAS_DELETED;
-		}
-		
-		else if (someSortOfCheck(index))  {
-			for (int i = 0; i<getColumnCount(); i++)
-				setValueAt(rows[i], index, i);
-			fireTableDataChanged();
-			errorMsg = ERROR_RECORD_WAS_CHANGED;
-		}
-		rset.close();
-		selectStmt.close();
-		DBConnection.getConnection().setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-		if (errorMsg != "") {
-			DBConnection.getConnection().commit();
-			throw new SQLException(errorMsg, "", CUSTOM_ERROR_CODE);
-		}
-	}
-	
-	private boolean someSortOfCheck(int index) {
-		for (int i = 0; i<getColumnCount(); i++) {
-			if ((SortUtils.getLatCyrCollator().compare(getColumnName(i), ((String)getValueAt(index, i)).trim()) != 0))
-				return true;
-		}
-		return false;
-	}
-
 	public void setPrimaryKeysNumbers(int[] primaryKeysColumnNumber) {
 		// TODO Auto-generated method stub
 		this.primaryKeysColumnNumbers = primaryKeysColumnNumber;

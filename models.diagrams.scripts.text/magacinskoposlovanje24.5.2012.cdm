@@ -1664,7 +1664,7 @@ NAMA 0 Arial,8,N</a:FontList>
 <a:CreationDate>1338290132</a:CreationDate>
 <a:ModificationDate>1382294840</a:ModificationDate>
 <a:Rect>((6412,15100), (22778,37975))</a:Rect>
-<a:ListOfPoints>((22778,15100),(22778,37175),(6412,37975))</a:ListOfPoints>
+<a:ListOfPoints>((22778,15100),(22778,37975),(6412,37975))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>4882</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
@@ -4477,7 +4477,7 @@ mm	medjumag. promet</a:ListOfValues>
 <a:Creator>e12520</a:Creator>
 <a:ModificationDate>1338296513</a:ModificationDate>
 <a:Modifier>e12520</a:Modifier>
-<a:TargetModelURL>file:///F|/PI skripte/Magacinsko poslovanje.pdm</a:TargetModelURL>
+<a:TargetModelURL>file:///C|/Users/FS2/git_magacin/models.diagrams.scripts.text/Magacinsko poslovanje.pdm</a:TargetModelURL>
 <a:TargetModelID>2D1F1D9D-C1C1-4CF4-9B03-0EF4398AA480</a:TargetModelID>
 <a:TargetModelClassID>CDE44E21-9669-11D1-9914-006097355D9B</a:TargetModelClassID>
 <c:SessionShortcuts>

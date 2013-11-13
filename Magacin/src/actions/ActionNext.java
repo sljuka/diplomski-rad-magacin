@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import app.MainFrame;
+import app.MainForm;
 
 import model.DataBaseTableModel.tableNames;
 

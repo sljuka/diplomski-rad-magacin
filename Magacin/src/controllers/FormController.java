@@ -121,7 +121,7 @@ public class FormController {
 				if (e.getMessage().startsWith("The DELETE statement conflicted with the REFERENCE constraint"))
 					JOptionPane.showMessageDialog(databaseForm, "Stavka se ne moze obrisati posto je povezana s drugom stavkom u bazi",
 							"Confirmation", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
+				return;
 			}
 		}
 	}

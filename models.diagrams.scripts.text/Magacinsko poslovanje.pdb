@@ -12,7 +12,7 @@
 <a:Code>MAGACINSKO_POSLOVANJE</a:Code>
 <a:CreationDate>1338289463</a:CreationDate>
 <a:Creator>e12520</a:Creator>
-<a:ModificationDate>1382290827</a:ModificationDate>
+<a:ModificationDate>1382290926</a:ModificationDate>
 <a:Modifier>FS2</a:Modifier>
 <a:History>ORG {F9946613-E4B5-4F9D-AB52-F85FF826BC41}
 DAT 1382290827
@@ -114,7 +114,7 @@ UpdateTableStatistics=Yes
 UpdateColumnStatistics=Yes
 
 [FolderOptions\Physical Objects\Database Generation]
-GenScriptName=kreiranjeBazeMagacina.sql
+GenScriptName=kreiranjeBazeMagacina_bachlore.sql
 GenScriptName0=crebas.sql
 GenScriptName1=
 GenScriptName2=
@@ -125,7 +125,7 @@ GenScriptName6=
 GenScriptName7=
 GenScriptName8=
 GenScriptName9=
-GenPathName=D:\FaxStuffies\PI\
+GenPathName=C:\Users\FS2\BachloreWorkspace\PI skripte\
 GenSingleFile=Yes
 GenODBC=No
 GenCheckModel=Yes

@@ -44,7 +44,7 @@ import actions.ActionSelectFirst;
 import actions.ActionSelectLast;
 import actions.ActionSelectNext;
 import actions.ActionSelectPrevious;
-import app.MainFrame;
+import app.MainForm;
 
 public abstract class DatabaseForma extends JDialog {
 
