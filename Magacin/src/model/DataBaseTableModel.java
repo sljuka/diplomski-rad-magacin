@@ -282,14 +282,14 @@ public class DataBaseTableModel extends MyTableModel {
 		values.remove(row);
 	}
 
-	public void proknjiziDokument(int index, String[] strings) {
+	public void proknjiziDokument(int index, String pib, String godina, String brojPrometnogDokumenta) {
 		// TODO Auto-generated method stub
 		try {
 			CallableStatement proc = DBConnection.getConnection().prepareCall("{ call proknjizi_prometni_dokument(?, ?, ?)}");
-			proc.setString(1, strings[1]);
-			proc.setLong(2, Integer.parseInt(strings[3]));
-			proc.setLong(3, Integer.parseInt(strings[5]));
-			System.out.println(strings[1] +" "+Integer.parseInt(strings[3])+" "+Integer.parseInt(strings[5]));
+			proc.setString(1, pib);
+			proc.setLong(2, Integer.parseInt(godina));
+			proc.setLong(3, Integer.parseInt(brojPrometnogDokumenta));
+			System.out.println(pib +" "+ godina +" "+ brojPrometnogDokumenta);
 			proc.execute();
 			values.get(index)[9] = "p";
 			refreshData();

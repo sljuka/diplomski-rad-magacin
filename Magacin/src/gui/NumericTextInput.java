@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
 
 import javax.swing.JComponent;
@@ -17,6 +19,16 @@ public class NumericTextInput extends Input {
 	public NumericTextInput(String label, int length) {
 		textField = new NumericTextField(length, new DecimalFormat("0000.00"));
 		this.label = label;
+		
+		textField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				super.focusLost(e);
+				inputChanged(null);
+			}
+		});
+		
 	}
 	
 	@Override

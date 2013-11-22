@@ -6,6 +6,7 @@ import gui.Input;
 import gui.StatusBar;
 
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.font.TextHitInfo;
 import java.sql.SQLException;
 
@@ -47,7 +48,7 @@ import actions.ActionSelectPrevious;
 import app.MainForm;
 
 public abstract class DatabaseForma extends JDialog {
-
+	
 	/********************* ime tabele u bazi, koju forma predstavlja ****************/
 	protected tableNames tableName;
 
@@ -56,6 +57,7 @@ public abstract class DatabaseForma extends JDialog {
 	protected JTable table;
 	protected JPanel inputPanel;
 	protected JPanel executeCancelPanel;
+	protected JPanel proceduresPanel;
 	protected StatusBar statusBar;
 	
 	/********************* polja za unos (textfieldovi, combo, checkbox i zoom polja ***/
@@ -185,6 +187,7 @@ public abstract class DatabaseForma extends JDialog {
 		add(inputPanel);
 		add(executeCancelPanel, "cell 3 0");
 		add(statusBar, "south, growx");
+		add(proceduresPanel, "south, growx");
 	}
 	
 	/**
@@ -211,7 +214,13 @@ public abstract class DatabaseForma extends JDialog {
 	 * @param controller
 	 */
 	protected void initializeProcedures(FormController controller) {
-		procedures = new JButton[0];
+		if(procedures == null)
+			procedures = new JButton[0];
+		
+		proceduresPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		for (JButton proc : procedures) {
+			proceduresPanel.add(proc);
+		}
 	}
 	
 	/**
@@ -249,6 +258,8 @@ public abstract class DatabaseForma extends JDialog {
 		for (int i = 0; i < inputsArray.length; i++) {
 			inputsArray[i].setText((String)model.getValueAt(index, i));
 		}
+
+		setFieldsEditable(true);
 	}
 	
 	/**

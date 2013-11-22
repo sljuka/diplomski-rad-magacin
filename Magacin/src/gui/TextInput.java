@@ -1,5 +1,8 @@
 package gui;
 
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,6 +19,14 @@ public class TextInput extends Input {
 		this.label = label;
 		if(p!=null)
 			textField.setDocument(p);
+		textField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				super.focusLost(e);
+				inputChanged(null);
+			}
+		});
 	}
 	
 	@Override

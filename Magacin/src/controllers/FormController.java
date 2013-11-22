@@ -343,12 +343,12 @@ public class FormController {
 	}
 
 
-	public void proknjiziDokument(String[] strings) {
+	public void proknjiziDokument(String pib, String godina, String brDok) {
 		// TODO Auto-generated method stub
 		if(JOptionPane.showConfirmDialog(databaseForm, "Da li ste sigurni da zelite da proknjizite prometni dokument?", 
 				"Proknjizavanje", JOptionPane.OK_CANCEL_OPTION) == 0) {
 			int index = databaseForm.getTable().getSelectedRow();
-			databaseForm.getModel().proknjiziDokument(index, strings);
+			databaseForm.getModel().proknjiziDokument(index, pib, godina, brDok);
 		}
 	}
 
@@ -356,6 +356,7 @@ public class FormController {
 	public void editAction() {
 		// TODO Auto-generated method stub
 		setCurrentState(new EditState());
+		databaseForm.setFieldsEditable(true);
 	}
 
 	public void setupFilterAndVisibility(DatabaseForma d) {

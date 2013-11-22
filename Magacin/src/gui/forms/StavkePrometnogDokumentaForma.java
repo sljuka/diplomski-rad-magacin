@@ -1,6 +1,7 @@
 package gui.forms;
 
 import gui.DocumentNumericLimited;
+import gui.IInputChangeListener;
 import gui.Input;
 import gui.NumericTextInput;
 import gui.TextInput;
@@ -57,6 +58,40 @@ public class StavkePrometnogDokumentaForma extends DatabaseForma {
 			tfCena = new NumericTextInput("Cena", 14),
 			tfVrednost = new NumericTextInput("Vrednost", 14)
 		};
+		
+		tfCena.addListener(new IInputChangeListener() {
+			
+			@Override
+			public void inputChanged(Object message) {
+				// TODO Auto-generated method stub
+				if(!tfKolicina.isEmpty()) {
+					try {
+						double d1 = Double.parseDouble(tfKolicina.getText());
+						double d2 = Double.parseDouble(tfCena.getText());
+						tfVrednost.setText((d1 * d2) + "");
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+				}
+			}
+		});
+		
+		tfKolicina.addListener(new IInputChangeListener() {
+			
+			@Override
+			public void inputChanged(Object message) {
+				// TODO Auto-generated method stub
+				if(!tfCena.isEmpty()) {
+					try {
+						double d1 = Double.parseDouble(tfKolicina.getText());
+						double d2 = Double.parseDouble(tfCena.getText());
+						tfVrednost.setText((d1 * d2) + "");
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+				}
+			}
+		});
 	}
 
 	@Override
@@ -89,4 +124,13 @@ public class StavkePrometnogDokumentaForma extends DatabaseForma {
 			zGodina.setText(childRetVals[1]);
 		}
 	}
+	
+	@Override
+	public void setFieldsEditable(boolean b) {
+		// TODO Auto-generated method stub
+		super.setFieldsEditable(b);
+		zPib.setUserEditable(false);
+		zGodina.setUserEditable(false);
+		tfVrednost.setUserEditable(false);
+	}	
 }

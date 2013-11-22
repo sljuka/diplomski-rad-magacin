@@ -103,6 +103,22 @@ public class PrometniDokumentForma extends DatabaseForma {
 				}
 			}
 		});
+		procedures = new JButton[1];
+		JButton btnProknjizi = new JButton("Proknjizi");
+		final FormController fc = controller;
+		btnProknjizi.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				if(zPib.isEmpty() || zGodina.isEmpty() || tfBrojPrometnogDokumenta.isEmpty())
+					return;
+				
+				
+				fc.proknjiziDokument(zPib.getText(), zGodina.getText(), tfBrojPrometnogDokumenta.getText());
+			}
+		});
+		procedures[0] = btnProknjizi;
 		
 	}
 	
@@ -143,16 +159,20 @@ public class PrometniDokumentForma extends DatabaseForma {
 	public void populatePrimaryInputsArray() {
 		// TODO Auto-generated method stub
 		primaryKeysColumnNumber = new int[3];
+		primaryKeysColumnNumber[0] = 0;
 		primaryKeysColumnNumber[0] = 1;
 		primaryKeysColumnNumber[0] = 2;
-		primaryKeysColumnNumber[0] = 3;
 	}
 
 	@Override
 	public void childResponse(tableNames iD2, String[] childRetVals) {
 		// TODO Auto-generated method stub
-		if (iD2==tableNames.POSLOVNI_OBJEKAT) {
-			zSifraMagacina.setText(childRetVals[1]);
+		if (iD2==tableNames.POSLOVNI_OBJEKAT && cbVrstaDokumenta.getText() != "MM") {
+			zSifraMagacina.setText(childRetVals[3]);
+			zPib.setText(childRetVals[0]);
+		}
+		if (iD2==tableNames.POSLOVNI_OBJEKAT && cbVrstaDokumenta.getText() == "MM") {
+			zSiftaMagacinaMMPromet.setText(childRetVals[3]);
 			zPib.setText(childRetVals[0]);
 		}
 		if (iD2==tableNames.POSLOVNA_GODINA) {
