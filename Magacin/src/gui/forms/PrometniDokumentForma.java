@@ -196,6 +196,7 @@ public class PrometniDokumentForma extends DatabaseForma {
 		super.setFieldsEditable(b);
 		zPib.setUserEditable(false);
 		cbStatus.setUserEditable(false);
+		dDatumKnjizenja.setUserEditable(false);
 	}
 
 }
