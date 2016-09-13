@@ -1,4 +1,4 @@
-magacin-diplomski
+diplomski-rad-magacin
 ================
 
 Magacinsko poslovanje, projekat za diplomski rad iz predmeta Poslovna informatika.
